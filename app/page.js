@@ -1,8 +1,15 @@
+import dbConnect from "@/db/dbConnect";
 import Image from "next/image";
+import Treatment from "@/db/models/Treatment";
 
-export default function Home() {
+export default async function Home() {
+  await dbConnect();
+  const treatments = await Treatment.find();
+
+  console.log("Response: ", treatments);
   return (
     <div>
+      <h3>Hello</h3>
       <a>
         In development. Supportet by{" "}
         <Image
