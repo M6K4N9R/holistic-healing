@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import Credentials from "next-auth/providers/credentials";
+import GithubProvider from "next-auth/providers/github";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/db/mongodb.js";
 
@@ -7,8 +9,8 @@ export const authOptions = {
   // Configure one or more authentication providers
   adapter: MongoDBAdapter(clientPromise),
   providers: [
-    CredentialsProvider({
-      name: "Sign in",
+    Credentials({
+      name: "",
       credentials: {
         email: {
           label: "Email",
@@ -18,7 +20,7 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
     }),
-    GitHubProvider({
+    GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
       profile(profile) {
