@@ -14,14 +14,26 @@ export default function TreatmentsList() {
   }
 
   return (
-    <ul>
-      {data.map((treatment) => (
-        <li key={treatment._id}>
-          {/* <Link href={`/${joke._id}`}>{joke.joke}</Link> */}
-          <h2>{treatment.name}</h2>
-          <p>{treatment.text}</p>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <Image
+        alt=""
+        src={data.image}
+        fill={true}
+        style={{ objectFit: "contain" }}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        priority={true}
+      />
+      <h2>{data.name}</h2>
+      <p>{data.text}</p>
+    </div>
+    // <ul>
+    //   {data.map((treatment) => (
+    //     <li key={treatment._id}>
+    //       {/* <Link href={`/${joke._id}`}>{joke.joke}</Link> */}
+    //       <h2>{treatment.name}</h2>
+    //       <p>{treatment.text}</p>
+    //     </li>
+    //   ))}
+    // </ul>
   );
 }
