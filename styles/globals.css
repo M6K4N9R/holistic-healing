@@ -2,17 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-*,
+/* *,
 ::before,
 ::after {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-}
+} */
 
-* {
+/* * {
   scroll-behavior: smooth;
-}
+} */
 
 :root {
   --white: #ededed;

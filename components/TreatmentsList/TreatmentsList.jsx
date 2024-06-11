@@ -12,28 +12,26 @@ export default function TreatmentsList() {
   if (!data) {
     return;
   }
+  console.log("Data of treatments", data);
 
   return (
-    <div>
-      <Image
-        alt=""
-        src={data.image}
-        fill={true}
-        style={{ objectFit: "contain" }}
-        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        priority={true}
-      />
-      <h2>{data.name}</h2>
-      <p>{data.text}</p>
-    </div>
-    // <ul>
-    //   {data.map((treatment) => (
-    //     <li key={treatment._id}>
-    //       {/* <Link href={`/${joke._id}`}>{joke.joke}</Link> */}
-    //       <h2>{treatment.name}</h2>
-    //       <p>{treatment.text}</p>
-    //     </li>
-    //   ))}
-    // </ul>
+    <section className="flex justify-evenly gap-2 flex-wrap">
+      {data
+        .filter((treatment) => treatment.name !== "First Consultation")
+        .map((treatment) => (
+          <div key={treatment._id}>
+            <Image
+              alt={treatment.name}
+              src={treatment.image}
+              // fill={true}
+              style={{ objectFit: "contain" }}
+              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              priority={true}
+              width={150}
+              height={70}
+            />
+          </div>
+        ))}
+    </section>
   );
 }
