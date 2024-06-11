@@ -1,10 +1,16 @@
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import { Inter, Grechen_Fuemen } from "next/font/google";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
 import AuthButton from "@/components/auth-button/AuthButton";
 import HealthChatInvite from "@/components/HealthChat/HealthChat";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({
+  weight: ["400", "700", "900"],
+  style: "normal",
+  subsets: ["latin"],
+  display: "swap",
+});
+const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
   // =========================================================START LOGIN===========================
@@ -16,7 +22,7 @@ export default function Home() {
         <h3>Good morning. What can we do for you?</h3>
         <AuthButton />
       </section>
-      <h2>Better Holistic.</h2>
+      <h1 className={`${grechen.className}`}>Better Holistic.</h1>
       <p>Your naturopathic practice in Berlin.</p>
       <HealthChatInvite />
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">

@@ -2,10 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+::before,
+::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --white: #ededed;
+  --dark: #191919;
+  --primary: #839788;
+  --secondary: #a05c7b;
+  --shade-pastel: #bdbbb6;
+  --shade-bright: #e5d1d0;
+}
+
+/* =========== FONT ============ */
+
+h1 {
+  font-size: 2.3rem;
+  font-weight: 900;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 @media (prefers-color-scheme: dark) {
