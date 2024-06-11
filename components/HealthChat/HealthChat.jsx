@@ -1,26 +1,30 @@
-import { Box } from "@mui/material";
-import { Button } from "@mui/material";
-import styled from "@emotion/styled";
+import DefaultButton from "../DefaulButton/DefaultButton";
+import styled from "styled-components";
+
+const StyledBox = styled.section`
+  margin: 3rem auto;
+  padding: 1rem;
+  width: 97%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--white);
+  box-shadow: 0px 3px 8px var(--pastel);
+  color: var(--dark);
+  border-radius: 9px;
+`;
 
 export default function HealthChatInvite() {
   return (
-    <Box
-      height={200}
-      width={400}
-      my={4}
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      gap={4}
-      p={2}
-      sx={{ border: "2px solid grey", borderRadius: "9px" }}
-    >
+    <StyledBox>
       <h2>Tell us how you feel</h2>
-      <p>
+      <p className="px-3 text-center">
         Here you can fill in our health related questionaire and get suggestion
-        on naturopathic treatments
+        on naturopathic treatments.
       </p>
-      <Button variant="contained">Start questionaire</Button>
-    </Box>
+      <DefaultButton />
+    </StyledBox>
   );
 }
