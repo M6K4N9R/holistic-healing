@@ -17,6 +17,7 @@
 :root {
   --white: #ededed;
   --dark: #191919;
+  --text-grey: #3c3c3c;
   --primary: #839788;
   --secondary: #a05c7b;
   --shade-pastel: #bdbbb6;
@@ -36,7 +37,10 @@ h2 {
 }
 h3 {
   font-size: 1.2rem;
-  font-weight: 500;
+  font-weight: 600;
+}
+p {
+  font-size: 0.9rem;
 }
 
 @media (prefers-color-scheme: dark) {

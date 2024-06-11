@@ -3,6 +3,7 @@ import { Inter, Grechen_Fuemen } from "next/font/google";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
 import AuthButton from "@/components/auth-button/AuthButton";
 import HealthChatInvite from "@/components/HealthChat/HealthChat";
+import UserTopBar from "@/components/UserTopBar/UserTopBar";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -16,12 +17,9 @@ export default function Home() {
   // =========================================================START LOGIN===========================
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between pt-20 pb-10 px-5 ${inter.className}`}
     >
-      <section className={`flex justify-between`}>
-        <h3>Good morning. What can we do for you?</h3>
-        <AuthButton />
-      </section>
+      <UserTopBar />
       <h1 className={`${grechen.className}`}>Better Holistic.</h1>
       <p>Your naturopathic practice in Berlin.</p>
       <HealthChatInvite />
