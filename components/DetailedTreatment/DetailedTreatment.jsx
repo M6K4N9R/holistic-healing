@@ -10,8 +10,10 @@ export const StyledSymptomsBox = styled.section`
   height: auto;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
-  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: space-evenly;
+  gap: 0.5rem;
   background-color: var(--white);
   box-shadow: 0px 3px 8px var(--pastel);
   color: var(--dark);
@@ -46,19 +48,23 @@ export default function DetailedTreatment() {
       <div className="px-3">
         <h2>{data.name}</h2>
         <p className="white-space-pre-wrap">{data.text}</p>
+      </div>
+
+      <StyledSymptomsBox>
         <h3>Symptoms Addressed</h3>
-        <p className="white-space-pre-wrap">
+        <p className="white-space-pre-wrap mb-4">
           {`You can consider booking`} <strong>{`${data.name}`}</strong>{" "}
           {`when you have the following symptoms:`}
         </p>
-        <StyledSymptomsBox>
-          {data.symptoms.map((symptom, index) => (
-            <div className="p-4 rounded-lg bg-secondary text-white" key={index}>
-              {symptom}
-            </div>
-          ))}
-        </StyledSymptomsBox>
-      </div>
+        {data.symptoms.map((symptom, index) => (
+          <div
+            className="grow px-2 py-1 h-8 text-center align-middle rounded-lg bg-secondary text-white"
+            key={index}
+          >
+            {symptom}
+          </div>
+        ))}
+      </StyledSymptomsBox>
     </div>
   );
 }
