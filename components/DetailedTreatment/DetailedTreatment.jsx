@@ -25,23 +25,11 @@ export const StyledSymptomsBox = styled.section`
 
 //
 
-function DiscoverTreatments() {
-  return (
-    <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-gray-100 m-2 p-2">
-      <button value={"<"}>{"<"}</button>
-      <h4>Discover other Treatments</h4>
-      <button value={">"}>{">"}</button>
-    </div>
-  );
-}
-
 export default function DetailedTreatment() {
   const router = useRouter();
   const { slug } = router.query;
 
   const { data, isLoading } = useSWR(`/api/treatments/${slug}`);
-
-  console.log("Detailed Treatment data");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -51,9 +39,24 @@ export default function DetailedTreatment() {
     return;
   }
 
+  function handleNext() {
+    console.log("Went to next treatment");
+  }
+  function handlePrev() {
+    console.log("Went to prev treatment");
+  }
+
   return (
     <>
-      <DiscoverTreatments />
+      <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-gray-100 m-2 p-2">
+        <button onClick={handlePrev} value={"<"}>
+          {"<"}
+        </button>
+        <h4>Discover other Treatments</h4>
+        <button onClick={handleNext} value={">"}>
+          {">"}
+        </button>
+      </div>
       <div className="flex flex-col items-start mb-5">
         <Image
           src={data.image}
