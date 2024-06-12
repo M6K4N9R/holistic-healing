@@ -20,20 +20,22 @@ export default function TreatmentsList() {
         .filter((treatment) => treatment.name !== "First Consultation")
         .map((treatment) => (
           <div className="relative z-10 group" key={treatment._id}>
-            <Image
-              alt={treatment.name}
-              src={treatment.image}
-              className="rounded-md"
-              // fill={true}
-              style={{ objectFit: "contain" }}
-              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority={true}
-              width={160}
-              height={70}
-            />
-            <div className="absolute z-20 inset-0">
-              <div className="bg-primary h-full w-full rounded-md opacity-60 group-hover:opacity-100" />
-            </div>
+            <Link href={`/treatments/${treatment.slug}`}>
+              <Image
+                alt={treatment.name}
+                src={treatment.image}
+                className="rounded-md"
+                // fill={true}
+                style={{ objectFit: "contain" }}
+                // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={true}
+                width={160}
+                height={70}
+              />
+              <div className="absolute z-20 inset-0">
+                <div className="bg-primary h-full w-full rounded-md opacity-60 group-hover:opacity-100" />
+              </div>
+            </Link>
             <div className="absolute bottom-5 left-2 z-30 w-3/5">
               <h3 className="text-sm text-wrap text-white text-ellipsis whitespace-wrap overflow">
                 {treatment.name}
