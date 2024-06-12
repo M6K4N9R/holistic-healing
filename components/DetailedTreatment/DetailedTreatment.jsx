@@ -2,9 +2,10 @@ import useSWR from "swr";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
+import { StyledButton } from "../DefaulButton/DefaultButton";
 
 export const StyledSymptomsBox = styled.section`
-  margin: 3rem auto;
+  margin: 3rem auto 2rem auto;
   padding: 1rem;
   width: 90vw;
   height: auto;
@@ -37,7 +38,7 @@ export default function DetailedTreatment() {
   }
 
   return (
-    <div className="flex flex-col items-start">
+    <div className="flex flex-col items-start mb-5">
       <Image
         src={data.image}
         alt={data.name}
@@ -65,6 +66,9 @@ export default function DetailedTreatment() {
           </div>
         ))}
       </StyledSymptomsBox>
+      <div className="self-center">
+        <StyledButton>{`Book ${data.name}`}</StyledButton>
+      </div>
     </div>
   );
 }

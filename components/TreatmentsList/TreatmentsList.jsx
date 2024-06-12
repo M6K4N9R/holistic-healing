@@ -19,8 +19,8 @@ export default function TreatmentsList() {
       {data
         .filter((treatment) => treatment.name !== "First Consultation")
         .map((treatment) => (
-          <div className="relative z-10 group" key={treatment._id}>
-            <Link href={`/treatments/${treatment.slug}`}>
+          <Link href={`/treatments/${treatment.slug}`} key={treatment._id}>
+            <div className="relative z-10 group">
               <Image
                 alt={treatment.name}
                 src={treatment.image}
@@ -35,13 +35,13 @@ export default function TreatmentsList() {
               <div className="absolute z-20 inset-0">
                 <div className="bg-primary h-full w-full rounded-md opacity-60 group-hover:opacity-100" />
               </div>
-            </Link>
-            <div className="absolute bottom-5 left-2 z-30 w-3/5">
-              <h3 className="text-sm text-wrap text-white text-ellipsis whitespace-wrap overflow">
-                {treatment.name}
-              </h3>
+              <div className="absolute bottom-5 left-2 z-30 w-3/5">
+                <h3 className="text-sm text-wrap text-white text-ellipsis whitespace-wrap overflow">
+                  {treatment.name}
+                </h3>
+              </div>
             </div>
-          </div>
+          </Link>
         ))}
     </section>
   );

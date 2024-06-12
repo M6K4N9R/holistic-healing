@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   appearance: none;
   background-color: var(--primary);
   border: 1px solid var(--primary);
@@ -49,7 +49,3 @@ const StyledButton = styled.button`
     box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
   }
 `;
-
-export default function DefaultButton() {
-  return <StyledButton>Start Chat</StyledButton>;
-}

@@ -1,4 +1,4 @@
-import DefaultButton from "../DefaulButton/DefaultButton";
+import { StyledButton } from "../DefaulButton/DefaultButton";
 import styled from "styled-components";
 
 export const StyledBox = styled.section`
@@ -24,7 +24,7 @@ export default function HealthChatInvite() {
         Here you can fill in our health related questionaire and get suggestion
         on naturopathic treatments.
       </p>
-      <DefaultButton />
+      <StyledButton>Start Chat</StyledButton>
     </StyledBox>
   );
 }
