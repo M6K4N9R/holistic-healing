@@ -3,12 +3,13 @@ import dbConnect from "@/db/dbConnect.js";
 
 export default async function handler(request, response) {
   const { slug } = request.query;
+  console.log("Slug of the request: ", slug);
   try {
     await dbConnect();
 
     if (request.method === "GET") {
-      const treatments = await Treatment.find();
-      const singleTreatment = treatments?.fin(())
+      const treatment = await Treatment.findOne({ slug });
+
       return response.status(200).json(treatment);
     }
 

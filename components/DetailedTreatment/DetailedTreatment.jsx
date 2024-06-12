@@ -1,9 +1,14 @@
 import useSWR from "swr";
-import Link from "next/link";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 export default function DetailedTreatment() {
-  const { data, isLoading } = useSWR("/api/treatments");
+  const router = useRouter();
+  const { slug } = router.query;
+
+  const { data, isLoading } = useSWR(`/api/treatments/${slug}`);
+
+  console.log("Detailed Treatment data");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -14,14 +19,10 @@ export default function DetailedTreatment() {
   }
 
   return (
-    <ul>
-      {data.map((treatment) => (
-        <li key={treatment._id}>
-          {/* <Link href={`/${joke._id}`}>{joke.joke}</Link> */}
-          <h2>{treatment.name}</h2>
-          <p>{treatment.text}</p>
-        </li>
-      ))}
-    </ul>
+    <div>
+      <Image src={data.image} alt={data.name} width={160} height={70} />
+      <h2>{data.name}</h2>
+      <p>{data.text}</p>
+    </div>
   );
 }
