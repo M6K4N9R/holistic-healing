@@ -21,6 +21,8 @@ export const StyledSymptomsBox = styled.section`
   border-radius: 9px;
 `;
 
+/* ============= START NEXT TREATMENT ======*/
+
 export default function DetailedTreatment() {
   const router = useRouter();
   const { slug } = router.query;
