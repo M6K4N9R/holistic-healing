@@ -23,6 +23,18 @@ export const StyledSymptomsBox = styled.section`
 
 /* ============= START NEXT TREATMENT ======*/
 
+//
+
+function DiscoverTreatments() {
+  return (
+    <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-gray-100 m-2 p-2">
+      <button value={"<"}>{"<"}</button>
+      <h4>Discover other Treatments</h4>
+      <button value={">"}>{">"}</button>
+    </div>
+  );
+}
+
 export default function DetailedTreatment() {
   const router = useRouter();
   const { slug } = router.query;
@@ -40,37 +52,40 @@ export default function DetailedTreatment() {
   }
 
   return (
-    <div className="flex flex-col items-start mb-5">
-      <Image
-        src={data.image}
-        alt={data.name}
-        width={1920}
-        height={1080}
-        className="w-full h-[70vh] object-cover md:w-[90vw] lg:w-[45vw]"
-      />
-      <div className="px-3">
-        <h2>{data.name}</h2>
-        <p className="white-space-pre-wrap">{data.text}</p>
-      </div>
+    <>
+      <DiscoverTreatments />
+      <div className="flex flex-col items-start mb-5">
+        <Image
+          src={data.image}
+          alt={data.name}
+          width={1920}
+          height={1080}
+          className="w-full h-[70vh] object-cover md:w-[90vw] lg:w-[45vw]"
+        />
+        <div className="px-3">
+          <h2>{data.name}</h2>
+          <p className="white-space-pre-wrap">{data.text}</p>
+        </div>
 
-      <StyledSymptomsBox>
-        <h3>Symptoms Addressed</h3>
-        <p className="white-space-pre-wrap mb-4">
-          {`You can consider booking`} <strong>{`${data.name}`}</strong>{" "}
-          {`when you have the following symptoms:`}
-        </p>
-        {data.symptoms.map((symptom, index) => (
-          <div
-            className="grow px-2 py-1 h-8 text-center align-middle rounded-lg bg-secondary text-white"
-            key={index}
-          >
-            {symptom}
-          </div>
-        ))}
-      </StyledSymptomsBox>
-      <div className="self-center">
-        <StyledButton>{`Book ${data.name}`}</StyledButton>
+        <StyledSymptomsBox>
+          <h3>Symptoms Addressed</h3>
+          <p className="white-space-pre-wrap mb-4">
+            {`You can consider booking`} <strong>{`${data.name}`}</strong>{" "}
+            {`when you have the following symptoms:`}
+          </p>
+          {data.symptoms.map((symptom, index) => (
+            <div
+              className="grow px-2 py-1 h-8 text-center align-middle rounded-lg bg-secondary text-white"
+              key={index}
+            >
+              {symptom}
+            </div>
+          ))}
+        </StyledSymptomsBox>
+        <div className="self-center">
+          <StyledButton>{`Book ${data.name}`}</StyledButton>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
