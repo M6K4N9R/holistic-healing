@@ -3,7 +3,7 @@ import useSWR from "swr";
 const handleTreatmentClick = async (treatment) => {
   try {
     const treatmentData = { treatment: treatment.name };
-    console.log(treatmentData);
+    
     // Send the treatment data to the server
     const response = await fetch("/api/booking", {
       method: "POST",
@@ -12,7 +12,7 @@ const handleTreatmentClick = async (treatment) => {
       },
       body: JSON.stringify(treatmentData),
     });
-    console.log("Response:", response);
+    
     if (response.ok) {
       console.log("Treatment booked successfully");
     } else {

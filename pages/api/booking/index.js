@@ -15,7 +15,6 @@ export default async function handler(request, response) {
 
   if (request.method === "POST") {
     try {
-      console.log("Request body:", request.body);
       const bookingData = request.body;
       await Booking.create(bookingData);
 
