@@ -1,7 +1,30 @@
 import useSWR from "swr";
 
+const handleTreatmentClick = async (treatment) => {
+  try {
+    const treatmentData = { treatment: treatment.name };
+    console.log(treatmentData);
+    // Send the treatment data to the server
+    const response = await fetch("/api/booking", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(treatmentData),
+    });
+    console.log("Response:", response);
+    if (response.ok) {
+      console.log("Treatment booked successfully");
+    } else {
+      console.error("Failed to book treatment");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
 export default function BookingTreatmentsList() {
-  const { data, isLoading } = useSWR("/api/treatments");
+  const { data, isLoading } = useSWR("/api/booking");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -10,7 +33,6 @@ export default function BookingTreatmentsList() {
   if (!data) {
     return;
   }
-  console.log("Data of treatments", data);
 
   return (
     <>
@@ -22,7 +44,9 @@ export default function BookingTreatmentsList() {
             className="rounded-lg bg-secondary/20 w-4/6 m-1
           p-1 text-center"
           >
-            <button>{treatment.name}</button>
+            <button onClick={() => handleTreatmentClick(treatment)}>
+              {treatment.name}
+            </button>
           </li>
         ))}
       </ul>
