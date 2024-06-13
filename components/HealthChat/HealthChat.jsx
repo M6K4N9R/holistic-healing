@@ -1,7 +1,7 @@
 import { StyledButton } from "../DefaulButton/DefaultButton";
 import styled from "styled-components";
 
-export const StyledBox = styled.section`
+const StyledBox = styled.section`
   margin: 3rem auto;
   padding: 1rem;
   width: 97%;

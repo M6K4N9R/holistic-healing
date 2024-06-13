@@ -4,7 +4,7 @@ import Image from "next/image";
 import styled from "styled-components";
 import { StyledButton } from "../DefaulButton/DefaultButton";
 
-export const StyledSymptomsBox = styled.section`
+const StyledSymptomsBox = styled.section`
   margin: 3rem auto 2rem auto;
   padding: 1rem;
   width: 90vw;

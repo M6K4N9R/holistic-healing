@@ -7,14 +7,14 @@ export default function App({
   pageProps: { session, ...pageProps },
 }) {
   return (
-    <SessionProvider session={session}>
-      <SWRConfig
-        value={{
-          fetcher: (...args) => fetch(...args).then((res) => res.json()),
-        }}
-      >
+    <SWRConfig
+      value={{
+        fetcher: (...args) => fetch(...args).then((res) => res.json()),
+      }}
+    >
+      <SessionProvider session={session}>
         <Component {...pageProps} />
-      </SWRConfig>
-    </SessionProvider>
+      </SessionProvider>
+    </SWRConfig>
   );
 }
