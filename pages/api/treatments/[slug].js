@@ -9,12 +9,8 @@ export default async function handler(request, response) {
 
     if (request.method === "GET") {
       const treatment = await Treatment.findOne({ slug });
-      const treatmentNames = await Treatment.find(
-        { name: { $ne: "First Consultation" } },
-        { slug: 1, _id: 0 }
-      );
 
-      return response.status(200).json({ treatment, treatmentNames });
+      return response.status(200).json({ treatment });
     }
   } catch (error) {
     console.error(error);

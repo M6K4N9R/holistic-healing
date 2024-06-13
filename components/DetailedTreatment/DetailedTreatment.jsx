@@ -25,7 +25,7 @@ export default function DetailedTreatment() {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { data, isLoading } = useSWR(`/api/treatments/${slug}`);
+  const { data, isLoading } = useSWR("/api/treatments/");
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -35,7 +35,9 @@ export default function DetailedTreatment() {
     return;
   }
 
-  const currentTreatment = data?.treatment;
+  const currentTreatment = data?.treatments.find(
+    (treatment) => treatment.slug === slug
+  );
   const treatmentNamesArray = data?.treatmentNames.map(
     (treatment) => treatment.slug
   );

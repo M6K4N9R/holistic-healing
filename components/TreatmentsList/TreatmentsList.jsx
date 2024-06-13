@@ -4,6 +4,9 @@ import Image from "next/image";
 
 export default function TreatmentsList() {
   const { data, isLoading } = useSWR("/api/treatments");
+  const treatments = data?.treatments;
+
+  console.log("Treatments on Home: ", treatments);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -12,11 +15,11 @@ export default function TreatmentsList() {
   if (!data) {
     return;
   }
-  console.log("Data of treatments", data);
+  console.log("Data of treatments", treatments);
 
   return (
     <section className="flex justify-center gap-2 flex-wrap">
-      {data
+      {treatments
         .filter((treatment) => treatment.name !== "First Consultation")
         .map((treatment) => (
           <Link href={`/treatments/${treatment.slug}`} key={treatment._id}>
