@@ -3,17 +3,19 @@ import dbConnect from "@/db/dbConnect.js";
 
 export default async function handler(request, response) {
   const { slug } = request.query;
-  console.log("Slug of the request: ", slug);
+
   try {
     await dbConnect();
 
     if (request.method === "GET") {
       const treatment = await Treatment.findOne({ slug });
+      const treatmentNames = await Treatment.find(
+        { name: { $ne: "First Consultation" } },
+        { slug: 1, _id: 0 }
+      );
 
-      return response.status(200).json(treatment);
+      return response.status(200).json({ treatment, treatmentNames });
     }
-
-    // const VIEWS_WITH_SLUGS = data?.filter((post) => post.slug)
   } catch (error) {
     console.error(error);
     response.status(500).json({ error: "Internal Server Error" });

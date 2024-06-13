@@ -21,15 +21,11 @@ const StyledSymptomsBox = styled.section`
   border-radius: 9px;
 `;
 
-/* ============= START NEXT TREATMENT ======*/
-
-//
-
 export default function DetailedTreatment() {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { data, isLoading } = useSWR("/api/treatments/");
+  const { data, isLoading } = useSWR(`/api/treatments/${slug}`);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -38,34 +34,39 @@ export default function DetailedTreatment() {
   if (!data) {
     return;
   }
-  const treatmentsSlugsArray = data
-    ?.map((treatment) => treatment.slug)
-    .filter((treatment) => treatment !== "first-consultation");
 
-  const currentTreatment = data?.find((treatment) => treatment.slug === slug);
-
-  const indexOfCurrentTreatment = treatmentsSlugsArray?.indexOf(
+  const currentTreatment = data?.treatment;
+  const treatmentNamesArray = data?.treatmentNames.map(
+    (treatment) => treatment.slug
+  );
+  const indexOfCurrentTreatment = treatmentNamesArray?.indexOf(
     currentTreatment?.slug
   );
-  let indexOfNextTreatment;
 
-  if (indexOfCurrentTreatment < treatmentsSlugsArray?.length) {
-    indexOfNextTreatment = indexOfCurrentTreatment + 1;
-  } else {
-    indexOfNextTreatment = 0;
-  }
-
-  console.log("currentTreatment ", currentTreatment);
-  console.log("treatmentSlugs ", treatmentsSlugsArray);
-  console.log("indexOfCurrentTreatment ", indexOfCurrentTreatment);
+  console.log("Data on detailed page: ", data);
+  console.log("Array of slugs: ", treatmentNamesArray);
 
   function handleNext() {
-    const nextTreatment = treatmentsSlugsArray[indexOfNextTreatment];
+    let indexOfNextTreatment;
+
+    if (indexOfCurrentTreatment < treatmentNamesArray?.length - 1) {
+      indexOfNextTreatment = indexOfCurrentTreatment + 1;
+    } else {
+      indexOfNextTreatment = 0;
+    }
+    const nextTreatment = treatmentNamesArray[indexOfNextTreatment];
     router.push(`/treatments/${nextTreatment}`);
-    console.log("Went to next treatment", nextTreatment);
   }
   function handlePrev() {
-    console.log("Went to prev treatment");
+    let indexOfPrevTreatment;
+
+    if (indexOfCurrentTreatment > 0) {
+      indexOfPrevTreatment = indexOfCurrentTreatment - 1;
+    } else {
+      indexOfPrevTreatment = treatmentNamesArray.length - 1;
+    }
+    const prevTreatment = treatmentNamesArray[indexOfPrevTreatment];
+    router.push(`/treatments/${prevTreatment}`);
   }
 
   return (
