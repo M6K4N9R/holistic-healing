@@ -40,13 +40,14 @@ export default function BookingTreatmentsList() {
       <ul className="p-2 mt-5">
         {data.map((treatment) => (
           <li
-            key={treatment._id}
-            className="rounded-lg bg-secondary/20 w-4/6 m-1
+          key={treatment._id}
+          className="rounded-lg bg-secondary/20 w-4/6 m-1
           p-1 text-center"
           >
             <button onClick={() => handleTreatmentClick(treatment)}>
               {treatment.name}
             </button>
+          <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
           </li>
         ))}
       </ul>
