@@ -3,8 +3,13 @@ import useSWR from "swr";
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
+
+  // Tracking the booking process of selection
+
   const [selectedTreatment, setSelectedTreatment] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
+
+  // =========================================
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -18,11 +23,16 @@ export default function BookingTreatmentsList() {
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const bookingData = Object.fromEntries(formData);
+    // Renaming selected Treatment and Doctor to match Doctor Schema
+
+    const bookingData = {
+      treatment: selectedTreatment,
+      doctor: selectedDoctor,
+    };
 
     try {
       // Send the treatment data to the server
+
       const response = await fetch("/api/booking", {
         method: "POST",
         headers: {
@@ -32,7 +42,10 @@ export default function BookingTreatmentsList() {
       });
 
       if (response.ok) {
-        console.log("Treatment booked successfully");
+        console.log(
+          "Treatment booked successfully. The response is: ",
+          bookingData
+        );
       } else {
         console.error("Failed to book treatment");
       }

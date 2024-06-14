@@ -30,8 +30,8 @@ export default async function handler(request, response) {
 
   if (request.method === "POST") {
     try {
-      const bookingData = request.body;
-      await Booking.create(bookingData);
+      const booking = request.body;
+      await Booking.create(booking);
 
       response.status(201).json({ status: "Booking created" });
     } catch (error) {
