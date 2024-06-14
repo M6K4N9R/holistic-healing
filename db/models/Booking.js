@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 
 const bookingSchema = new Schema({
   treatment: { type: String, required: true },
-  
+  doctor: { type: String, required: true },
 });
 
 const Booking =
