@@ -11,5 +11,4 @@ const Booking =
   mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
 
 export default Booking;
-
-// { type: Schema.Types.ObjectId, ref: "Doctor", required: true },
+// Before Change

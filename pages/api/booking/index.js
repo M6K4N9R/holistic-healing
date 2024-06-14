@@ -38,6 +38,7 @@ export default async function handler(request, response) {
       console.log(error);
       response.status(400).json({ error: error.message });
     }
+    
   }
 
   if (request.method === "PUT") {
