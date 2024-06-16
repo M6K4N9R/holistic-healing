@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import styled from "styled-components";
 import { StyledButton } from "../DefaulButton/DefaultButton";
+import { StyledPlainButton } from "../DefaulButton/DefaultButton";
 
 const StyledSymptomsBox = styled.section`
   margin: 3rem auto 2rem auto;
@@ -48,6 +49,8 @@ export default function DetailedTreatment() {
   console.log("Data on detailed page: ", data);
   console.log("Array of slugs: ", treatmentNamesArray);
 
+  // =========================================== Buttons ========
+
   function handleNext() {
     let indexOfNextTreatment;
 
@@ -69,6 +72,10 @@ export default function DetailedTreatment() {
     }
     const prevTreatment = treatmentNamesArray[indexOfPrevTreatment];
     router.push(`/treatments/${prevTreatment}`);
+  }
+
+  function handleGoBack() {
+    router.push(`/`);
   }
 
   return (
@@ -111,7 +118,8 @@ export default function DetailedTreatment() {
             </div>
           ))}
         </StyledSymptomsBox>
-        <div className="self-center">
+        <div className="self-center gap-2">
+          <StyledPlainButton onClick={handleGoBack}>Go back</StyledPlainButton>
           <StyledButton>{`Book ${currentTreatment.name}`}</StyledButton>
         </div>
       </div>
