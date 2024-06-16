@@ -78,6 +78,11 @@ export default function DetailedTreatment() {
     router.push(`/`);
   }
 
+  function handleBookAnAppointment() {
+    router.push(`/booking/`);
+  }
+  // -------------------------------------------------------------------------
+
   return (
     <>
       <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-gray-100 m-2 p-2">
@@ -120,7 +125,9 @@ export default function DetailedTreatment() {
         </StyledSymptomsBox>
         <div className="self-center gap-2">
           <StyledPlainButton onClick={handleGoBack}>Go back</StyledPlainButton>
-          <StyledButton>{`Book ${currentTreatment.name}`}</StyledButton>
+          <StyledButton
+            onClick={handleBookAnAppointment}
+          >{`Book ${currentTreatment.name}`}</StyledButton>
         </div>
       </div>
     </>
