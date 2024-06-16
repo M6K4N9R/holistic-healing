@@ -8,6 +8,7 @@ export default function BookingTreatmentsList() {
 
   const [selectedTreatment, setSelectedTreatment] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [selectedDoctorID, setSelectedDoctorID] = useState("");
 
   // =========================================
 
@@ -20,6 +21,8 @@ export default function BookingTreatmentsList() {
   }
   const { treatmentNames, doctors } = data;
 
+  console.log("Looking for booking: ", doctors.appointments);
+
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
@@ -28,6 +31,7 @@ export default function BookingTreatmentsList() {
     const bookingData = {
       treatment: selectedTreatment,
       doctor: selectedDoctor,
+      doctorID: selectedDoctorID,
     };
 
     try {
@@ -46,6 +50,7 @@ export default function BookingTreatmentsList() {
           "Treatment booked successfully. The response is: ",
           bookingData
         );
+        // mutate();
       } else {
         console.error("Failed to book treatment");
       }
@@ -58,8 +63,9 @@ export default function BookingTreatmentsList() {
     setSelectedTreatment(name);
     console.log("Treatment selected is: ", name);
   };
-  const handleDoctorSelect = (first, last) => {
+  const handleDoctorSelect = (first, last, id) => {
     setSelectedDoctor(`${first} ${last}`);
+    setSelectedDoctorID(id);
 
     console.log("Doctor's first name: ", first, last);
   };
@@ -96,7 +102,11 @@ export default function BookingTreatmentsList() {
               <button
                 type="button"
                 onClick={() =>
-                  handleDoctorSelect(doctor.firstName, doctor.lastName)
+                  handleDoctorSelect(
+                    doctor.firstName,
+                    doctor.lastName,
+                    doctor._id
+                  )
                 }
               >
                 {doctor.firstName} {doctor.lastName}

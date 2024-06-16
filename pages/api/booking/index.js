@@ -31,14 +31,21 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const booking = request.body;
-      await Booking.create(booking);
+      const newBooking = await Booking.create(booking);
 
-      response.status(201).json({ status: "Booking created" });
+      await Doctor.findByIdAndUpdate(
+        { _id: newBooking.doctorID },
+        { $push: { appointments: newBooking._id } },
+        { new: true, useFindAndModify: false }
+      );
+
+      response.status(201).json({
+        status: "Booking created, and doctor availability is updated",
+      });
     } catch (error) {
       console.log(error);
       response.status(400).json({ error: error.message });
     }
-    
   }
 
   if (request.method === "PUT") {
