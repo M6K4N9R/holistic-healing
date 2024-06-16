@@ -21,8 +21,6 @@ export default function BookingTreatmentsList() {
   }
   const { treatmentNames, doctors } = data;
 
-  console.log("Looking for booking: ", doctors.appointments);
-
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
@@ -61,15 +59,13 @@ export default function BookingTreatmentsList() {
 
   const handleTreatmentSelect = (name) => {
     setSelectedTreatment(name);
-    console.log("Treatment selected is: ", name);
+    console.log("Selected treatment is: ", selectedTreatment);
   };
   const handleDoctorSelect = (first, last, id) => {
     setSelectedDoctor(`${first} ${last}`);
     setSelectedDoctorID(id);
-
-    console.log("Doctor's first name: ", first, last);
+    console.log("Selected doctor is: ", selectedDoctor);
   };
-  console.log("And once more: ", selectedTreatment);
 
   return (
     <>
