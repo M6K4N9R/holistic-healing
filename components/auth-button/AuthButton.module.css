@@ -1,0 +1,25 @@
+.btn {
+  padding: 0.3em 0.9em;
+  border-radius: 300px;
+  border: none;
+  font-size: 0.9rem;
+  margin-block: 0.5rem;
+  opacity: 0.7;
+  width: 5rem;
+}
+
+.btn:hover {
+  opacity: 1;
+}
+
+.login {
+  background-color: var(--primary);
+  color: black;
+  border: black;
+}
+
+.logout {
+  background-color: black;
+  color: var(--primary);
+  border: var(--primary);
+}
