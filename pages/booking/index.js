@@ -61,11 +61,11 @@ export default function BookingTreatmentsList() {
 
   const handleTreatmentSelect = (id) => {
     setSelectedTreatment(id);
-    setSelectedTreatmentBgColor("bg-primary");
+    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
   };
   const handleDoctorSelect = (id) => {
     setSelectedDoctor(id);
-    setSelectedDoctorBgColor("bg-primary");
+    setSelectedDoctorBgColor("bg-primary text-white font-semibold");
   };
   console.log("Selected treatment is: ", selectedTreatment);
   console.log("Selected doctor is: ", selectedDoctor);
