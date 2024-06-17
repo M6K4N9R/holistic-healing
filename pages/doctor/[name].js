@@ -1,5 +1,5 @@
+import AppointmentsList from "@/components/AppointmentsList/AppointmentsList";
+
 export default function DoctorPage() {
-    return (
-        <div>The List of appointments</div>
-    )
+  return <AppointmentsList />;
 }
