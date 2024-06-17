@@ -31,29 +31,14 @@ export default async function handler(request, response) {
   if (request.method === "POST") {
     try {
       const booking = request.body;
-      const newBooking = await Booking.create(booking);
-
-      await Doctor.findByIdAndUpdate(
-        { _id: newBooking.doctorID },
-        { $push: { appointments: newBooking._id } },
-        { new: true, useFindAndModify: false }
-      );
+      await Booking.create(booking);
 
       response.status(201).json({
-        status: "Booking created, and doctor availability is updated",
+        status: "Booking is created",
       });
     } catch (error) {
       console.log(error);
       response.status(400).json({ error: error.message });
     }
-  }
-
-  if (request.method === "PUT") {
-    await Doctor.findByIdAndUpdate(id, {
-      $set: request.body,
-    });
-    // Find the joke by its ID and update the content that is part of the request body!
-    response.status(200).json({ status: `Joke ${id} updated!` });
-    // If successful, you'll receive an OK status code.
   }
 }

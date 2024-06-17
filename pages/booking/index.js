@@ -8,9 +8,10 @@ export default function BookingTreatmentsList() {
 
   // Tracking the booking process of selection
 
-  let [selectedTreatment, setSelectedTreatment] = useState("");
-  let [selectedDoctor, setSelectedDoctor] = useState("");
-  let [selectedDoctorID, setSelectedDoctorID] = useState("");
+  const [selectedTreatment, setSelectedTreatment] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
+  const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
 
   // =========================================
 
@@ -31,7 +32,6 @@ export default function BookingTreatmentsList() {
     const bookingData = {
       treatment: selectedTreatment,
       doctor: selectedDoctor,
-      doctorID: selectedDoctorID,
     };
 
     try {
@@ -59,12 +59,13 @@ export default function BookingTreatmentsList() {
     }
   };
 
-  const handleTreatmentSelect = (name) => {
-    setSelectedTreatment(name);
+  const handleTreatmentSelect = (id) => {
+    setSelectedTreatment(id);
+    setSelectedTreatmentBgColor("bg-primary");
   };
-  const handleDoctorSelect = (first, last, id) => {
-    setSelectedDoctor(`${first} ${last}`);
-    setSelectedDoctorID(id);
+  const handleDoctorSelect = (id) => {
+    setSelectedDoctor(id);
+    setSelectedDoctorBgColor("bg-primary");
   };
   console.log("Selected treatment is: ", selectedTreatment);
   console.log("Selected doctor is: ", selectedDoctor);
@@ -77,12 +78,16 @@ export default function BookingTreatmentsList() {
           {treatmentNames.map((treatment) => (
             <li
               key={treatment._id}
-              className="rounded-lg bg-secondary/20 w-4/6 m-1
-          p-1 text-center"
+              className={`rounded-lg  w-4/6 m-1
+          p-1 text-center ${
+            treatment._id === selectedTreatment
+              ? selectedTreatmentBgColor
+              : "bg-secondary/20"
+          }`}
             >
               <button
                 type="button"
-                onClick={() => handleTreatmentSelect(treatment.name)}
+                onClick={() => handleTreatmentSelect(treatment._id)}
               >
                 {treatment.name}
               </button>
@@ -98,18 +103,16 @@ export default function BookingTreatmentsList() {
           {doctors.map((doctor) => (
             <li
               key={doctor._id}
-              className="rounded-lg bg-secondary/20 w-4/6 m-1
-          p-1 text-center"
+              className={`rounded-lg  w-4/6 m-1
+          p-1 text-center ${
+            doctor._id !== selectedDoctor
+              ? "bg-secondary/20"
+              : selectedDoctorBgColor
+          }`}
             >
               <button
                 type="button"
-                onClick={() =>
-                  handleDoctorSelect(
-                    doctor.firstName,
-                    doctor.lastName,
-                    doctor._id
-                  )
-                }
+                onClick={() => handleDoctorSelect(doctor._id)}
               >
                 {doctor.firstName} {doctor.lastName}
               </button>
