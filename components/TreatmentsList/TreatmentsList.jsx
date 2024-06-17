@@ -27,6 +27,7 @@ export default function TreatmentsList() {
               <Image
                 alt={treatment.name}
                 src={treatment.image}
+                loading="eager"
                 className="rounded-md"
                 // fill={true}
                 style={{ objectFit: "contain" }}

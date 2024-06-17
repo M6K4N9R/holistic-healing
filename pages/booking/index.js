@@ -1,16 +1,16 @@
 import { useState } from "react";
+import React from "react";
 import useSWR from "swr";
-import { Calendar } from "@nextui-org/calendar";
+import MyCalendar from "@/components/Calendar/Calendar";
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
 
   // Tracking the booking process of selection
 
-  const [selectedTreatment, setSelectedTreatment] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState("");
-  const [selectedDoctorID, setSelectedDoctorID] = useState("");
-  const [selectedDate, setSelectedDate] = useState();
+  let [selectedTreatment, setSelectedTreatment] = useState("");
+  let [selectedDoctor, setSelectedDoctor] = useState("");
+  let [selectedDoctorID, setSelectedDoctorID] = useState("");
 
   // =========================================
 
@@ -90,8 +90,8 @@ export default function BookingTreatmentsList() {
           ))}
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
-        <div className="p-2 mt-5 bg-secondary w-3/4 mx-auto">
-          <Calendar />
+        <div className="w-3/4 mx-auto">
+          <MyCalendar />
         </div>
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
