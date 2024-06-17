@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const bookingSchema = new Schema({
-  date: { type: Object, required: true },
   treatment: { type: String, required: true },
   doctor: { type: String, required: true },
   doctorID: { type: String, required: true },

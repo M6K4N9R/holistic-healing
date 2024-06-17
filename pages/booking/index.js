@@ -1,7 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import useSWR from "swr";
-import MyCalendar from "@/components/Calendar/Calendar";
+import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
@@ -61,13 +61,13 @@ export default function BookingTreatmentsList() {
 
   const handleTreatmentSelect = (name) => {
     setSelectedTreatment(name);
-    console.log("Selected treatment is: ", selectedTreatment);
   };
   const handleDoctorSelect = (first, last, id) => {
     setSelectedDoctor(`${first} ${last}`);
     setSelectedDoctorID(id);
-    console.log("Selected doctor is: ", selectedDoctor);
   };
+  console.log("Selected treatment is: ", selectedTreatment);
+  console.log("Selected doctor is: ", selectedDoctor);
 
   return (
     <>
@@ -90,9 +90,9 @@ export default function BookingTreatmentsList() {
           ))}
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
-        <div className="w-3/4 mx-auto">
+        {/* <div className="w-3/4 mx-auto">
           <MyCalendar />
-        </div>
+        </div> */}
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
           {doctors.map((doctor) => (
@@ -116,7 +116,9 @@ export default function BookingTreatmentsList() {
             </li>
           ))}
         </ul>
-        <button>Book an appointment</button>
+        <div className="text-center mx-auto my-6">
+          <StyledButton>Book an appointment</StyledButton>
+        </div>
       </form>
     </>
   );
