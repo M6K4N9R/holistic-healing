@@ -9,11 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@auth/mongodb-adapter": "^3.2.0",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.19",
+    "@nextui-org/calendar": "^2.0.7",
+    "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
+    "next-auth": "^4.24.7",
     "next-cloudinary": "^6.6.2",
     "react": "^18",
     "react-dom": "^18",
+    "styled-components": "^6.1.11",
     "swr": "^2.2.5"
   },
   "devDependencies": {
