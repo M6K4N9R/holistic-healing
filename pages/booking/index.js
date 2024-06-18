@@ -2,6 +2,7 @@ import { useState } from "react";
 import React from "react";
 import useSWR from "swr";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
+import MyCalendar from "@/components/Calendar/Calendar";
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
@@ -95,9 +96,9 @@ export default function BookingTreatmentsList() {
           ))}
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
-        {/* <div className="w-3/4 mx-auto">
-          <MyCalendar />
-        </div> */}
+
+        <MyCalendar />
+
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
           {doctors.map((doctor) => (
