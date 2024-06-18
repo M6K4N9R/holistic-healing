@@ -27,7 +27,7 @@ export default function BookingTreatmentsList() {
   }
   const { treatmentNames, doctors } = data;
 
-  // =====================  Get the day from the date
+  // ===================== Select the date and Get the day from the date
 
   const handleSelectDate = (date) => {
     const days = [
@@ -86,7 +86,7 @@ export default function BookingTreatmentsList() {
 
   const handleTreatmentSelect = (id) => {
     setSelectedTreatment(id);
-    setSelectedTreatmentBgColor("bg-green-200 text-white font-semibold");
+    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
   };
   const handleDoctorSelect = (id) => {
     setSelectedDoctor(id);
