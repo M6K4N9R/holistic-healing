@@ -13,6 +13,7 @@ export default function BookingTreatmentsList() {
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   // =========================================
 
@@ -33,6 +34,7 @@ export default function BookingTreatmentsList() {
     const bookingData = {
       treatment: selectedTreatment,
       doctor: selectedDoctor,
+      date: selectedDate,
     };
 
     try {
@@ -70,6 +72,7 @@ export default function BookingTreatmentsList() {
   };
   console.log("Selected treatment is: ", selectedTreatment);
   console.log("Selected doctor is: ", selectedDoctor);
+  console.log("Selected date is: ", selectedDate);
 
   return (
     <>
@@ -97,7 +100,7 @@ export default function BookingTreatmentsList() {
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
 
-        <MyCalendar />
+        <MyCalendar onDateChange={setSelectedDate} />
 
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
