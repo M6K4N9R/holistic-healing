@@ -7,11 +7,11 @@ import {
 } from "@internationalized/date";
 
 import { useLocale } from "@react-aria/i18n";
-import React from "react";
+import { useState } from "react";
 import styles from "./Calendar.module.css";
 
 export default function MyCalendar() {
-  let [selectedDate, setSelectedDate] = React.useState(parseDate("2024-03-07"));
+  let [selectedDate, setSelectedDate] = useState(parseDate("2024-03-07"));
 
   // ================== Weekends are unavailable ==============
 
@@ -39,8 +39,9 @@ export default function MyCalendar() {
       selectedDate.month - 1,
       selectedDate.day
     );
-    return jsDate.toLocaleString(locale, { weekday: "long" });
+    return jsDate.toLocaleString(locale, { weekday: "short" });
   };
+
   // ============================================================
 
   console.log("Selected date is: ", selectedDate);
