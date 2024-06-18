@@ -14,6 +14,7 @@ export default function BookingTreatmentsList() {
   const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDay, setSelectedDay] = useState("");
 
   // =========================================
 
@@ -26,6 +27,25 @@ export default function BookingTreatmentsList() {
   }
   const { treatmentNames, doctors } = data;
 
+  // =====================  Get the day from the date
+
+  const handleSelectDate = (date) => {
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const jsDate = new Date(date.year, date.month - 1, date.day);
+
+    const dayOfWeek = days[jsDate.getDay()];
+    setSelectedDate(date);
+    setSelectedDay(dayOfWeek);
+  };
+
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
@@ -35,7 +55,9 @@ export default function BookingTreatmentsList() {
       treatment: selectedTreatment,
       doctor: selectedDoctor,
       date: selectedDate,
+      day: selectedDay,
     };
+    console.log("Booking data: ", bookingData);
 
     try {
       // Send the treatment data to the server
@@ -64,7 +86,7 @@ export default function BookingTreatmentsList() {
 
   const handleTreatmentSelect = (id) => {
     setSelectedTreatment(id);
-    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
+    setSelectedTreatmentBgColor("bg-green-200 text-white font-semibold");
   };
   const handleDoctorSelect = (id) => {
     setSelectedDoctor(id);
@@ -72,7 +94,6 @@ export default function BookingTreatmentsList() {
   };
   console.log("Selected treatment is: ", selectedTreatment);
   console.log("Selected doctor is: ", selectedDoctor);
-  console.log("Selected date is: ", selectedDate);
 
   return (
     <>
@@ -83,7 +104,7 @@ export default function BookingTreatmentsList() {
             <li
               key={treatment._id}
               className={`rounded-lg  w-4/6 m-1
-          p-1 text-center ${
+          p-1 cursor-pointer text-center ${
             treatment._id === selectedTreatment
               ? selectedTreatmentBgColor
               : "bg-secondary/20"
@@ -100,7 +121,7 @@ export default function BookingTreatmentsList() {
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
 
-        <MyCalendar onDateChange={setSelectedDate} />
+        <MyCalendar onDateChange={handleSelectDate} />
 
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
