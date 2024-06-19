@@ -13,6 +13,8 @@ const inter = Inter({
 const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+
+  //========================= Adding Profile
  
   return (
     <main
