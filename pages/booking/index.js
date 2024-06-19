@@ -3,9 +3,13 @@ import React from "react";
 import useSWR from "swr";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 import MyCalendar from "@/components/Calendar/Calendar";
+import { useSession } from "next-auth/react";
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
+  const { data: session, status } = useSession();
+
+  console.log("User: ", session);
 
   // Tracking the booking process of selection
 

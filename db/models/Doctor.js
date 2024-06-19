@@ -9,6 +9,7 @@ const doctorSchema = new Schema({
   appointments: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
   availability: { type: Array, required: true },
   days: { type: Array, required: true },
+  email: { type: String, required: true },
 });
 
 const Doctor = mongoose.models.Doctor || mongoose.model("Doctor", doctorSchema);

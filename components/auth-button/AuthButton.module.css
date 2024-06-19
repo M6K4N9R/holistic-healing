@@ -5,7 +5,8 @@
   font-size: 0.9rem;
   margin-block: 0.5rem;
   opacity: 0.7;
-  width: 5rem;
+  /* width: 5rem; */
+  text-wrap: nowrap;
 }
 
 .btn:hover {
