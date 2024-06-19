@@ -21,6 +21,7 @@ export default function Home() {
       className={`flex min-h-screen flex-col items-center justify-between pt-20 pb-10 px-5 ${inter.className}`}
     >
       <UserTopBar />
+      
 
       <HealthChatInvite />
       <div className="relative flex place-items-center">

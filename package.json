@@ -28,6 +28,7 @@
     "tailwind-variants": "^0.2.1"
   },
   "devDependencies": {
+    "@types/node": "^20.14.5",
     "autoprefixer": "^10.4.19",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
