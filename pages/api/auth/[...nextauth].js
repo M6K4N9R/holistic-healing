@@ -17,7 +17,7 @@ export const authOptions = {
           type: "email",
           placeholder: "your-email@example.com",
         },
-        password: { label: "Password", type: "password" },
+        password: { label: "Spicy word", type: "password" },
       },
     }),
     GithubProvider({
