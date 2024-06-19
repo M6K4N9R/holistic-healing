@@ -7,7 +7,6 @@ import clientPromise from "@/db/mongodb.js";
 
 export const authOptions = {
   // Configure one or more authentication providers
-  adapter: MongoDBAdapter(clientPromise),
   providers: [
     Credentials({
       name: "",
@@ -17,7 +16,7 @@ export const authOptions = {
           type: "email",
           placeholder: "your-email@example.com",
         },
-        password: { label: "Password", type: "password" },
+        password: { label: "Spicy word", type: "password" },
       },
     }),
     GithubProvider({
@@ -32,8 +31,8 @@ export const authOptions = {
           image: profile.avatar_url,
 
           // You can add any other properties you want to the user object
-          admin: false,
-          preferedColors: ["#dddddd", "#ffffff"],
+          // admin: false,
+          // preferedColors: ["#dddddd", "#ffffff"],
         };
       },
     }),
@@ -50,7 +49,8 @@ export const authOptions = {
     }),
   ],
   debug: true,
-
+  adapter: MongoDBAdapter(clientPromise),
+  
   callbacks: {
     async session({ session, user }) {
       session.user.userId = user.id;

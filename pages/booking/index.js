@@ -2,15 +2,19 @@ import { useState } from "react";
 import React from "react";
 import useSWR from "swr";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
+import MyCalendar from "@/components/Calendar/Calendar";
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
 
   // Tracking the booking process of selection
 
-  let [selectedTreatment, setSelectedTreatment] = useState("");
-  let [selectedDoctor, setSelectedDoctor] = useState("");
-  let [selectedDoctorID, setSelectedDoctorID] = useState("");
+  const [selectedTreatment, setSelectedTreatment] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
+  const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDay, setSelectedDay] = useState("");
 
   // =========================================
 
@@ -23,6 +27,25 @@ export default function BookingTreatmentsList() {
   }
   const { treatmentNames, doctors } = data;
 
+  // ===================== Select the date and Get the day from the date
+
+  const handleSelectDate = (date) => {
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const jsDate = new Date(date.year, date.month - 1, date.day);
+
+    const dayOfWeek = days[jsDate.getDay()];
+    setSelectedDate(date);
+    setSelectedDay(dayOfWeek);
+  };
+
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
@@ -31,8 +54,10 @@ export default function BookingTreatmentsList() {
     const bookingData = {
       treatment: selectedTreatment,
       doctor: selectedDoctor,
-      doctorID: selectedDoctorID,
+      date: selectedDate,
+      day: selectedDay,
     };
+    console.log("Booking data: ", bookingData);
 
     try {
       // Send the treatment data to the server
@@ -59,12 +84,13 @@ export default function BookingTreatmentsList() {
     }
   };
 
-  const handleTreatmentSelect = (name) => {
-    setSelectedTreatment(name);
+  const handleTreatmentSelect = (id) => {
+    setSelectedTreatment(id);
+    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
   };
-  const handleDoctorSelect = (first, last, id) => {
-    setSelectedDoctor(`${first} ${last}`);
-    setSelectedDoctorID(id);
+  const handleDoctorSelect = (id) => {
+    setSelectedDoctor(id);
+    setSelectedDoctorBgColor("bg-primary text-white font-semibold");
   };
   console.log("Selected treatment is: ", selectedTreatment);
   console.log("Selected doctor is: ", selectedDoctor);
@@ -77,12 +103,16 @@ export default function BookingTreatmentsList() {
           {treatmentNames.map((treatment) => (
             <li
               key={treatment._id}
-              className="rounded-lg bg-secondary/20 w-4/6 m-1
-          p-1 text-center"
+              className={`rounded-lg  w-4/6 m-1
+          p-1 cursor-pointer text-center ${
+            treatment._id === selectedTreatment
+              ? selectedTreatmentBgColor
+              : "bg-secondary/20"
+          }`}
             >
               <button
                 type="button"
-                onClick={() => handleTreatmentSelect(treatment.name)}
+                onClick={() => handleTreatmentSelect(treatment._id)}
               >
                 {treatment.name}
               </button>
@@ -90,26 +120,24 @@ export default function BookingTreatmentsList() {
           ))}
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
-        {/* <div className="w-3/4 mx-auto">
-          <MyCalendar />
-        </div> */}
+
+        <MyCalendar onDateChange={handleSelectDate} />
+
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
           {doctors.map((doctor) => (
             <li
               key={doctor._id}
-              className="rounded-lg bg-secondary/20 w-4/6 m-1
-          p-1 text-center"
+              className={`rounded-lg  w-4/6 m-1
+          p-1 text-center ${
+            doctor._id !== selectedDoctor
+              ? "bg-secondary/20"
+              : selectedDoctorBgColor
+          }`}
             >
               <button
                 type="button"
-                onClick={() =>
-                  handleDoctorSelect(
-                    doctor.firstName,
-                    doctor.lastName,
-                    doctor._id
-                  )
-                }
+                onClick={() => handleDoctorSelect(doctor._id)}
               >
                 {doctor.firstName} {doctor.lastName}
               </button>

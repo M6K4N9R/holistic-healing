@@ -7,6 +7,7 @@ export default function AuthButton() {
   if (session) {
     return (
       <>
+        Signed in as {session.user.email} <br />
         <button className={`${btn} ${logout}`} onClick={() => signOut()}>
           Sign out
         </button>
@@ -15,6 +16,7 @@ export default function AuthButton() {
   }
   return (
     <>
+      Not signed in <br />
       <button className={`${btn} ${login}`} onClick={() => signIn()}>
         Sign in
       </button>
