@@ -13,16 +13,13 @@ const inter = Inter({
 const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
-
   //========================= Adding Profile
- 
+
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-20 pb-10 px-5 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
     >
       <UserTopBar />
-      
-
       <HealthChatInvite />
       <div className="relative flex place-items-center">
         <TreatmentsList />

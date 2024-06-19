@@ -4,6 +4,14 @@ import useSWR from "swr";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 import MyCalendar from "@/components/Calendar/Calendar";
 import { useSession } from "next-auth/react";
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  weight: ["400", "700", "900"],
+  style: "normal",
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
@@ -11,7 +19,7 @@ export default function BookingTreatmentsList() {
 
   console.log("User: ", session);
 
-  // Tracking the booking process of selection
+  // ===================== Tracking the booking process of selection
 
   const [selectedTreatment, setSelectedTreatment] = useState("");
   const [selectedDoctor, setSelectedDoctor] = useState("");
@@ -53,7 +61,7 @@ export default function BookingTreatmentsList() {
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
-    // Renaming selected Treatment and Doctor to match Doctor Schema
+    // ================ Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
       treatment: selectedTreatment,
@@ -64,7 +72,7 @@ export default function BookingTreatmentsList() {
     console.log("Booking data: ", bookingData);
 
     try {
-      // Send the treatment data to the server
+      // ====================== Send the treatment data to the server
 
       const response = await fetch("/api/booking", {
         method: "POST",
@@ -100,7 +108,9 @@ export default function BookingTreatmentsList() {
   console.log("Selected doctor is: ", selectedDoctor);
 
   return (
-    <>
+    <main
+      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
+    >
       <form onSubmit={handleBookingSubmit}>
         <h2 className="text-center mt-3 mb-3">Choose the treatment</h2>
         <ul className="p-2 mt-5">
@@ -152,6 +162,6 @@ export default function BookingTreatmentsList() {
           <StyledButton>Book an appointment</StyledButton>
         </div>
       </form>
-    </>
+    </main>
   );
 }

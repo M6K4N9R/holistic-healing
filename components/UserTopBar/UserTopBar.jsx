@@ -1,9 +1,5 @@
 import AuthButton from "../auth-button/AuthButton";
 import { useSession } from "next-auth/react";
-import { profile } from "./Profile.module.css";
-
-import SignIn from "./sign-in";
-import ProfileInfo from "./info";
 
 export default function UserTopBar() {
   const { data: session } = useSession();
@@ -34,6 +30,3 @@ export default function UserTopBar() {
     </section>
   );
 }
-
-// <section className={profile}></section>
-// {session ? <ProfileInfo session={session} /> : <SignIn />}
