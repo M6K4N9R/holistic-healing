@@ -1,18 +1,21 @@
 .appointmentBlock {
   background: linear-gradient(
     45deg,
-    var(--primary-dark) -10%,
+    var(--primary) -10%,
     var(--accent) 30%,
     rgb(242, 255, 129) 50%,
-    var(--accent) 70%,
-    var(--primary-dark) 110%
+    var(--pastel) 70%,
+    var(--primary) 110%
   );
-  padding: 20px 0;
-  text-align: center;
+  padding: 0 0.5rem;
+  text-align: start;
   font-size: 14px;
   color: var(--primary-dark);
-  margin-top: 20px;
+  margin: 0 auto;
   width: 90vw;
-  max-width: 1200px;
-  border-radius: 10px 10px 0 0;
+  max-width: 600px;
+  border-radius: 9px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }

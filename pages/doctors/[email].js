@@ -2,6 +2,10 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import AppointmentBlock from "@/components/AppointmentBlock/AppointmentBlock";
+import { Grechen_Fuemen } from "next/font/google";
+import AuthButton from "@/components/auth-button/AuthButton";
+
+const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function UserPage() {
   const { data: session, status } = useSession();
@@ -24,17 +28,36 @@ export default function UserPage() {
     return;
   }
 
-  // const doctorName = data.map((appointment) => appointment[0].doctor.firstName);
+  console.log("Data is: ", data);
+  // const appointmentName = data.map(
+  //   (appointment) => appointment.treatment[0].name
+  // );
+  // const appointmentDate = data.map((appointment) => appointment.date);
 
-  console.log("appointments are: ", data[1].doctor[0].firstName);
-  // console.log("Doctor name: ", doctorName);
+  // console.log("appointmentDate: ", appointmentDate);
 
   return (
     <>
-      <h3>Welcome back {data[1].doctor[0].firstName}</h3>
-      {/* <div>Here is The List of your appointments for the next two months:</div>
-{data.map()}
-      <AppointmentBlock treatment={}/> */}
+      <div className="flex w-11/12 justify-between items-baseline bg-bright shadow-md rounded-lg p-3 my-3 mx-auto">
+        <h3 className={` ${grechen.className}`}>
+          Welcome back{" "}
+          <span className="text-secondary font-bold">
+            {data[1].doctor[0].firstName}
+          </span>
+        </h3>
+        <AuthButton />
+      </div>
+      <section className="flex flex-col items-start w-11/12 bg-white shadow-md rounded-lg p-3 my-3 mx-auto">
+        <h3>Your treatments are:</h3>
+        {data.map((appointment) => (
+          <div key={appointment._id} className="flex justify-between bg-slate-50 self-center rounded-lg mb-2">
+            <AppointmentBlock
+              treatment={appointment.treatment[0].name}
+              date={`${appointment.date.month} ${appointment.date.day}`}
+            />
+          </div>
+        ))}
+      </section>
     </>
   );
 }
