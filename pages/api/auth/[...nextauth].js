@@ -50,7 +50,7 @@ export const authOptions = {
   ],
   debug: true,
   adapter: MongoDBAdapter(clientPromise),
-  
+
   callbacks: {
     async session({ session, user }) {
       session.user.userId = user.id;
