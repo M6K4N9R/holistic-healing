@@ -1,7 +1,7 @@
 import type { VariantProps } from "tailwind-variants";
 
 import { dataFocusVisibleClasses } from "@nextui-org/react/dist";
-import { tv } from "@/db/utils/tv";
+import { tv } from "@/utils/tv";
 
 const calendar = tv({
   slots: {
