@@ -21,7 +21,10 @@ module.exports = {
         pastel: "#bdbbb6",
         bright: "#e5d1d0",
       },
+      boxShadow: {
+        pastel: "0px 3px 8px var(--pastel)",
+      },
     },
+    plugins: [],
   },
-  plugins: [],
 };

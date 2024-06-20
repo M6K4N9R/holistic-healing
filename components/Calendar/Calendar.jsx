@@ -10,18 +10,21 @@ export default function MyCalendar({ onDateChange, selectedDate, bookedDays }) {
   console.log("In Calendar booked days are: ", bookedDays);
 
   return (
-    <div className="flex justify-center gap-x-4 m-8 rounded-lg bg-white">
-      <Calendar
-        aria-label="Date (Uncontrolled)"
-        // focusedValue={focusedDate}
-        // value={today(getLocalTimeZone())}
-        // onFocusChange={setFocusedDate}
-        onChange={onDateChange}
-        minValue={today(getLocalTimeZone())}
-        mixValue={today(getLocalTimeZone()).add({ days: 56 })}
-        showShadow={true}
-        // isDateUnavailable={isDateUnavailable}
-      />
-    </div>
+    <>
+      <h3 className="text-left">Pick a day</h3>
+      <div className="flex justify-center w-full gap-x-4 mx-auto shadow-pastel rounded-lg bg-white">
+        <Calendar
+          aria-label="Date (Uncontrolled)"
+          // focusedValue={focusedDate}
+          // value={today(getLocalTimeZone())}
+          // onFocusChange={setFocusedDate}
+          onChange={onDateChange}
+          minValue={today(getLocalTimeZone())}
+          mixValue={today(getLocalTimeZone()).add({ days: 56 })}
+          showShadow={true}
+          // isDateUnavailable={isDateUnavailable}
+        />
+      </div>
+    </>
   );
 }

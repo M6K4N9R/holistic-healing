@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
 import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
 import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
+import container from "../../components/Calendar/Calendar.module.css";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -170,34 +171,11 @@ export default function BookingTreatmentsList() {
           selectedTreatmentBgColor={selectedTreatmentBgColor}
           onSelect={handleTreatmentSelect}
         />
-        {/* <h2 className="text-center mt-3 mb-3">Choose the treatment</h2>
-        <ul className="p-2 mt-5">
-          {treatmentNames.map((treatment) => (
-            <li
-              key={treatment._id}
-              className={`rounded-lg  w-4/6 m-1
-          p-1 cursor-pointer text-center ${
-            treatment._id === selectedTreatment
-              ? selectedTreatmentBgColor
-              : "bg-secondary/20"
-          }`}
-            >
-              <button
-                type="button"
-                onClick={() => handleTreatmentSelect(treatment._id)}
-              >
-                {treatment.name}
-              </button>
-            </li>
-          ))}
-        </ul> */}
-        <h2 className="text-center mt-3 mb-3">Pick a date</h2>
-
-        <MyCalendar
-          onDateChange={handleSelectDate}
-          selectedDate={selectedDate}
-          bookedDays={alreadyBookedDays}
-        />
+          <MyCalendar
+            onDateChange={handleSelectDate}
+            selectedDate={selectedDate}
+            bookedDays={alreadyBookedDays}
+          />
 
         <TimeSlots
           doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}

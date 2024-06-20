@@ -48,7 +48,7 @@ export default function TimeSlots({
 
   return (
     <>
-      <h3 className="text-left">Pick a date</h3>
+      <h3 className="text-left">Select time</h3>
 
       <div className={timeSlots}>
         {sortedTimeSlots.map((timeSlot, index) => (
