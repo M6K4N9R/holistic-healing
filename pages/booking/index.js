@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
 import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
 import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
-import container from "../../components/Calendar/Calendar.module.css";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -29,6 +28,8 @@ export default function BookingTreatmentsList() {
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
   const [selectedDate, setSelectedDate] = useState("Not yet selected");
   const [selectedDay, setSelectedDay] = useState("Not yet selected");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState("Not yet selected");
+  const [selectedTimeSlotBgColor, setSelectedTimeSlotBgColor] = useState("");
   const [isDateSelected, setIsDateSelected] = useState(false);
 
   // =========================================
@@ -99,6 +100,13 @@ export default function BookingTreatmentsList() {
     setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
   };
 
+  // ------------------ Select Time Slot
+
+  const handleTimeSlotSelect = (time) => {
+    setSelectedTimeSlot(time);
+    setSelectedTimeSlotBgColor("bg-primary text-white font-semibold");
+    console.log("Click Time", time);
+  };
   // ------------------ Select Doctor
 
   const handleDoctorSelect = (id) => {
@@ -118,8 +126,9 @@ export default function BookingTreatmentsList() {
       doctor: selectedDoctor,
       date: selectedDate,
       day: selectedDay,
+      time: selectedTimeSlot,
     };
-    console.log("Booking data: ", bookingData);
+    // console.log("Booking data: ", bookingData);
 
     try {
       // --------- Send the treatment data to the server
@@ -154,11 +163,13 @@ export default function BookingTreatmentsList() {
     "Date: ",
     selectedDate,
     "DayofWeek: ",
-    selectedDay
+    selectedDay,
+    "Time",
+    selectedTimeSlot
   );
 
-  console.log("Bookings are:", bookings);
-  console.log("Is Date selected? ", isDateSelected);
+  // console.log("Bookings are:", bookings);
+  // console.log("Is Date selected? ", isDateSelected);
 
   return (
     <main
@@ -171,17 +182,18 @@ export default function BookingTreatmentsList() {
           selectedTreatmentBgColor={selectedTreatmentBgColor}
           onSelect={handleTreatmentSelect}
         />
-          <MyCalendar
-            onDateChange={handleSelectDate}
-            selectedDate={selectedDate}
-            bookedDays={alreadyBookedDays}
-          />
+        <MyCalendar
+          onDateChange={handleSelectDate}
+          selectedDate={selectedDate}
+          bookedDays={alreadyBookedDays}
+        />
 
         <TimeSlots
           doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}
           doctorBloodloverTimesAndDays={doctorBloodloverTimesAndDays}
           selectedDate={selectedDate}
           bookedDays={alreadyBookedDays}
+          onSelect={handleTimeSlotSelect}
         />
 
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>

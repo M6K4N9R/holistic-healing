@@ -5,6 +5,7 @@ export default function TimeSlots({
   doctorBloodloverTimesAndDays,
   selectedDate,
   bookedDays,
+  onSelect,
 }) {
   // const dateString = `${date.month} ${date.day}`;
   const healingtouchTimes = doctorHealingtouchTimesAndDays[0].availability;
@@ -54,7 +55,8 @@ export default function TimeSlots({
         {sortedTimeSlots.map((timeSlot, index) => (
           <button
             key={index}
-            className="w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark"
+            className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark"`}
+            onClick={() => onSelect(timeSlot)}
           >
             {timeSlot}
           </button>
@@ -63,3 +65,10 @@ export default function TimeSlots({
     </>
   );
 }
+
+// className={`rounded-lg  w-11/12
+//   px-2 py-1 cursor-pointer text-left  ${
+//     treatment._id === selectedTreatment
+//       ? `${selectedTreatmentBgColor} "text-white"`
+//       : "bg-bright text-dark"
+//   }`}
