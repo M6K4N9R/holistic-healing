@@ -71,10 +71,3 @@ export default function TimeSlots({
     </>
   );
 }
-
-// className={`rounded-lg  w-11/12
-//   px-2 py-1 cursor-pointer text-left  ${
-//     treatment._id === selectedTreatment
-//       ? `${selectedTreatmentBgColor} "text-white"`
-//       : "bg-bright text-dark"
-//   }`}
