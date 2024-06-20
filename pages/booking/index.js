@@ -17,6 +17,18 @@ export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
   const { data: session, status } = useSession();
 
+  // ===================== Tracking the booking process of selection
+
+  const [selectedTreatment, setSelectedTreatment] =
+    useState("Not yet selected");
+  const [selectedDoctor, setSelectedDoctor] = useState("Not yet selected");
+  const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
+  const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
+  const [selectedDate, setSelectedDate] = useState("Not yet selected");
+  const [selectedDay, setSelectedDay] = useState("Not yet selected");
+
+  // =========================================
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -24,33 +36,24 @@ export default function BookingTreatmentsList() {
   if (!data) {
     return;
   }
-  // ===================== Tracking the booking process of selection
-
-  const [selectedTreatment, setSelectedTreatment] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState("");
-  const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
-  const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
-
-  // =========================================
   const {
     treatmentNames,
     doctors,
-    doctorHealingtouchAvailability,
-    doctorBloodloverAvailability,
+    doctorHealingtouchTimeSlots,
+    doctorBloodloverTimeSlots,
+    bookings,
   } = data;
-  console.log("Doctors are: ", doctors);
-  console.log(
-    "Doctor Healingtouch Availability is: ",
-    doctorHealingtouchAvailability
-  );
-  console.log(
-    "Doctor Bloodlover Availability is: ",
-    doctorBloodloverAvailability
-  );
 
-  // ===================== Select the date and Get the day from the date
+  let availableTimeSlots = [];
+  function getAvailableTimeSlots() {
+    availableTimeSlots.push(doctorHealingtouchTimeSlots.availability);
+
+    availableTimeSlots.push(doctorBloodloverTimeSlots.availability);
+  }
+
+  // ===================== HANDLING SELECTION FUNCTIONS
+
+  //----------- Select Date and getting the day of the week
 
   const handleSelectDate = (date) => {
     const days = [
@@ -62,17 +65,37 @@ export default function BookingTreatmentsList() {
       "Friday",
       "Saturday",
     ];
-    const jsDate = new Date(date.year, date.month - 1, date.day);
+    // Convert Calendar date Object inot string
+    const selectedDateString = `${date.year}/${date.month}/${date.day}`;
 
+    // Getting the day of the week
+    const jsDate = new Date(date.year, date.month - 1, date.day);
     const dayOfWeek = days[jsDate.getDay()];
-    setSelectedDate(date);
+    // Updating the state
+    setSelectedDate(selectedDateString);
     setSelectedDay(dayOfWeek);
   };
+
+  // ----------------- Select Treatment
+
+  const handleTreatmentSelect = (id) => {
+    setSelectedTreatment(id);
+    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
+  };
+
+  // ------------------ Select Doctor
+
+  const handleDoctorSelect = (id) => {
+    setSelectedDoctor(id);
+    setSelectedDoctorBgColor("bg-primary text-white font-semibold");
+  };
+
+  // ==================== HANDLING SUBMIT =========================
 
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
-    // ================ Renaming selected Treatment and Doctor to match Doctor Schema
+    // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
       treatment: selectedTreatment,
@@ -83,7 +106,7 @@ export default function BookingTreatmentsList() {
     console.log("Booking data: ", bookingData);
 
     try {
-      // ====================== Send the treatment data to the server
+      // --------- Send the treatment data to the server
 
       const response = await fetch("/api/booking", {
         method: "POST",
@@ -106,16 +129,18 @@ export default function BookingTreatmentsList() {
     }
   };
 
-  const handleTreatmentSelect = (id) => {
-    setSelectedTreatment(id);
-    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
-  };
-  const handleDoctorSelect = (id) => {
-    setSelectedDoctor(id);
-    setSelectedDoctorBgColor("bg-primary text-white font-semibold");
-  };
-  console.log("Selected treatment is: ", selectedTreatment);
-  console.log("Selected doctor is: ", selectedDoctor);
+  console.log(
+    "Selections are: ",
+    "Treatment: ",
+    selectedTreatment,
+    "Doctor: ",
+    selectedDoctor,
+    "Date: ",
+    selectedDate,
+    "DayofWeek: ",
+    selectedDay
+  );
+  
 
   return (
     <main

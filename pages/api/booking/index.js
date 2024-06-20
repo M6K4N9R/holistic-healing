@@ -9,58 +9,66 @@ export default async function handler(request, response) {
   // ============================== GET
 
   if (request.method === "GET") {
-
-    // ------------------ Treatments --------
+    // ------------------ GETTING Treatments --------
     const treatmentNames = await Treatment.find(
       {},
       { name: 1, _id: 1, price: 1, duration: 1 }
     );
+    // ------------------ GETTING Bookings Data to check availability --------
+    const bookings = await Booking.find({}, { treatment: 0 });
 
-    // ------------------- Doctor Names --------
+    // ------------------- GETTING Doctor Names --------
     const doctors = await Doctor.find({}, { firstName: 1, lastName: 1 });
 
-    // ------------------- Doctors Availability ----
-    const doctorHealingtouchAvailability = await Doctor.find(
+    // ------------------- GETTING Doctors Time slots and days ----
+    const doctorHealingtouchTimeSlots = await Doctor.find(
       { lastName: "Healingtouch" },
       { availability: 1, days: 1 }
     );
-    const doctorBloodloverAvailability = await Doctor.find(
+    const doctorBloodloverTimeSlots = await Doctor.find(
       { lastName: "Bloodlover" },
       { availability: 1, days: 1 }
     );
-
-    // Checking TreatmentNames read
+    
+    // ---------------------------------------------------
+    // ------------------ CHECKING TreatmentNames read ---
     if (!treatmentNames || treatmentNames.length === 0) {
       return response.status(404).json({ status: "Treatments not Found" });
     }
 
-    // Checking Doctors read
+    // -------------------- CHECKING Doctors read --------
     if (!doctors || doctors.length === 0) {
       return response.status(404).json({ status: "Doctor Names not Found" });
     }
-    // Checking Doctor Healingtouch Availability  read
+
+    // -------------------- CHECKING Bookings read --------
+    if (!bookings || bookings.length === 0) {
+      return response.status(404).json({ status: "Bookings data not Found" });
+    }
+
+    // ------------------- CHECKING Doctor Healingtouch Time Slots read ------------
     if (
-      !doctorHealingtouchAvailability ||
-      doctorHealingtouchAvailability.length === 0
+      !doctorHealingtouchTimeSlots ||
+      doctorHealingtouchTimeSlots.length === 0
     ) {
       return response
         .status(404)
         .json({ status: "Doctor Healingtouch Availability info not Found" });
     }
-    // Checking Doctor Bloodlover Availability  read
-    if (
-      !doctorBloodloverAvailability ||
-      doctorBloodloverAvailability.length === 0
-    ) {
+    // ----------------- CHECKING Doctor Bloodlover Time Slots read ---------------
+    if (!doctorBloodloverTimeSlots || doctorBloodloverTimeSlots.length === 0) {
       return response
         .status(404)
         .json({ status: "Doctor Bloodlover Availability info not Found" });
     }
 
-    // ======Response
-    response
-      .status(200)
-      .json({ treatmentNames, doctors, doctorHealingtouchAvailability, doctorBloodloverAvailability });
+    // =================== Response
+    response.status(200).json({
+      treatmentNames,
+      doctors,
+      doctorHealingtouchTimeSlots,
+      doctorBloodloverTimeSlots, bookings
+    });
   }
 
   // =============================== POST
