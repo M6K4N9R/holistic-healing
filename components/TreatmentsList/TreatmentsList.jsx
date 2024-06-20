@@ -40,7 +40,7 @@ export default function TreatmentsList() {
                 <div className="bg-primary h-full w-full rounded-md opacity-60 group-hover:opacity-100" />
               </div>
               <div className="absolute bottom-5 left-2 z-30 w-3/5">
-                <h3 className="text-sm text-wrap text-white text-ellipsis whitespace-wrap overflow">
+                <h3 className="text-sm text-white  text-ellipsis whitespace-normal">
                   {treatment.name}
                 </h3>
               </div>
