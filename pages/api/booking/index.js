@@ -21,15 +21,15 @@ export default async function handler(request, response) {
     const doctors = await Doctor.find({}, { firstName: 1, lastName: 1 });
 
     // ------------------- GETTING Doctors Time slots and days ----
-    const doctorHealingtouchTimeSlots = await Doctor.find(
+    const doctorHealingtouchTimesAndDays = await Doctor.find(
       { lastName: "Healingtouch" },
       { availability: 1, days: 1 }
     );
-    const doctorBloodloverTimeSlots = await Doctor.find(
+    const doctorBloodloverTimesAndDays = await Doctor.find(
       { lastName: "Bloodlover" },
       { availability: 1, days: 1 }
     );
-    
+
     // ---------------------------------------------------
     // ------------------ CHECKING TreatmentNames read ---
     if (!treatmentNames || treatmentNames.length === 0) {
@@ -48,15 +48,18 @@ export default async function handler(request, response) {
 
     // ------------------- CHECKING Doctor Healingtouch Time Slots read ------------
     if (
-      !doctorHealingtouchTimeSlots ||
-      doctorHealingtouchTimeSlots.length === 0
+      !doctorHealingtouchTimesAndDays ||
+      doctorHealingtouchTimesAndDays.length === 0
     ) {
       return response
         .status(404)
         .json({ status: "Doctor Healingtouch Availability info not Found" });
     }
     // ----------------- CHECKING Doctor Bloodlover Time Slots read ---------------
-    if (!doctorBloodloverTimeSlots || doctorBloodloverTimeSlots.length === 0) {
+    if (
+      !doctorBloodloverTimesAndDays ||
+      doctorBloodloverTimesAndDays.length === 0
+    ) {
       return response
         .status(404)
         .json({ status: "Doctor Bloodlover Availability info not Found" });
@@ -66,8 +69,9 @@ export default async function handler(request, response) {
     response.status(200).json({
       treatmentNames,
       doctors,
-      doctorHealingtouchTimeSlots,
-      doctorBloodloverTimeSlots, bookings
+      doctorHealingtouchTimesAndDays,
+      doctorBloodloverTimesAndDays,
+      bookings,
     });
   }
 

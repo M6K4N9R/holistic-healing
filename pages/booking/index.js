@@ -5,6 +5,7 @@ import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 import MyCalendar from "@/components/Calendar/Calendar";
 import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
+import TimeSlots from "@/components/TimeSlots/TimeSlots";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -26,6 +27,7 @@ export default function BookingTreatmentsList() {
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
   const [selectedDate, setSelectedDate] = useState("Not yet selected");
   const [selectedDay, setSelectedDay] = useState("Not yet selected");
+  const [isDateSelected, setIsDateSelected] = useState(false);
 
   // =========================================
 
@@ -40,8 +42,8 @@ export default function BookingTreatmentsList() {
   const {
     treatmentNames,
     doctors,
-    doctorHealingtouchTimeSlots,
-    doctorBloodloverTimeSlots,
+    doctorHealingtouchTimesAndDays,
+    doctorBloodloverTimesAndDays,
     bookings,
   } = data;
 
@@ -81,8 +83,10 @@ export default function BookingTreatmentsList() {
     // Getting the day of the week
     const jsDate = new Date(date.year, date.month - 1, date.day);
     const dayOfWeek = days[jsDate.getDay()];
+
     // Updating the state
     setSelectedDate(selectedDateString);
+    setIsDateSelected(true);
     setSelectedDay(dayOfWeek);
   };
 
@@ -150,7 +154,9 @@ export default function BookingTreatmentsList() {
     "DayofWeek: ",
     selectedDay
   );
+
   console.log("Bookings are:", bookings);
+  console.log("Is Date selected? ", isDateSelected);
 
   return (
     <main
@@ -182,6 +188,13 @@ export default function BookingTreatmentsList() {
 
         <MyCalendar
           onDateChange={handleSelectDate}
+          selectedDate={selectedDate}
+          bookedDays={alreadyBookedDays}
+        />
+        
+        <TimeSlots
+          doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}
+          doctorBloodloverTimesAndDays={doctorBloodloverTimesAndDays}
           selectedDate={selectedDate}
           bookedDays={alreadyBookedDays}
         />
