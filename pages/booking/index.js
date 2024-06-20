@@ -36,6 +36,7 @@ export default function BookingTreatmentsList() {
   if (!data) {
     return;
   }
+  // ==================== Fetched data is: ============
   const {
     treatmentNames,
     doctors,
@@ -140,7 +141,7 @@ export default function BookingTreatmentsList() {
     "DayofWeek: ",
     selectedDay
   );
-  
+  console.log("Bookings are:", bookings);
 
   return (
     <main
@@ -170,7 +171,7 @@ export default function BookingTreatmentsList() {
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
 
-        <MyCalendar onDateChange={handleSelectDate} />
+        <MyCalendar onDateChange={handleSelectDate} selectedDate={selectedDate}/>
 
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">

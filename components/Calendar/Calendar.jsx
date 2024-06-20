@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Calendar } from "@nextui-org/calendar";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
-export default function MyCalendar({ onDateChange }) {
-  let defaultDate = today(getLocalTimeZone());
+export default function MyCalendar({ onDateChange, selectedDate }) {
+  // let today = today(getLocalTimeZone());
   // let [focusedDate, setFocusedDate] = useState(defaultDate);
 
   return (
@@ -11,10 +11,10 @@ export default function MyCalendar({ onDateChange }) {
       <Calendar
         aria-label="Date (Uncontrolled)"
         // focusedValue={focusedDate}
-        // value={defaultDate}
+        // value={today(getLocalTimeZone())}
         // onFocusChange={setFocusedDate}
         onChange={onDateChange}
-        minValue={today(getLocalTimeZone()).add({ days: 1 })}
+        minValue={today(getLocalTimeZone())}
         mixValue={today(getLocalTimeZone()).add({ days: 56 })}
       />
     </div>
