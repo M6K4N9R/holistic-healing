@@ -5,6 +5,8 @@ export default function TimeSlots({
   doctorBloodloverTimesAndDays,
   selectedDate,
   bookedDays,
+  selectedTime,
+  selectedTimeBgColor,
   onSelect,
 }) {
   // const dateString = `${date.month} ${date.day}`;
@@ -55,7 +57,11 @@ export default function TimeSlots({
         {sortedTimeSlots.map((timeSlot, index) => (
           <button
             key={index}
-            className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark"`}
+            className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
+              timeSlot === selectedTime
+                ? `${selectedTimeBgColor} "text-white"`
+                : "bg-bright text-dark"
+            }`}
             onClick={() => onSelect(timeSlot)}
           >
             {timeSlot}

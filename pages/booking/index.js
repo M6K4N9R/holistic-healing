@@ -192,6 +192,8 @@ export default function BookingTreatmentsList() {
           doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}
           doctorBloodloverTimesAndDays={doctorBloodloverTimesAndDays}
           selectedDate={selectedDate}
+          selectedTime={selectedTimeSlot}
+          selectedTimeBgColor={selectedTimeSlotBgColor}
           bookedDays={alreadyBookedDays}
           onSelect={handleTimeSlotSelect}
         />
