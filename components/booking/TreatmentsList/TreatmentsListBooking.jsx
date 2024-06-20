@@ -4,26 +4,26 @@ export default function TreatmentsListBooking({
   treatmentNames,
   selectedTreatment,
   selectedTreatmentBgColor,
-  onClick,
+  onSelect,
 }) {
   return (
     <>
       <h3 className="text-left">Choose the treatment</h3>
       <ul className={treatmentsListBooking}>
         {treatmentNames.map((treatment) => (
-          <li
-            key={treatment._id}
+          <button
             className={`rounded-lg  w-11/12
-          p-1 cursor-pointer text-left text-dark ${
-            treatment._id === selectedTreatment
-              ? selectedTreatmentBgColor
-              : "bg-bright"
-          }`}
+            px-2 py-1 cursor-pointer text-left  ${
+              treatment._id === selectedTreatment
+                ? `${selectedTreatmentBgColor} "text-white"`
+                : "bg-bright text-dark"
+            }`}
+            key={treatment._id}
+            type="button"
+            onClick={() => onSelect(treatment._id)}
           >
-            <button type="button" onClick={onClick}>
-              {treatment.name}
-            </button>
-          </li>
+            {treatment.name}
+          </button>
         ))}
       </ul>
     </>

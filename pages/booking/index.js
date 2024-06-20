@@ -164,7 +164,12 @@ export default function BookingTreatmentsList() {
       className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
     >
       <form onSubmit={handleBookingSubmit}>
-        <TreatmentsListBooking treatmentNames={treatmentNames} selectedTreatment={selectedTreatment} selectedTreatmentBgColor={selectedTreatmentBgColor} onClick={() => handleTreatmentSelect(treatment._id)} />
+        <TreatmentsListBooking
+          treatmentNames={treatmentNames}
+          selectedTreatment={selectedTreatment}
+          selectedTreatmentBgColor={selectedTreatmentBgColor}
+          onSelect={handleTreatmentSelect}
+        />
         {/* <h2 className="text-center mt-3 mb-3">Choose the treatment</h2>
         <ul className="p-2 mt-5">
           {treatmentNames.map((treatment) => (
