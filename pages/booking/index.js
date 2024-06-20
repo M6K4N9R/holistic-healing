@@ -5,7 +5,8 @@ import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 import MyCalendar from "@/components/Calendar/Calendar";
 import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
-import TimeSlots from "@/components/TimeSlots/TimeSlots";
+import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
+import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -163,7 +164,8 @@ export default function BookingTreatmentsList() {
       className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
     >
       <form onSubmit={handleBookingSubmit}>
-        <h2 className="text-center mt-3 mb-3">Choose the treatment</h2>
+        <TreatmentsListBooking treatmentNames={treatmentNames} selectedTreatment={selectedTreatment} selectedTreatmentBgColor={selectedTreatmentBgColor} onClick={() => handleTreatmentSelect(treatment._id)} />
+        {/* <h2 className="text-center mt-3 mb-3">Choose the treatment</h2>
         <ul className="p-2 mt-5">
           {treatmentNames.map((treatment) => (
             <li
@@ -183,7 +185,7 @@ export default function BookingTreatmentsList() {
               </button>
             </li>
           ))}
-        </ul>
+        </ul> */}
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
 
         <MyCalendar
@@ -191,7 +193,7 @@ export default function BookingTreatmentsList() {
           selectedDate={selectedDate}
           bookedDays={alreadyBookedDays}
         />
-        
+
         <TimeSlots
           doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}
           doctorBloodloverTimesAndDays={doctorBloodloverTimesAndDays}
