@@ -17,8 +17,13 @@ export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
   const { data: session, status } = useSession();
 
-  console.log("User: ", session);
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
+  if (!data) {
+    return;
+  }
   // ===================== Tracking the booking process of selection
 
   const [selectedTreatment, setSelectedTreatment] = useState("");
@@ -29,15 +34,21 @@ export default function BookingTreatmentsList() {
   const [selectedDay, setSelectedDay] = useState("");
 
   // =========================================
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!data) {
-    return;
-  }
-  const { treatmentNames, doctors } = data;
+  const {
+    treatmentNames,
+    doctors,
+    doctorHealingtouchAvailability,
+    doctorBloodloverAvailability,
+  } = data;
+  console.log("Doctors are: ", doctors);
+  console.log(
+    "Doctor Healingtouch Availability is: ",
+    doctorHealingtouchAvailability
+  );
+  console.log(
+    "Doctor Bloodlover Availability is: ",
+    doctorBloodloverAvailability
+  );
 
   // ===================== Select the date and Get the day from the date
 
@@ -87,7 +98,6 @@ export default function BookingTreatmentsList() {
           "Treatment booked successfully. The response is: ",
           bookingData
         );
-        // mutate();
       } else {
         console.error("Failed to book treatment");
       }

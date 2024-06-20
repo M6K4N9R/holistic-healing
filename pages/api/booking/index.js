@@ -9,8 +9,25 @@ export default async function handler(request, response) {
   // ============================== GET
 
   if (request.method === "GET") {
-    const treatmentNames = await Treatment.find({}, { name: 1, _id: 1 });
-    const doctors = await Doctor.find();
+
+    // ------------------ Treatments --------
+    const treatmentNames = await Treatment.find(
+      {},
+      { name: 1, _id: 1, price: 1, duration: 1 }
+    );
+
+    // ------------------- Doctor Names --------
+    const doctors = await Doctor.find({}, { firstName: 1, lastName: 1 });
+
+    // ------------------- Doctors Availability ----
+    const doctorHealingtouchAvailability = await Doctor.find(
+      { lastName: "Healingtouch" },
+      { availability: 1, days: 1 }
+    );
+    const doctorBloodloverAvailability = await Doctor.find(
+      { lastName: "Bloodlover" },
+      { availability: 1, days: 1 }
+    );
 
     // Checking TreatmentNames read
     if (!treatmentNames || treatmentNames.length === 0) {
@@ -19,11 +36,31 @@ export default async function handler(request, response) {
 
     // Checking Doctors read
     if (!doctors || doctors.length === 0) {
-      return response.status(404).json({ status: "Doctors not Found" });
+      return response.status(404).json({ status: "Doctor Names not Found" });
+    }
+    // Checking Doctor Healingtouch Availability  read
+    if (
+      !doctorHealingtouchAvailability ||
+      doctorHealingtouchAvailability.length === 0
+    ) {
+      return response
+        .status(404)
+        .json({ status: "Doctor Healingtouch Availability info not Found" });
+    }
+    // Checking Doctor Bloodlover Availability  read
+    if (
+      !doctorBloodloverAvailability ||
+      doctorBloodloverAvailability.length === 0
+    ) {
+      return response
+        .status(404)
+        .json({ status: "Doctor Bloodlover Availability info not Found" });
     }
 
     // ======Response
-    response.status(200).json({ treatmentNames, doctors });
+    response
+      .status(200)
+      .json({ treatmentNames, doctors, doctorHealingtouchAvailability, doctorBloodloverAvailability });
   }
 
   // =============================== POST
