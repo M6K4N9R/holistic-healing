@@ -45,12 +45,20 @@ export default function BookingTreatmentsList() {
     bookings,
   } = data;
 
+  // ===================== Destructured variables from data
+
+  // ---------- Available Time Slots
+
   let availableTimeSlots = [];
   function getAvailableTimeSlots() {
     availableTimeSlots.push(doctorHealingtouchTimeSlots.availability);
 
     availableTimeSlots.push(doctorBloodloverTimeSlots.availability);
   }
+
+  // ------ Booking dates
+
+  const alreadyBookedDays = bookings.map((booking) => booking.date);
 
   // ===================== HANDLING SELECTION FUNCTIONS
 
@@ -66,7 +74,8 @@ export default function BookingTreatmentsList() {
       "Friday",
       "Saturday",
     ];
-    // Convert Calendar date Object inot string
+
+    // Convert Calendar date Object into a string
     const selectedDateString = `${date.year}/${date.month}/${date.day}`;
 
     // Getting the day of the week
@@ -171,7 +180,11 @@ export default function BookingTreatmentsList() {
         </ul>
         <h2 className="text-center mt-3 mb-3">Pick a date</h2>
 
-        <MyCalendar onDateChange={handleSelectDate} selectedDate={selectedDate}/>
+        <MyCalendar
+          onDateChange={handleSelectDate}
+          selectedDate={selectedDate}
+          bookedDays={alreadyBookedDays}
+        />
 
         <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
         <ul className="p-2 mt-5">
