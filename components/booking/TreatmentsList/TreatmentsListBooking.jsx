@@ -1,21 +1,26 @@
 import { treatmentsListBooking } from "./TreatmentsListBooking.module.css";
-
+import { btn } from "./TreatmentsListBooking.module.css";
 export default function TreatmentsListBooking({
   treatmentNames,
   selectedTreatment,
-  selectedTreatmentBgColor,
   onSelect,
+  onClear,
 }) {
   return (
     <>
-      <h3 className="text-left">Choose the treatment</h3>
+      <div className="flex justify-between items-center">
+        <h3>Choose the treatment</h3>
+        <button className={btn} onClick={() => onClear()}>
+          clear
+        </button>
+      </div>
       <ul className={treatmentsListBooking}>
         {treatmentNames.map((treatment) => (
           <button
             className={`rounded-lg  w-11/12
             px-2 py-1 cursor-pointer text-left  ${
-              treatment._id === selectedTreatment
-                ? `${selectedTreatmentBgColor} "text-white"`
+              treatment._id === selectedTreatment.id
+                ? "bg-primary text-white font-semibold"
                 : "bg-bright text-dark"
             }`}
             key={treatment._id}

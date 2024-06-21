@@ -21,16 +21,15 @@ export default function BookingTreatmentsList() {
 
   // ===================== Tracking the booking process of selection
 
-  const [selectedTreatment, setSelectedTreatment] =
-    useState("Not yet selected");
+  const [selectedTreatment, setSelectedTreatment] = useState();
   const [selectedDoctor, setSelectedDoctor] = useState("Not yet selected");
-  const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
   const [selectedDate, setSelectedDate] = useState("Not yet selected");
   const [selectedDay, setSelectedDay] = useState("Not yet selected");
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("Not yet selected");
   const [selectedTimeSlotBgColor, setSelectedTimeSlotBgColor] = useState("");
   const [isDateSelected, setIsDateSelected] = useState(false);
+  const [isTreatmentSelected, setIsTreatmentSelected] = useState(false);
 
   // =========================================
 
@@ -65,7 +64,20 @@ export default function BookingTreatmentsList() {
 
   const alreadyBookedDays = bookings.map((booking) => booking.date);
 
-  // ===================== HANDLING SELECTION FUNCTIONS
+  // ===================== HANDLING SELECTION and CLEARING SELECTION FUNCTIONS
+
+  // ----------------- Select/Clear Treatment
+
+  const handleTreatmentSelect = (id) => {
+    setSelectedTreatment((prevTreatment) => ({
+      ...prevTreatment,
+      id: id,
+      isSelected: true,
+    }));
+  };
+  const handleTreatmentClear = () => {
+    setSelectedTreatment({});
+  };
 
   //----------- Select Date and getting the day of the week
 
@@ -91,13 +103,6 @@ export default function BookingTreatmentsList() {
     setSelectedDate(selectedDateString);
     setIsDateSelected(true);
     setSelectedDay(dayOfWeek);
-  };
-
-  // ----------------- Select Treatment
-
-  const handleTreatmentSelect = (id) => {
-    setSelectedTreatment(id);
-    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
   };
 
   // ------------------ Select Time Slot
@@ -168,8 +173,11 @@ export default function BookingTreatmentsList() {
     selectedTimeSlot
   );
 
+  console.log("Booking data: ", bookings);
+
   // console.log("Bookings are:", bookings);
-  // console.log("Is Date selected? ", isDateSelected);
+  console.log("Is Treatment selected?:", isTreatmentSelected);
+  console.log("Is Date selected? ", isDateSelected);
 
   return (
     <main
@@ -179,8 +187,8 @@ export default function BookingTreatmentsList() {
         <TreatmentsListBooking
           treatmentNames={treatmentNames}
           selectedTreatment={selectedTreatment}
-          selectedTreatmentBgColor={selectedTreatmentBgColor}
           onSelect={handleTreatmentSelect}
+          onClear={handleTreatmentClear}
         />
         <MyCalendar
           onDateChange={handleSelectDate}

@@ -42,12 +42,12 @@ export default function TimeSlots({
     }
   });
 
-  console.log(
-    "In Time Slots alltimesSlots: ",
-    allTimeSlots,
-    "Sorted time slots: ",
-    sortedTimeSlots
-  );
+  // console.log(
+  //   "In Time Slots alltimesSlots: ",
+  //   allTimeSlots,
+  //   "Sorted time slots: ",
+  //   sortedTimeSlots
+  // );
 
   return (
     <>
