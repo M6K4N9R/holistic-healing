@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import useSWR from "swr";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
@@ -25,9 +25,24 @@ export default function BookingTreatmentsList() {
   const [selectedDoctor, setSelectedDoctor] = useState("Not yet selected");
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
   const [selectedDate, setSelectedDate] = useState();
-
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
 
+  //--------------------------------- UseEffect Hocks for UPDATED STATES
+
+  useEffect(() => {
+    // Mapping through existing bookings collection to find treatments === selectedTreatment
+    if (data && selectedTreatment?.isSelected === true) {
+      const excistingBookingsWithSelectedTreatment = data.bookings.filter(
+        (booking) => booking.treatment[0]._id === selectedTreatment.id
+      );
+      console.log(
+        "Selected Treatment is: ",
+        selectedTreatment,
+        "excistingBookingsWithSelectedTreatment: ",
+        excistingBookingsWithSelectedTreatment
+      );
+    }
+  }, [selectedTreatment, data]);
   // =========================================
 
   if (isLoading) {
@@ -72,6 +87,22 @@ export default function BookingTreatmentsList() {
       isSelected: true,
     }));
   };
+
+  /* 
+  ----------------- Filtering timeSlots options based on selected Treatment
+  
+  const excistingBookingsWithSelectedTreatment = [{}] // 1. Go through bookings and return bookings who's booking.treatment === selectedtreatment
+  const excistingBookingsWithSelectedDate = excistingBookingsWithSelectedTreatment.map((booking)=> booking.date.date.includes(selectedDate.date)) // 2. 
+  const timeSlotIsAlreadyBookedBooking = excistingBookingsWithSelectedDate.map((booking) => booking.time === selectedTimeSlot)
+  const doctorOfMatchedTreatment = timeSlotIsAlreadyBookedBooking.doctor
+  const otherDoctorsWhoCanDoThisTreatment = doctors.map((doctor) => doctor.availability.includes(selectedTimeSlot))
+  const doctorsThatAreNotBookedOnThisDayAndTime = bookings.map((booking) => )
+    if (timeSlotIsAlreadyBooked?.length > 0 && ) {
+      
+    }
+    
+
+*/
   const handleTreatmentClear = () => {
     setSelectedTreatment();
   };
@@ -113,7 +144,7 @@ export default function BookingTreatmentsList() {
       isSelected: true,
     }));
 
-    console.log("Click Time", time);
+    // console.log("Click Time", time);
   };
 
   const handleTimeSlotClear = () => {
@@ -140,7 +171,7 @@ export default function BookingTreatmentsList() {
       time: selectedTimeSlot?.timeSlot,
     };
 
-    console.log("Booking data to send to Backend: ", bookingData);
+    // console.log("Booking data to send to Backend: ", bookingData);
 
     try {
       // --------- Send the treatment data to the server
@@ -166,19 +197,19 @@ export default function BookingTreatmentsList() {
     }
   };
 
-  console.log(
-    "Selections are: ",
-    "Treatment: ",
-    selectedTreatment,
-    "Date: ",
-    selectedDate,
-    "Time",
-    selectedTimeSlot,
-    "Doctor: ",
-    selectedDoctor
-  );
+  // console.log(
+  //   "Selections are: ",
+  //   "Treatment: ",
+  //   selectedTreatment,
+  //   "Date: ",
+  //   selectedDate,
+  //   "Time",
+  //   selectedTimeSlot,
+  //   "Doctor: ",
+  //   selectedDoctor
+  // );
 
-  // console.log("Booking data: ", bookings);
+  console.log("Booking data: ", bookings);
 
   return (
     <main

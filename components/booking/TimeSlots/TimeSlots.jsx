@@ -10,13 +10,14 @@ export default function TimeSlots({
 
   onSelect,
 }) {
-  console.log(
-    "In timeSlots:",
-    "selectedTreatment:",
-    selectedTreatment,
-    "selectedDate:",
-    selectedDate
-  );
+  // console.log(
+  //   "In timeSlots:",
+  //   "selectedTreatment:",
+  //   selectedTreatment,
+  //   "selectedDate:",
+  //   selectedDate
+  // );
+
   if (selectedTreatment === undefined || selectedDate === undefined) {
     return (
       <div className="px-2 py-1 mt-8 text-center align-middle shadow-pastel rounded-lg bg-bright text-dark">
@@ -24,6 +25,12 @@ export default function TimeSlots({
       </div>
     );
   }
+  
+
+// Go
+ // If doctors.treatments.includes(selectedtreatment.id) {
+ // and if doctors.days.includes(selectedDate.day) and doctors.availability}
+  // If selectedTimeslot?.timeSlot
 
   // ---------------- Doctors Time Slots
   const healingtouchTimes = doctorHealingtouchTimesAndDays[0].availability;
@@ -60,12 +67,12 @@ export default function TimeSlots({
   });
   // ------------------------------------ END OF SORTING SIME SLOTS
 
-  console.log(
-    "In Time Slots alltimesSlots: ",
-    allTimeSlots,
-    "Sorted time slots: ",
-    sortedTimeSlots
-  );
+  // console.log(
+  //   "In Time Slots alltimesSlots: ",
+  //   allTimeSlots,
+  //   "Sorted time slots: ",
+  //   sortedTimeSlots
+  // );
 
   return (
     <>
