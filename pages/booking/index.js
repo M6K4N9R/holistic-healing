@@ -74,7 +74,7 @@ export default function BookingTreatmentsList() {
     }));
   };
   const handleTreatmentClear = () => {
-    setSelectedTreatment({});
+    setSelectedTreatment();
   };
 
   //----------- Select/Clear Date and getting the day of the week
@@ -167,7 +167,7 @@ export default function BookingTreatmentsList() {
     "Time",
     selectedTimeSlot,
     "Doctor: ",
-    selectedDoctor,
+    selectedDoctor
   );
 
   console.log("Booking data: ", bookings);
@@ -193,6 +193,7 @@ export default function BookingTreatmentsList() {
         <TimeSlots
           doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}
           doctorBloodloverTimesAndDays={doctorBloodloverTimesAndDays}
+          selectedTreatment={selectedTreatment}
           selectedDate={selectedDate}
           selectedTime={selectedTimeSlot}
           selectedTimeBgColor={selectedTimeSlotBgColor}

@@ -3,16 +3,37 @@ import { timeSlots } from "./TimeSlots.module.css";
 export default function TimeSlots({
   doctorHealingtouchTimesAndDays,
   doctorBloodloverTimesAndDays,
+  selectedTreatment,
   selectedDate,
   bookedDays,
   selectedTime,
   selectedTimeBgColor,
   onSelect,
 }) {
-  // const dateString = `${date.month} ${date.day}`;
+  console.log(
+    "In timeSlots:",
+    "selectedTreatment:",
+    selectedTreatment,
+    "selectedDate:",
+    selectedDate
+  );
+  if (
+    selectedTreatment === undefined ||
+    (selectedTreatment === undefined && selectedDate === undefined) ||
+    selectedDate === null
+  ) {
+    return (
+      <div className="px-2 py-1 mt-8 text-center align-middle shadow-pastel rounded-lg bg-bright text-dark">
+        <p>Please choose a treatment and date first.</p>
+      </div>
+    );
+  }
+
+  // ---------------- Doctors Time Slots
   const healingtouchTimes = doctorHealingtouchTimesAndDays[0].availability;
   const bloodloverTimes = doctorBloodloverTimesAndDays[0].availability;
 
+  // ---------------- Converting timeSlots into a single array without repeating timeSlots
   const allTimeSlots = [...healingtouchTimes, ...bloodloverTimes];
 
   const availableTimeSlots = allTimeSlots.filter((timeSlot, index, self) => {
@@ -41,6 +62,7 @@ export default function TimeSlots({
       return aStartTime - bStartTime; // Sort by start time
     }
   });
+  // ------------------------------------ END OF SORTING SIME SLOTS
 
   // console.log(
   //   "In Time Slots alltimesSlots: ",
