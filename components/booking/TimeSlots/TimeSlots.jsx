@@ -17,11 +17,7 @@ export default function TimeSlots({
     "selectedDate:",
     selectedDate
   );
-  if (
-    selectedTreatment === undefined ||
-    (selectedTreatment === undefined && selectedDate === undefined) ||
-    selectedDate === null
-  ) {
+  if (selectedTreatment === undefined || selectedDate === undefined) {
     return (
       <div className="px-2 py-1 mt-8 text-center align-middle shadow-pastel rounded-lg bg-bright text-dark">
         <p>Please choose a treatment and date first.</p>
