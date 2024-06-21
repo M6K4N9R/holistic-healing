@@ -7,7 +7,7 @@ export default function TimeSlots({
   selectedDate,
   bookedDays,
   selectedTime,
-  selectedTimeBgColor,
+
   onSelect,
 }) {
   console.log(
@@ -60,12 +60,12 @@ export default function TimeSlots({
   });
   // ------------------------------------ END OF SORTING SIME SLOTS
 
-  // console.log(
-  //   "In Time Slots alltimesSlots: ",
-  //   allTimeSlots,
-  //   "Sorted time slots: ",
-  //   sortedTimeSlots
-  // );
+  console.log(
+    "In Time Slots alltimesSlots: ",
+    allTimeSlots,
+    "Sorted time slots: ",
+    sortedTimeSlots
+  );
 
   return (
     <>
@@ -76,8 +76,8 @@ export default function TimeSlots({
           <button
             key={index}
             className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
-              timeSlot === selectedTime
-                ? `${selectedTimeBgColor} "text-white"`
+              timeSlot === selectedTime?.timeSlot
+                ? "bg-primary text-white font-semibold"
                 : "bg-bright text-dark"
             }`}
             onClick={() => onSelect(timeSlot)}

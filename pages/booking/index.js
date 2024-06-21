@@ -26,8 +26,7 @@ export default function BookingTreatmentsList() {
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
   const [selectedDate, setSelectedDate] = useState();
 
-  const [selectedTimeSlot, setSelectedTimeSlot] = useState("Not yet selected");
-  const [selectedTimeSlotBgColor, setSelectedTimeSlotBgColor] = useState("");
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState();
 
   // =========================================
 
@@ -108,9 +107,17 @@ export default function BookingTreatmentsList() {
   // ------------------ Select Time Slot
 
   const handleTimeSlotSelect = (time) => {
-    setSelectedTimeSlot(time);
-    setSelectedTimeSlotBgColor("bg-primary text-white font-semibold");
+    setSelectedTimeSlot((prevTimeSlot) => ({
+      ...prevTimeSlot,
+      timeSlot: time,
+      isSelected: true,
+    }));
+
     console.log("Click Time", time);
+  };
+
+  const handleTimeSlotClear = () => {
+    setSelectedTimeSlot();
   };
   // ------------------ Select Doctor
 
@@ -127,10 +134,10 @@ export default function BookingTreatmentsList() {
     // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
-      treatment: selectedTreatment.id,
+      treatment: selectedTreatment?.id,
       doctor: selectedDoctor,
       date: selectedDate,
-      time: selectedTimeSlot,
+      time: selectedTimeSlot?.timeSlot,
     };
 
     console.log("Booking data to send to Backend: ", bookingData);
@@ -197,7 +204,6 @@ export default function BookingTreatmentsList() {
           selectedTreatment={selectedTreatment}
           selectedDate={selectedDate}
           selectedTime={selectedTimeSlot}
-          selectedTimeBgColor={selectedTimeSlotBgColor}
           bookedDays={alreadyBookedDays}
           onSelect={handleTimeSlotSelect}
         />
