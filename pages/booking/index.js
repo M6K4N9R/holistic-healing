@@ -24,12 +24,10 @@ export default function BookingTreatmentsList() {
   const [selectedTreatment, setSelectedTreatment] = useState();
   const [selectedDoctor, setSelectedDoctor] = useState("Not yet selected");
   const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
-  const [selectedDate, setSelectedDate] = useState("Not yet selected");
-  const [selectedDay, setSelectedDay] = useState("Not yet selected");
+  const [selectedDate, setSelectedDate] = useState();
+
   const [selectedTimeSlot, setSelectedTimeSlot] = useState("Not yet selected");
   const [selectedTimeSlotBgColor, setSelectedTimeSlotBgColor] = useState("");
-  const [isDateSelected, setIsDateSelected] = useState(false);
-  const [isTreatmentSelected, setIsTreatmentSelected] = useState(false);
 
   // =========================================
 
@@ -79,7 +77,7 @@ export default function BookingTreatmentsList() {
     setSelectedTreatment({});
   };
 
-  //----------- Select Date and getting the day of the week
+  //----------- Select/Clear Date and getting the day of the week
 
   const handleSelectDate = (date) => {
     const days = [
@@ -100,9 +98,11 @@ export default function BookingTreatmentsList() {
     const dayOfWeek = days[jsDate.getDay()];
 
     // Updating the state
-    setSelectedDate(selectedDateString);
-    setIsDateSelected(true);
-    setSelectedDay(dayOfWeek);
+    setSelectedDate((prevDate) => ({
+      ...prevDate,
+      date: selectedDateString,
+      day: dayOfWeek,
+    }));
   };
 
   // ------------------ Select Time Slot
@@ -130,7 +130,6 @@ export default function BookingTreatmentsList() {
       treatment: selectedTreatment,
       doctor: selectedDoctor,
       date: selectedDate,
-      day: selectedDay,
       time: selectedTimeSlot,
     };
     // console.log("Booking data: ", bookingData);
@@ -163,21 +162,15 @@ export default function BookingTreatmentsList() {
     "Selections are: ",
     "Treatment: ",
     selectedTreatment,
-    "Doctor: ",
-    selectedDoctor,
     "Date: ",
     selectedDate,
-    "DayofWeek: ",
-    selectedDay,
     "Time",
-    selectedTimeSlot
+    selectedTimeSlot,
+    "Doctor: ",
+    selectedDoctor,
   );
 
   console.log("Booking data: ", bookings);
-
-  // console.log("Bookings are:", bookings);
-  console.log("Is Treatment selected?:", isTreatmentSelected);
-  console.log("Is Date selected? ", isDateSelected);
 
   return (
     <main
@@ -193,6 +186,7 @@ export default function BookingTreatmentsList() {
         <MyCalendar
           onDateChange={handleSelectDate}
           selectedDate={selectedDate}
+          selectedTreatment={selectedTreatment}
           bookedDays={alreadyBookedDays}
         />
 

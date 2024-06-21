@@ -19,7 +19,7 @@ export default function TreatmentsListBooking({
           <button
             className={`rounded-lg  w-11/12
             px-2 py-1 cursor-pointer text-left  ${
-              treatment._id === selectedTreatment.id
+              treatment._id === selectedTreatment?.id
                 ? "bg-primary text-white font-semibold"
                 : "bg-bright text-dark"
             }`}
