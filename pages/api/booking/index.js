@@ -15,7 +15,11 @@ export default async function handler(request, response) {
       { name: 1, _id: 1, price: 1, duration: 1 }
     );
     // ------------------ GETTING Bookings Data to check availability --------
-    const bookings = await Booking.find();
+    const bookings = await Booking.find().populate({
+      path: 'doctor',
+      select: 'availability days'
+    })
+    .populate('treatment');
 
     // ------------------- GETTING Doctor Names --------
     const doctors = await Doctor.find({}, { firstName: 1, lastName: 1 });
