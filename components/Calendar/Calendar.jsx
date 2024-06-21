@@ -5,9 +5,6 @@ export default function MyCalendar({ onDateChange, selectedDate, selectedTreatme
   // let today = today(getLocalTimeZone());
   // let [focusedDate, setFocusedDate] = useState(defaultDate);
 
-  console.log("In Calendar selected date is: ", selectedDate);
-  console.log("In Calendar booked days are: ", bookedDays);
-
   return (
     <>
       <h3 className="text-left">Pick a day</h3>

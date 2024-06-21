@@ -127,12 +127,13 @@ export default function BookingTreatmentsList() {
     // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
-      treatment: selectedTreatment,
+      treatment: selectedTreatment.id,
       doctor: selectedDoctor,
       date: selectedDate,
       time: selectedTimeSlot,
     };
-    // console.log("Booking data: ", bookingData);
+
+    console.log("Booking data to send to Backend: ", bookingData);
 
     try {
       // --------- Send the treatment data to the server
@@ -170,7 +171,7 @@ export default function BookingTreatmentsList() {
     selectedDoctor
   );
 
-  console.log("Booking data: ", bookings);
+  // console.log("Booking data: ", bookings);
 
   return (
     <main
