@@ -1,32 +1,32 @@
-import { treatmentsListBooking, btn } from "./TreatmentsListBooking.module.css";
-export default function TreatmentsListBooking({
-  treatmentNames,
-  selectedTreatment,
+import { chooseDoctor, btn } from "./ChooseDoctor.module.css";
+export default function ChooseDoctor({
+  doctors,
+  selectedDoctor,
   onSelect,
   onClear,
 }) {
   return (
     <>
       <div className="flex justify-between items-center">
-        <h3>Choose the treatment</h3>
+        <h3>Choose doctor</h3>
         <button className={btn} onClick={() => onClear()}>
           clear
         </button>
       </div>
-      <ul className={treatmentsListBooking}>
-        {treatmentNames.map((treatment) => (
+      <ul className={chooseDoctor}>
+        {doctors.map((doctor) => (
           <button
             className={`rounded-lg  w-11/12
             px-2 py-1 cursor-pointer text-left  ${
-              treatment._id === selectedTreatment?.id
+              doctor._id === selectedDoctor?.id
                 ? "bg-primary text-white font-semibold"
                 : "bg-bright text-dark"
             }`}
-            key={treatment._id}
+            key={doctor._id}
             type="button"
-            onClick={() => onSelect(treatment._id)}
+            onClick={() => onSelect(doctor._id)}
           >
-            {treatment.name}
+            {doctor.firstName} {doctor.lastName}
           </button>
         ))}
       </ul>

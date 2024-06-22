@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
 import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
 import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
+import ChooseDoctor from "@/components/booking/ChooseDoctor/ChooseDoctor";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -22,8 +23,7 @@ export default function BookingTreatmentsList() {
   // ===================== Tracking the booking process of selection
 
   const [selectedTreatment, setSelectedTreatment] = useState();
-  const [selectedDoctor, setSelectedDoctor] = useState("Not yet selected");
-  const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
 
@@ -153,8 +153,15 @@ export default function BookingTreatmentsList() {
   // ------------------ Select Doctor
 
   const handleDoctorSelect = (id) => {
-    setSelectedDoctor(id);
-    setSelectedDoctorBgColor("bg-primary text-white font-semibold");
+    setSelectedDoctor((prevDoctor) => ({
+      ...prevDoctor,
+      id: id,
+      isSelected: true,
+    }));
+  };
+
+  const handleDoctorClear = () => {
+    setSelectedDoctor();
   };
 
   // ==================== HANDLING SUBMIT =========================
@@ -239,27 +246,13 @@ export default function BookingTreatmentsList() {
           onSelect={handleTimeSlotSelect}
         />
 
-        <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
-        <ul className="p-2 mt-5">
-          {doctors.map((doctor) => (
-            <li
-              key={doctor._id}
-              className={`rounded-lg  w-4/6 m-1
-          p-1 text-center ${
-            doctor._id !== selectedDoctor
-              ? "bg-secondary/20"
-              : selectedDoctorBgColor
-          }`}
-            >
-              <button
-                type="button"
-                onClick={() => handleDoctorSelect(doctor._id)}
-              >
-                {doctor.firstName} {doctor.lastName}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <ChooseDoctor
+          doctors={doctors}
+          onSelect={handleDoctorSelect}
+          selectedDoctor={selectedDoctor}
+          onClear={handleDoctorClear}
+        />
+
         <div className="text-center mx-auto my-6">
           <StyledButton>Book an appointment</StyledButton>
         </div>
