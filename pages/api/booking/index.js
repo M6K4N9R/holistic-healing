@@ -23,16 +23,16 @@ export default async function handler(request, response) {
       .populate("treatment");
 
     // ------------------- GETTING Doctor Names --------
-    const doctors = await Doctor.find({}, { firstName: 1, lastName: 1 });
+    const doctors = await Doctor.find({}, { email: 0 });
 
     // ------------------- GETTING Doctors Time slots and days ----
-    const doctorHealingtouchTimesAndDays = await Doctor.find(
+    const doctorHealingtouchData = await Doctor.find(
       { lastName: "Healingtouch" },
-      { availability: 1, days: 1 }
+      { treatments: 1, availability: 1, days: 1 }
     );
-    const doctorBloodloverTimesAndDays = await Doctor.find(
+    const doctorBloodloverData = await Doctor.find(
       { lastName: "Bloodlover" },
-      { availability: 1, days: 1 }
+      { treatments: 1, availability: 1, days: 1 }
     );
 
     // ---------------------------------------------------
@@ -52,19 +52,13 @@ export default async function handler(request, response) {
     }
 
     // ------------------- CHECKING Doctor Healingtouch Time Slots read ------------
-    if (
-      !doctorHealingtouchTimesAndDays ||
-      doctorHealingtouchTimesAndDays.length === 0
-    ) {
+    if (!doctorHealingtouchData || doctorHealingtouchData.length === 0) {
       return response
         .status(404)
         .json({ status: "Doctor Healingtouch Availability info not Found" });
     }
     // ----------------- CHECKING Doctor Bloodlover Time Slots read ---------------
-    if (
-      !doctorBloodloverTimesAndDays ||
-      doctorBloodloverTimesAndDays.length === 0
-    ) {
+    if (!doctorBloodloverData || doctorBloodloverData.length === 0) {
       return response
         .status(404)
         .json({ status: "Doctor Bloodlover Availability info not Found" });
@@ -74,8 +68,8 @@ export default async function handler(request, response) {
     response.status(200).json({
       treatmentNames,
       doctors,
-      doctorHealingtouchTimesAndDays,
-      doctorBloodloverTimesAndDays,
+      doctorHealingtouchData,
+      doctorBloodloverData,
       bookings,
     });
   }

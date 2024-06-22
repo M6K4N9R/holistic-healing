@@ -1,8 +1,8 @@
 import { timeSlots } from "./TimeSlots.module.css";
 
 export default function TimeSlots({
-  doctorHealingtouchTimesAndDays,
-  doctorBloodloverTimesAndDays,
+  doctorHealingtouchData,
+  doctorBloodloverData,
   selectedTreatment,
   selectedDate,
   bookedDays,
@@ -20,21 +20,25 @@ export default function TimeSlots({
 
   if (selectedTreatment === undefined || selectedDate === undefined) {
     return (
-      <div className="px-2 py-1 mt-8 text-center align-middle shadow-pastel rounded-lg bg-bright text-dark">
-        <p>Please choose a treatment and date first.</p>
-      </div>
+      <>
+        <h3 className="text-left">Select time</h3>
+        <div className="px-2 py-1 text-center align-middle shadow-pastel rounded-lg bg-bright text-dark">
+          <p>Please choose a treatment and date first.</p>
+        </div>
+      </>
     );
   }
-  
 
-// Go
- // If doctors.treatments.includes(selectedtreatment.id) {
- // and if doctors.days.includes(selectedDate.day) and doctors.availability}
+  //
+
+  // Go
+  // If doctors.treatments.includes(selectedtreatment.id) {
+  // and if doctors.days.includes(selectedDate.day) and doctors.availability}
   // If selectedTimeslot?.timeSlot
 
   // ---------------- Doctors Time Slots
-  const healingtouchTimes = doctorHealingtouchTimesAndDays[0].availability;
-  const bloodloverTimes = doctorBloodloverTimesAndDays[0].availability;
+  const healingtouchTimes = doctorHealingtouchData[0].availability;
+  const bloodloverTimes = doctorBloodloverData[0].availability;
 
   // ---------------- Converting timeSlots into a single array without repeating timeSlots
   const allTimeSlots = [...healingtouchTimes, ...bloodloverTimes];

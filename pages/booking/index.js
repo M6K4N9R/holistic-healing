@@ -23,12 +23,13 @@ export default function BookingTreatmentsList() {
   // ===================== Tracking the booking process of selection
 
   const [selectedTreatment, setSelectedTreatment] = useState();
-  const [selectedDoctor, setSelectedDoctor] = useState();
+  const [selectedDoctor, setSelectedDoctor] = useState({ id: "" });
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
 
+  // If Treatment is Selected =
   useEffect(() => {
     // Mapping through existing bookings collection to find treatments === selectedTreatment
     if (data && selectedTreatment?.isSelected === true) {
@@ -56,10 +57,12 @@ export default function BookingTreatmentsList() {
   const {
     treatmentNames,
     doctors,
-    doctorHealingtouchTimesAndDays,
-    doctorBloodloverTimesAndDays,
+    doctorHealingtouchData,
+    doctorBloodloverData,
     bookings,
   } = data;
+
+  console.log("doctorHealingtouchData: ", doctorHealingtouchData);
 
   // ===================== Destructured variables from data
 
@@ -67,9 +70,9 @@ export default function BookingTreatmentsList() {
 
   let availableTimeSlots = [];
   function getAvailableTimeSlots() {
-    availableTimeSlots.push(doctorHealingtouchTimeSlots.availability);
+    availableTimeSlots.push(doctorHealingtouchData.availability);
 
-    availableTimeSlots.push(doctorBloodloverTimeSlots.availability);
+    availableTimeSlots.push(doctorBloodloverData.availability);
   }
 
   // ------ Booking dates
@@ -216,7 +219,8 @@ export default function BookingTreatmentsList() {
   //   selectedDoctor
   // );
 
-  console.log("Booking data: ", bookings);
+  console.log("Selected Treatment is : ", selectedTreatment);
+  // console.log("Booking data: ", bookings);
 
   return (
     <main
@@ -237,8 +241,8 @@ export default function BookingTreatmentsList() {
         />
 
         <TimeSlots
-          doctorHealingtouchTimesAndDays={doctorHealingtouchTimesAndDays}
-          doctorBloodloverTimesAndDays={doctorBloodloverTimesAndDays}
+          doctorHealingtouchData={doctorHealingtouchData}
+          doctorBloodloverData={doctorBloodloverData}
           selectedTreatment={selectedTreatment}
           selectedDate={selectedDate}
           selectedTime={selectedTimeSlot}
@@ -248,6 +252,8 @@ export default function BookingTreatmentsList() {
 
         <ChooseDoctor
           doctors={doctors}
+          selectedTreatment={selectedTreatment}
+          selectedDate={selectedDate}
           onSelect={handleDoctorSelect}
           selectedDoctor={selectedDoctor}
           onClear={handleDoctorClear}
