@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import useSWR from "swr";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
-import MyCalendar from "@/components/Calendar/Calendar";
+import MyCalendar from "@/components/booking/Calendar/Calendar";
 import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
 import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
