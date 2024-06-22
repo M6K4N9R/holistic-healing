@@ -23,9 +23,11 @@ export default function BookingTreatmentsList() {
   // ===================== Tracking the booking process of selection
 
   const [selectedTreatment, setSelectedTreatment] = useState();
-  const [selectedDoctor, setSelectedDoctor] = useState({ id: "" });
+  const [selectedDoctor, setSelectedDoctor] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
+  const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState(false);
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
 
@@ -36,14 +38,32 @@ export default function BookingTreatmentsList() {
       const excistingBookingsWithSelectedTreatment = data.bookings.filter(
         (booking) => booking.treatment[0]._id === selectedTreatment.id
       );
-      console.log(
-        "Selected Treatment is: ",
-        selectedTreatment,
-        "excistingBookingsWithSelectedTreatment: ",
-        excistingBookingsWithSelectedTreatment
-      );
+      // console.log(
+      //   "Selected Treatment is: ",
+      //   selectedTreatment,
+      //   "excistingBookingsWithSelectedTreatment: ",
+      //   excistingBookingsWithSelectedTreatment
+      // );
     }
   }, [selectedTreatment, data]);
+
+  // Handling Showing error message for form Validation
+
+  useEffect(() => {
+    if (selectedTreatment) {
+      setFormError("");
+    }
+    if (selectedDate) {
+      setFormError("");
+    }
+    if (selectedTimeSlot) {
+      setFormError("");
+    }
+    if (selectedDoctor) {
+      setFormError("");
+    }
+  }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
+
   // =========================================
 
   if (isLoading) {
@@ -61,8 +81,6 @@ export default function BookingTreatmentsList() {
     doctorBloodloverData,
     bookings,
   } = data;
-
-  console.log("In pages/booking treatmentNames: ", treatmentNames);
 
   // ===================== Destructured variables from data
 
@@ -146,8 +164,6 @@ export default function BookingTreatmentsList() {
       timeSlot: time,
       isSelected: true,
     }));
-
-    // console.log("Click Time", time);
   };
 
   const handleTimeSlotClear = () => {
@@ -161,19 +177,56 @@ export default function BookingTreatmentsList() {
       id: id,
       isSelected: true,
     }));
-    console.log("Click");
   };
 
-  // ==================== HANDLING SUBMIT =========================
+  // ====================================== HANDLING SUBMIT =========================
+
+  const formValidation = () => {
+    if (
+      !selectedTreatment ||
+      !selectedDate ||
+      !selectedTimeSlot ||
+      !selectedDoctor
+    ) {
+      setFormError(
+        "Please make sure you selected a treatment, date and time and doctor."
+      );
+      return false;
+    }
+
+    setFormError("");
+    return true;
+  };
+
+  const SuccessPopup = ({ onClose }) => (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 rounded shadow-lg">
+        <h2 className="text-xl font-bold mb-4">Thank you.</h2>
+        <p>
+          Your appointment has been successfully booked! You will receive an
+          email confirmation shortly
+        </p>
+        <button
+          className="mt-4 bg-primary text-white px-4 py-2 rounded"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
 
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
+    if (!formValidation()) {
+      return;
+    }
 
     // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
       treatment: selectedTreatment?.id,
-      doctor: selectedDoctor,
+      doctor: selectedDoctor?.id,
       date: selectedDate,
       time: selectedTimeSlot?.timeSlot,
     };
@@ -196,11 +249,16 @@ export default function BookingTreatmentsList() {
           "Treatment booked successfully. The response is: ",
           bookingData
         );
+        setFormSuccess(true);
       } else {
         console.error("Failed to book treatment");
+        setFormError(
+          "Failed to book the appointment. Please reload the page and try again."
+        );
       }
     } catch (error) {
       console.error("Error:", error);
+      setFormError("An error occurred. Please try again.");
     }
   };
 
@@ -216,8 +274,14 @@ export default function BookingTreatmentsList() {
   //   selectedDoctor
   // );
 
-  console.log("Selected Treatment is : ", selectedTreatment);
-  // console.log("Booking data: ", bookings);
+  // console.log("Selected Treatment is : ", selectedTreatment);
+  console.log(
+    "Booking data: ",
+    selectedTreatment,
+    selectedDate,
+    selectedTimeSlot,
+    selectedDoctor
+  );
 
   return (
     <main
@@ -254,11 +318,14 @@ export default function BookingTreatmentsList() {
           onSelect={handleDoctorSelect}
           selectedDoctor={selectedDoctor}
         />
-
+        {formError && (
+          <div className="text-red-500 text-center mt-4">{formError}</div>
+        )}
         <div className="text-center mx-auto my-6">
-          <StyledButton>Book an appointment</StyledButton>
+          <StyledButton type="submit">Book an appointment</StyledButton>
         </div>
       </form>
+      {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}
     </main>
   );
 }

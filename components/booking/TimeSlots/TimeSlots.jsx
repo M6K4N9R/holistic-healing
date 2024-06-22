@@ -86,6 +86,7 @@ export default function TimeSlots({
         {sortedTimeSlots.map((timeSlot, index) => (
           <button
             key={index}
+            type="button"
             className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
               timeSlot === selectedTime?.timeSlot
                 ? "bg-primary text-white font-semibold"

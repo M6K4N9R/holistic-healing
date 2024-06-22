@@ -6,7 +6,7 @@ export default function ChooseDoctor({
   selectedDate,
   onSelect,
 }) {
-  console.log("In Choose Doctor SelectedTreatment is: ", selectedTreatment);
+  // console.log("In Choose Doctor SelectedTreatment is: ", selectedTreatment);
   // -------- Conditional rendering for Please Choose Treatment First
   if (selectedTreatment === undefined || selectedDate === undefined) {
     return (
@@ -28,10 +28,10 @@ export default function ChooseDoctor({
     }));
 
   // console.log("In Choose Doctor doctors are: ", doctors);
-  console.log(
-    "In Choose Doctor doctorsWhoOfferSelectedTreatment: ",
-    doctorsWhoOfferSelectedTreatment
-  );
+  // console.log(
+  //   "In Choose Doctor doctorsWhoOfferSelectedTreatment: ",
+  //   doctorsWhoOfferSelectedTreatment
+  // );
   return (
     <>
       <div className="flex justify-between items-center">
