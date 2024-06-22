@@ -216,6 +216,14 @@ export default function BookingTreatmentsList() {
     </div>
   );
 
+  const resetForm = () => {
+    setSelectedTreatment();
+    setSelectedDoctor();
+    setSelectedDate();
+    setSelectedTimeSlot();
+    setFormError("");
+  };
+
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
     if (!formValidation()) {
@@ -250,6 +258,7 @@ export default function BookingTreatmentsList() {
           bookingData
         );
         setFormSuccess(true);
+        resetForm();
       } else {
         console.error("Failed to book treatment");
         setFormError(

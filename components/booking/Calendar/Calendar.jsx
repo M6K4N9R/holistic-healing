@@ -1,7 +1,12 @@
 import { Calendar } from "@nextui-org/calendar";
 import { today, getLocalTimeZone } from "@internationalized/date";
 
-export default function MyCalendar({ onDateChange, selectedDate, selectedTreatment, bookedDays }) {
+export default function MyCalendar({
+  onDateChange,
+  selectedDate,
+  selectedTreatment,
+  bookedDays,
+}) {
   // let today = today(getLocalTimeZone());
   // let [focusedDate, setFocusedDate] = useState(defaultDate);
 
