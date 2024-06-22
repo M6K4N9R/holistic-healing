@@ -161,6 +161,7 @@ export default function BookingTreatmentsList() {
       id: id,
       isSelected: true,
     }));
+    console.log("Click");
   };
 
   const handleDoctorClear = () => {

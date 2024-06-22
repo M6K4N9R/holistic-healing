@@ -50,9 +50,9 @@ export default function ChooseDoctor({
                 ? "bg-primary text-white font-semibold"
                 : "bg-bright text-dark"
             }`}
-            key={doctor._id}
+            key={doctor.id}
             type="button"
-            onClick={() => onSelect(doctor._id)}
+            onClick={() => onSelect(doctor.id)}
           >
             {doctor.firstName} {doctor.lastName}
           </button>
