@@ -62,7 +62,7 @@ export default function BookingTreatmentsList() {
     bookings,
   } = data;
 
-  console.log("doctorHealingtouchData: ", doctorHealingtouchData);
+  console.log("In pages/booking treatmentNames: ", treatmentNames);
 
   // ===================== Destructured variables from data
 
@@ -164,10 +164,6 @@ export default function BookingTreatmentsList() {
     console.log("Click");
   };
 
-  const handleDoctorClear = () => {
-    setSelectedDoctor();
-  };
-
   // ==================== HANDLING SUBMIT =========================
 
   const handleBookingSubmit = async (event) => {
@@ -257,7 +253,6 @@ export default function BookingTreatmentsList() {
           selectedDate={selectedDate}
           onSelect={handleDoctorSelect}
           selectedDoctor={selectedDoctor}
-          onClear={handleDoctorClear}
         />
 
         <div className="text-center mx-auto my-6">

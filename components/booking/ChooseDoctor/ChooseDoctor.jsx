@@ -5,7 +5,6 @@ export default function ChooseDoctor({
   selectedTreatment,
   selectedDate,
   onSelect,
-  onClear,
 }) {
   console.log("In Choose Doctor SelectedTreatment is: ", selectedTreatment);
   // -------- Conditional rendering for Please Choose Treatment First
@@ -37,10 +36,14 @@ export default function ChooseDoctor({
     <>
       <div className="flex justify-between items-center">
         <h3>Choose doctor</h3>
-        <button className={btn} onClick={() => onClear()}>
-          clear
-        </button>
       </div>
+
+      {/* ----------------- Conditional Rendering of a note, but need to add the name of Treatment
+       {doctorsWhoOfferSelectedTreatment.length === 1 && (
+        <div className="text-center mt-4">
+          <p>Only 👇 offers {selectedTreatment.name}</p>
+        </div>
+      )} */}
       <ul className={chooseDoctor}>
         {doctorsWhoOfferSelectedTreatment.map((doctor) => (
           <button
