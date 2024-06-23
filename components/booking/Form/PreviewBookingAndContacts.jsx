@@ -6,8 +6,11 @@ export default function PreviewBookingAndContacts({
   selectedDoctor,
   selectedDate,
   selectedTimeSlot,
+  onHandleContactNumberInput,
+  onHandleEmailInput,
+  onHandlePatientNameInput,
 }) {
-  console.log("selectedTimeSlot In Preview ", selectedTimeSlot);
+  console.log("selectedTimeSlot In Preview ", selectedTreatment);
   return (
     <>
       <div className={previewBookingAndContacts}>
@@ -16,20 +19,37 @@ export default function PreviewBookingAndContacts({
           <p className="-mt-6">and provide us with your contact details.</p>
         </div>
         <div className="text-center mt-6 ">
-          <h4 className="text-white font-semibold">{selectedTreatment.name}</h4>
+          <h4 className="text-white font-semibold">
+            {selectedTreatment?.name}
+          </h4>
           <h4 className="text-white font-semibold">
             <span className="font-thin text-sm">with{"  "}</span>
-            {selectedDoctor.firstName} {selectedDoctor.lastName}
+            {selectedDoctor?.firstName} {selectedDoctor?.lastName}
           </h4>
           <h4 className="text-white font-semibold">
             <span className="font-thin text-sm">on{"  "}</span>
-            {selectedDate.date}
+            {selectedDate?.date}
             <span className="font-thin text-sm"> at </span>{" "}
             <span className="text-white font-semibold">
-              {selectedTimeSlot.timeSlot}
+              {selectedTimeSlot?.timeSlot}
             </span>
           </h4>
-
+          <div className="mb-4">
+            <label
+              htmlFor="full-name"
+              className="block text-left text-sm font-medium text-gray-300"
+            >
+              Your full name
+            </label>
+            <input
+              id="full-name"
+              name="full-name"
+              type="text"
+              onChange={onHandlePatientNameInput}
+              required
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+            />
+          </div>
           <div className="mt-6 mb-4">
             <label
               htmlFor="contact-number"
@@ -41,7 +61,7 @@ export default function PreviewBookingAndContacts({
               id="contact-number"
               name="contact-number"
               type="tel"
-              // onChange={handleContactNumberChange}
+              onChange={onHandleContactNumberInput}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             />
@@ -57,7 +77,7 @@ export default function PreviewBookingAndContacts({
               id="email"
               name="email"
               type="email"
-              // onChange={handleEmailChange}
+              onChange={onHandleEmailInput}
               required
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
             />

@@ -2,8 +2,7 @@ import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
 import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
 import ChooseDoctor from "@/components/booking/ChooseDoctor/ChooseDoctor";
 import MyCalendar from "@/components/booking/Calendar/Calendar";
-import { StyledButton } from "@/components/DefaulButton/DefaultButton";
-import { useState, useEffect } from "react";
+
 import PreviewBookingAndContacts from "./PreviewBookingAndContacts";
 
 export default function BookingForm({
@@ -20,6 +19,9 @@ export default function BookingForm({
   handleDoctorSelect,
   showBookingPreviewAndContacts,
   formError,
+  handleContactNumberInput,
+  handleEmailInput,
+  handlePatientNameInput,
 }) {
   // ==================== Fetched data is: ============
   const {
@@ -29,18 +31,6 @@ export default function BookingForm({
     doctorBloodloverData,
     bookings,
   } = data;
-
-  console.log(
-    "In Booking Form component selections are: ",
-    "selectedTreatment",
-    selectedTreatment,
-    "selectedDoctor",
-    selectedDoctor,
-    "selectedTimeSlot",
-    selectedTimeSlot,
-    "selectedDate",
-    selectedDate
-  );
 
   // ------ Booking dates
 
@@ -88,6 +78,9 @@ export default function BookingForm({
             selectedDoctor={selectedDoctor}
             selectedDate={selectedDate}
             selectedTimeSlot={selectedTimeSlot}
+            onHandleContactNumberInput={handleContactNumberInput}
+            onHandleEmailInput={handleEmailInput}
+            onHandlePatientNameInput={handlePatientNameInput}
           />
         )}
       </form>

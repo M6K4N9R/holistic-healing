@@ -7,9 +7,12 @@ const bookingSchema = new Schema({
   doctor: { type: [Schema.Types.ObjectId], ref: "Doctor" },
   date: { type: Object, required: true },
   time: { type: String, required: true },
+  patientDetails: { type: Object, required: true },
 });
 
 const Booking =
   mongoose.models.Booking || mongoose.model("Booking", bookingSchema);
 
 export default Booking;
+
+
