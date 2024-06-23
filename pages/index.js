@@ -3,6 +3,9 @@ import { Inter, Grechen_Fuemen } from "next/font/google";
 import HealthChatInvite from "@/components/HealthChat/HealthChat";
 import UserTopBar from "@/components/UserTopBar/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -13,7 +16,23 @@ const inter = Inter({
 const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
-  //========================= Adding Profile
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "authenticated" && session?.user?.email) {
+      const doctorSlug = encodeURIComponent(session.user.email);
+      router.replace(`/doctors/${doctorSlug}`);
+    }
+  }, [session, status, router]);
+
+  if (status === "loading") {
+    return <div>Loading...</div>;
+  }
+
+  if (status === "authenticated") {
+    return null; // Return null to avoid rendering the home page content
+  }
 
   return (
     <main

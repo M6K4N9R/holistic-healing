@@ -12,29 +12,36 @@ export default function UserPage() {
   const router = useRouter();
   const { email } = router.query;
 
-  const { data, isLoading, error } = useSWR(
-    email ? `/api/doctors/${email}` : null
-  );
+  // Fetch data using useSWR unconditionally
+  const { data, error } = useSWR(email ? `/api/doctors/${email}` : null);
 
-  if (isLoading) {
+  // Handle session loading state
+  if (status === "loading") {
     return <h1>Loading...</h1>;
   }
 
+  // Handle unauthenticated state
+  if (status === "unauthenticated") {
+    router.replace("/"); // Redirect to home if not authenticated
+    return null;
+  }
+
+  // Handle data loading state
+  if (!data && !error) {
+    return <h1>Loading...</h1>;
+  }
+
+  // Handle error state
   if (error) {
     return <h1>Error: {error.message}</h1>;
   }
 
+  // Handle case where data is not available
   if (!data) {
-    return;
+    return <h1>No data available</h1>;
   }
 
   console.log("Data is: ", data);
-  // const appointmentName = data.map(
-  //   (appointment) => appointment.treatment[0].name
-  // );
-  // const appointmentDate = data.map((appointment) => appointment.date);
-
-  // console.log("appointmentDate: ", appointmentDate);
 
   return (
     <>
@@ -50,7 +57,10 @@ export default function UserPage() {
       <section className="flex flex-col items-start w-11/12 bg-white shadow-md rounded-lg p-3 my-3 mx-auto">
         <h3>Your treatments are:</h3>
         {data.map((appointment) => (
-          <div key={appointment._id} className="flex justify-between bg-slate-50 self-center rounded-lg mb-2">
+          <div
+            key={appointment._id}
+            className="flex justify-between bg-slate-50 self-center rounded-lg mb-2"
+          >
             <AppointmentBlock
               treatment={appointment.treatment[0].name}
               date={`${appointment.date.month} ${appointment.date.day}`}

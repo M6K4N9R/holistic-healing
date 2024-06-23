@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 
 export default function UserTopBar() {
   const { data: session } = useSession();
-  console.log("session: ", session);
+
 
   return (
     <section className="flex justify-between items-center w-full">
