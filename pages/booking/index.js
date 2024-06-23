@@ -28,6 +28,8 @@ export default function BookingTreatmentsList() {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState(false);
+  const [bookingPreviewAndContacts, setBookingPreviewAndContacts] =
+    useState(false);
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
 
@@ -47,7 +49,7 @@ export default function BookingTreatmentsList() {
     }
   }, [selectedTreatment, data]);
 
-  // Handling Showing error message for form Validation
+  // ----------------------------  Handling Showing error message for form Validation
 
   useEffect(() => {
     if (selectedTreatment) {
@@ -61,6 +63,19 @@ export default function BookingTreatmentsList() {
     }
     if (selectedDoctor) {
       setFormError("");
+    }
+  }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
+
+  // ------------------------------  Handling Contact Details section
+
+  useEffect(() => {
+    if (
+      selectedTreatment &&
+      selectedDate &&
+      selectedTimeSlot &&
+      selectedDoctor
+    ) {
+      setBookingPreviewAndContacts(true);
     }
   }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
 
@@ -330,9 +345,17 @@ export default function BookingTreatmentsList() {
         {formError && (
           <div className="text-red-500 text-center mt-4">{formError}</div>
         )}
-        <div className="text-center mx-auto my-6">
-          <StyledButton type="submit">Book an appointment</StyledButton>
-        </div>
+        {bookingPreviewAndContacts && (
+          <div className="p-2 text-center mt-4">
+            <label>Your contact number</label>
+            <input type="number"></input>
+            <label>Your email</label>
+            <input type="email"></input>
+            <div className="text-center mx-auto my-6">
+              <StyledButton type="submit">Book an appointment</StyledButton>
+            </div>
+          </div>
+        )}
       </form>
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}
     </main>
