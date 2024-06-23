@@ -18,7 +18,7 @@ export default function BookingForm({
   handleTimeSlotSelect,
   handleDoctorSelect,
   showBookingPreviewAndContacts,
-  formError,
+  bookingPreviewRef,
   handleContactNumberInput,
   handleEmailInput,
   handlePatientNameInput,
@@ -69,20 +69,19 @@ export default function BookingForm({
           onSelect={handleDoctorSelect}
           selectedDoctor={selectedDoctor}
         />
-        {formError && (
-          <div className="text-red-500 text-center mt-4">{formError}</div>
-        )}
+
         {showBookingPreviewAndContacts && (
-          <PreviewBookingAndContacts
-            selectedTreatment={selectedTreatment}
-            selectedDoctor={selectedDoctor}
-            selectedDate={selectedDate}
-            selectedTimeSlot={selectedTimeSlot}
-            onHandleContactNumberInput={handleContactNumberInput}
-            onHandleEmailInput={handleEmailInput}
-            onHandlePatientNameInput={handlePatientNameInput}
-            
-          />
+          <div ref={bookingPreviewRef}>
+            <PreviewBookingAndContacts
+              selectedTreatment={selectedTreatment}
+              selectedDoctor={selectedDoctor}
+              selectedDate={selectedDate}
+              selectedTimeSlot={selectedTimeSlot}
+              onHandleContactNumberInput={handleContactNumberInput}
+              onHandleEmailInput={handleEmailInput}
+              onHandlePatientNameInput={handlePatientNameInput}
+            />
+          </div>
         )}
       </form>
     </>

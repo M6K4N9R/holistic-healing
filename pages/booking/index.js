@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import React from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
@@ -22,14 +22,13 @@ export default function BookingTreatmentsList() {
   const [selectedDoctor, setSelectedDoctor] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
-  const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState(false);
   const [showBookingPreviewAndContacts, setShowBookingPreviewAndContacts] =
     useState(false);
+  const bookingPreviewRef = useRef(null);
   const [patientName, setPatientName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
-  
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
 
@@ -38,7 +37,7 @@ export default function BookingTreatmentsList() {
     // Mapping through existing bookings collection to find treatments === selectedTreatment
     if (data && selectedTreatment?.isSelected === true) {
       const excistingBookingsWithSelectedTreatment = data.bookings.filter(
-        (booking) => booking.treatment[0]._id === selectedTreatment.id
+        (booking) => booking.treatment._id === selectedTreatment.id
       );
       // console.log(
       //   "Selected Treatment is: ",
@@ -49,22 +48,16 @@ export default function BookingTreatmentsList() {
     }
   }, [selectedTreatment, data]);
 
-  // ----------------------------  Handling Showing error messages for form Validation
-  // First Form Validation
-  // useEffect(() => {
-  //   if (!selectedTreatment) {
-  //     setFormError("Please select a treatment");
-  //   }
-  //   if (!selectedDate) {
-  //     setFormError("Please choose a date");
-  //   }
-  //   if (!selectedTimeSlot) {
-  //     setFormError("Please select a time");
-  //   }
-  //   if (!selectedDoctor) {
-  //     setFormError("Please select a doctor");
-  //   }
-  // }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
+  // ----- Scroll to Contact Details in BookingForm
+
+  useEffect(() => {
+    if (showBookingPreviewAndContacts && bookingPreviewRef.current) {
+      bookingPreviewRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [showBookingPreviewAndContacts]);
 
   // ------------------------------  Handling Contact Details section
 
@@ -100,19 +93,6 @@ export default function BookingTreatmentsList() {
     availableTimeSlots.push(doctorBloodloverData.availability);
   }
 
-  // ===================== HANDLING SELECTION and CLEARING SELECTION FUNCTIONS
-
-  // ----------------- Select/Clear Treatment
-
-  const handleTreatmentSelect = (id, name) => {
-    setSelectedTreatment((prevTreatment) => ({
-      ...prevTreatment,
-      id: id,
-      name: name,
-      isSelected: true,
-    }));
-  };
-
   /* 
   ----------------- Filtering timeSlots options based on selected Treatment
   
@@ -128,11 +108,24 @@ export default function BookingTreatmentsList() {
     
 
 */
+  // ===================== HANDLING SELECTION and CLEARING SELECTION FUNCTIONS
+
+  // ----------------- Select/Clear Treatment
+
+  const handleTreatmentSelect = (id, name) => {
+    setSelectedTreatment((prevTreatment) => ({
+      ...prevTreatment,
+      id: id,
+      name: name,
+      isSelected: true,
+    }));
+  };
+
   const handleTreatmentClear = () => {
     setSelectedTreatment();
   };
 
-  //----------- Select/Clear Date and getting the day of the week
+  //----------- Select Date and getting the day of the week
 
   const handleSelectDate = (date) => {
     const days = [
@@ -201,22 +194,11 @@ export default function BookingTreatmentsList() {
   //   return true;
   // };
 
-  const formSecondValidation = () => {
-    if (!patientName || !email || !contactNumber) {
-      setFormError("Please fill out your details");
-      return false;
-    }
-
-    setFormError("");
-    return true;
-  };
-
   const resetForm = () => {
     setSelectedTreatment();
     setSelectedDoctor();
     setSelectedDate();
     setSelectedTimeSlot();
-    setFormError("");
   };
   const resetPatientDetailsForm = () => {
     setPatientName("");
@@ -256,9 +238,6 @@ export default function BookingTreatmentsList() {
 
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
-    if (!formSecondValidation()) {
-      return;
-    }
 
     // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
@@ -312,12 +291,6 @@ export default function BookingTreatmentsList() {
   //   contactNumber,
   //   email
   // );
-  console.log(
-    "Booking data to send to Backend Patient Details: ",
-    patientName,
-    contactNumber,
-    email
-  );
 
   return (
     <main
@@ -336,10 +309,10 @@ export default function BookingTreatmentsList() {
         handleTimeSlotSelect={handleTimeSlotSelect}
         handleDoctorSelect={handleDoctorSelect}
         showBookingPreviewAndContacts={showBookingPreviewAndContacts}
-        formError={formError}
         handleContactNumberInput={handleContactNumberInput}
         handleEmailInput={handleEmailInput}
         handlePatientNameInput={handlePatientNameInput}
+        bookingPreviewRef={bookingPreviewRef}
       />
 
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}

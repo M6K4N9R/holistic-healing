@@ -80,7 +80,7 @@ export default async function handler(request, response) {
     try {
       const booking = request.body;
       await Booking.create(booking);
-
+      console.log("In api/booking request.body is: ", request.body);
       response.status(201).json({
         status: "Booking is created",
       });
