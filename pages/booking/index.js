@@ -8,6 +8,7 @@ import { Inter } from "next/font/google";
 import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
 import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
 import ChooseDoctor from "@/components/booking/ChooseDoctor/ChooseDoctor";
+import BookingForm from "@/components/booking/Form/BookingForm";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -88,14 +89,6 @@ export default function BookingTreatmentsList() {
   if (!data) {
     return;
   }
-  // ==================== Fetched data is: ============
-  const {
-    treatmentNames,
-    doctors,
-    doctorHealingtouchData,
-    doctorBloodloverData,
-    bookings,
-  } = data;
 
   // ===================== Destructured variables from data
 
@@ -107,10 +100,6 @@ export default function BookingTreatmentsList() {
 
     availableTimeSlots.push(doctorBloodloverData.availability);
   }
-
-  // ------ Booking dates
-
-  const alreadyBookedDays = bookings.map((booking) => booking.date);
 
   // ===================== HANDLING SELECTION and CLEARING SELECTION FUNCTIONS
 
@@ -213,6 +202,14 @@ export default function BookingTreatmentsList() {
     return true;
   };
 
+  const resetForm = () => {
+    setSelectedTreatment();
+    setSelectedDoctor();
+    setSelectedDate();
+    setSelectedTimeSlot();
+    setFormError("");
+  };
+
   const SuccessPopup = ({ onClose }) => (
     <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 m-2 rounded shadow-lg">
@@ -230,14 +227,6 @@ export default function BookingTreatmentsList() {
       </div>
     </div>
   );
-
-  const resetForm = () => {
-    setSelectedTreatment();
-    setSelectedDoctor();
-    setSelectedDate();
-    setSelectedTimeSlot();
-    setFormError("");
-  };
 
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
@@ -311,7 +300,21 @@ export default function BookingTreatmentsList() {
     <main
       className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
     >
-      <form onSubmit={handleBookingSubmit}>
+      <BookingForm
+        onSubmit={handleBookingSubmit}
+        selectedTreatment={selectedTreatment}
+        selectedDate={selectedDate}
+        selectedTimeSlot={selectedTimeSlot}
+        selectedDoctor={selectedDoctor}
+        data={data}
+        handleTreatmentSelect={handleTreatmentSelect}
+        handleTreatmentClear={handleTreatmentClear}
+        handleSelectDate={handleSelectDate}
+        handleTimeSlotSelect={handleTimeSlotSelect}
+        handleDoctorSelect={handleDoctorSelect}
+        bookingPreviewAndContacts={bookingPreviewAndContacts}
+      />
+      {/* <form onSubmit={handleBookingSubmit}>
         <TreatmentsListBooking
           treatmentNames={treatmentNames}
           selectedTreatment={selectedTreatment}
@@ -356,7 +359,7 @@ export default function BookingTreatmentsList() {
             </div>
           </div>
         )}
-      </form>
+      </form> */}
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}
     </main>
   );
