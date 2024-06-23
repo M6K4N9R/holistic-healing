@@ -1,16 +1,9 @@
 .appointmentBlock {
-  background: linear-gradient(
-    45deg,
-    var(--primary) -10%,
-    var(--accent) 30%,
-    rgb(242, 255, 129) 50%,
-    var(--pastel) 70%,
-    var(--primary) 110%
-  );
-  padding: 0 0.5rem;
+  background: var(--primary);
+  padding: 0 1.5rem;
   text-align: start;
   font-size: 14px;
-  color: var(--primary-dark);
+  color: var(--white);
   margin: 0 auto;
   width: 90vw;
   max-width: 600px;

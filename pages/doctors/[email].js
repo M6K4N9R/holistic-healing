@@ -41,16 +41,15 @@ export default function UserPage() {
     return <h1>No data available</h1>;
   }
 
-  console.log("Data is: ", data);
+  console.log("Data is: ", data[0]);
+  const doctorName = data[0].doctor.firstName;
 
   return (
     <>
       <div className="flex w-11/12 justify-between items-baseline bg-bright shadow-md rounded-lg p-3 my-3 mx-auto">
         <h3 className={` ${grechen.className}`}>
           Welcome back{" "}
-          <span className="text-secondary font-bold">
-            {data[1].doctor[0].firstName}
-          </span>
+          <span className="text-secondary font-bold">{doctorName}</span>
         </h3>
         <AuthButton />
       </div>
@@ -62,8 +61,8 @@ export default function UserPage() {
             className="flex justify-between bg-slate-50 self-center rounded-lg mb-2"
           >
             <AppointmentBlock
-              treatment={appointment.treatment[0].name}
-              date={`${appointment.date.month} ${appointment.date.day}`}
+              treatment={appointment.treatment.name}
+              date={appointment.date.date}
             />
           </div>
         ))}
