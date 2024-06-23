@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import React from "react";
 import useSWR from "swr";
-import { StyledButton } from "@/components/DefaulButton/DefaultButton";
-import MyCalendar from "@/components/booking/Calendar/Calendar";
 import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
-import TimeSlots from "@/components/booking/TimeSlots/TimeSlots";
-import TreatmentsListBooking from "@/components/booking/TreatmentsList/TreatmentsListBooking";
-import ChooseDoctor from "@/components/booking/ChooseDoctor/ChooseDoctor";
 import BookingForm from "@/components/booking/Form/BookingForm";
 
 const inter = Inter({
@@ -105,10 +100,11 @@ export default function BookingTreatmentsList() {
 
   // ----------------- Select/Clear Treatment
 
-  const handleTreatmentSelect = (id) => {
+  const handleTreatmentSelect = (id, name) => {
     setSelectedTreatment((prevTreatment) => ({
       ...prevTreatment,
       id: id,
+      name: name,
       isSelected: true,
     }));
   };
@@ -175,10 +171,12 @@ export default function BookingTreatmentsList() {
   };
   // ------------------ Select Doctor
 
-  const handleDoctorSelect = (id) => {
+  const handleDoctorSelect = (id, firstName, lastName) => {
     setSelectedDoctor((prevDoctor) => ({
       ...prevDoctor,
       id: id,
+      firstName: firstName,
+      lastName: lastName,
       isSelected: true,
     }));
   };
@@ -237,7 +235,7 @@ export default function BookingTreatmentsList() {
     // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
-      treatment: selectedTreatment?.id,
+      treatment: selectedTreatment?.name,
       doctor: selectedDoctor?.id,
       date: selectedDate,
       time: selectedTimeSlot?.timeSlot,
@@ -275,19 +273,6 @@ export default function BookingTreatmentsList() {
     }
   };
 
-  // console.log(
-  //   "Selections are: ",
-  //   "Treatment: ",
-  //   selectedTreatment,
-  //   "Date: ",
-  //   selectedDate,
-  //   "Time",
-  //   selectedTimeSlot,
-  //   "Doctor: ",
-  //   selectedDoctor
-  // );
-
-  // console.log("Selected Treatment is : ", selectedTreatment);
   console.log(
     "Booking data: ",
     selectedTreatment,
@@ -313,6 +298,7 @@ export default function BookingTreatmentsList() {
         handleTimeSlotSelect={handleTimeSlotSelect}
         handleDoctorSelect={handleDoctorSelect}
         showBookingPreviewAndContacts={showBookingPreviewAndContacts}
+        formError={formError}
       />
 
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}

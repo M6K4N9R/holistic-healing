@@ -24,7 +24,7 @@ export default function TreatmentsListBooking({
             }`}
             key={treatment._id}
             type="button"
-            onClick={() => onSelect(treatment._id)}
+            onClick={() => onSelect(treatment._id, treatment.name)}
           >
             {treatment.name}
           </button>
@@ -33,4 +33,3 @@ export default function TreatmentsListBooking({
     </>
   );
 }
-

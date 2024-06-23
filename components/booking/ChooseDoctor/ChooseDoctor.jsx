@@ -55,7 +55,9 @@ export default function ChooseDoctor({
             }`}
             key={doctor.id}
             type="button"
-            onClick={() => onSelect(doctor.id)}
+            onClick={() =>
+              onSelect(doctor.id, doctor.firstName, doctor.lastName)
+            }
           >
             {doctor.firstName} {doctor.lastName}
           </button>

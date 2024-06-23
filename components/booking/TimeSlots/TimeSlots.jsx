@@ -6,7 +6,7 @@ export default function TimeSlots({
   selectedTreatment,
   selectedDate,
   bookedDays,
-  selectedTime,
+  selectedTimeSlot,
 
   onSelect,
 }) {
@@ -88,7 +88,7 @@ export default function TimeSlots({
             key={index}
             type="button"
             className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
-              timeSlot === selectedTime?.timeSlot
+              timeSlot === selectedTimeSlot?.timeSlot
                 ? "bg-primary text-white font-semibold"
                 : "bg-bright text-dark"
             }`}

@@ -67,7 +67,7 @@ export default function BookingForm({
           doctorBloodloverData={doctorBloodloverData}
           selectedTreatment={selectedTreatment}
           selectedDate={selectedDate}
-          selectedTime={selectedTimeSlot}
+          selectedTimeSlot={selectedTimeSlot}
           bookedDays={alreadyBookedDays}
           onSelect={handleTimeSlotSelect}
         />
@@ -87,7 +87,7 @@ export default function BookingForm({
             selectedTreatment={selectedTreatment}
             selectedDoctor={selectedDoctor}
             selectedDate={selectedDate}
-            selectedTime={selectedTimeSlot}
+            selectedTimeSlot={selectedTimeSlot}
           />
         )}
       </form>
