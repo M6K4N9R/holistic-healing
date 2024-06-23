@@ -4,6 +4,7 @@ import ChooseDoctor from "@/components/booking/ChooseDoctor/ChooseDoctor";
 import MyCalendar from "@/components/booking/Calendar/Calendar";
 import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 import { useState, useEffect } from "react";
+import PreviewBookingAndContacts from "./PreviewBookingAndContacts";
 
 export default function BookingForm({
   onSubmit,
@@ -13,7 +14,13 @@ export default function BookingForm({
   selectedDoctor,
   data,
   handleTreatmentSelect,
-  handleTreatmentClear, handleSelectDate, handleTimeSlotSelect, handleDoctorSelect, bookingPreviewAndContacts, formError}) {
+  handleTreatmentClear,
+  handleSelectDate,
+  handleTimeSlotSelect,
+  handleDoctorSelect,
+  showBookingPreviewAndContacts,
+  formError,
+}) {
   // ==================== Fetched data is: ============
   const {
     treatmentNames,
@@ -23,13 +30,21 @@ export default function BookingForm({
     bookings,
   } = data;
 
-  console.log("In component fetchedData is: ", data);
+  console.log(
+    "In Booking Form component selections are: ",
+    "selectedTreatment",
+    selectedTreatment,
+    "selectedDoctor",
+    selectedDoctor,
+    "selectedTimeSlot",
+    selectedTimeSlot,
+    "selectedDate",
+    selectedDate
+  );
 
   // ------ Booking dates
 
   const alreadyBookedDays = bookings.map((booking) => booking.date);
-
-
 
   return (
     <>
@@ -67,16 +82,13 @@ export default function BookingForm({
         {formError && (
           <div className="text-red-500 text-center mt-4">{formError}</div>
         )}
-        {bookingPreviewAndContacts && (
-          <div className="p-2 text-center mt-4">
-            <label>Your contact number</label>
-            <input type="number"></input>
-            <label>Your email</label>
-            <input type="email"></input>
-            <div className="text-center mx-auto my-6">
-              <StyledButton type="submit">Book an appointment</StyledButton>
-            </div>
-          </div>
+        {showBookingPreviewAndContacts && (
+          <PreviewBookingAndContacts
+            selectedTreatment={selectedTreatment}
+            selectedDoctor={selectedDoctor}
+            selectedDate={selectedDate}
+            selectedTime={selectedTimeSlot}
+          />
         )}
       </form>
     </>

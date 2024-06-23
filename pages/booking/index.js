@@ -29,7 +29,7 @@ export default function BookingTreatmentsList() {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
   const [formError, setFormError] = useState("");
   const [formSuccess, setFormSuccess] = useState(false);
-  const [bookingPreviewAndContacts, setBookingPreviewAndContacts] =
+  const [showBookingPreviewAndContacts, setShowBookingPreviewAndContacts] =
     useState(false);
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
@@ -76,7 +76,7 @@ export default function BookingTreatmentsList() {
       selectedTimeSlot &&
       selectedDoctor
     ) {
-      setBookingPreviewAndContacts(true);
+      setShowBookingPreviewAndContacts(true);
     }
   }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
 
@@ -312,54 +312,9 @@ export default function BookingTreatmentsList() {
         handleSelectDate={handleSelectDate}
         handleTimeSlotSelect={handleTimeSlotSelect}
         handleDoctorSelect={handleDoctorSelect}
-        bookingPreviewAndContacts={bookingPreviewAndContacts}
+        showBookingPreviewAndContacts={showBookingPreviewAndContacts}
       />
-      {/* <form onSubmit={handleBookingSubmit}>
-        <TreatmentsListBooking
-          treatmentNames={treatmentNames}
-          selectedTreatment={selectedTreatment}
-          onSelect={handleTreatmentSelect}
-          onClear={handleTreatmentClear}
-        />
-        <MyCalendar
-          onDateChange={handleSelectDate}
-          selectedDate={selectedDate}
-          selectedTreatment={selectedTreatment}
-          bookedDays={alreadyBookedDays}
-        />
 
-        <TimeSlots
-          doctorHealingtouchData={doctorHealingtouchData}
-          doctorBloodloverData={doctorBloodloverData}
-          selectedTreatment={selectedTreatment}
-          selectedDate={selectedDate}
-          selectedTime={selectedTimeSlot}
-          bookedDays={alreadyBookedDays}
-          onSelect={handleTimeSlotSelect}
-        />
-
-        <ChooseDoctor
-          doctors={doctors}
-          selectedTreatment={selectedTreatment}
-          selectedDate={selectedDate}
-          onSelect={handleDoctorSelect}
-          selectedDoctor={selectedDoctor}
-        />
-        {formError && (
-          <div className="text-red-500 text-center mt-4">{formError}</div>
-        )}
-        {bookingPreviewAndContacts && (
-          <div className="p-2 text-center mt-4">
-            <label>Your contact number</label>
-            <input type="number"></input>
-            <label>Your email</label>
-            <input type="email"></input>
-            <div className="text-center mx-auto my-6">
-              <StyledButton type="submit">Book an appointment</StyledButton>
-            </div>
-          </div>
-        )}
-      </form> */}
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}
     </main>
   );
