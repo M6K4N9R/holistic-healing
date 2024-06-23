@@ -199,12 +199,12 @@ export default function BookingTreatmentsList() {
   };
 
   const SuccessPopup = ({ onClose }) => (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-6 rounded shadow-lg">
+    <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 m-2 rounded shadow-lg">
         <h2 className="text-xl font-bold mb-4">Thank you.</h2>
         <p>
           Your appointment has been successfully booked! You will receive an
-          email confirmation shortly
+          email confirmation shortly.
         </p>
         <button
           className="mt-4 bg-primary text-white px-4 py-2 rounded"
