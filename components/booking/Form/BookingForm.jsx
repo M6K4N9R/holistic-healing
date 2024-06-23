@@ -81,6 +81,7 @@ export default function BookingForm({
             onHandleContactNumberInput={handleContactNumberInput}
             onHandleEmailInput={handleEmailInput}
             onHandlePatientNameInput={handlePatientNameInput}
+            
           />
         )}
       </form>

@@ -29,7 +29,7 @@ export default function BookingTreatmentsList() {
   const [patientName, setPatientName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [patientDetailsError, setPatientDetailsError] = useState("");
+  
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
 
@@ -65,21 +65,6 @@ export default function BookingTreatmentsList() {
   //     setFormError("Please select a doctor");
   //   }
   // }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
-
-  // Patients Details Validation
-  useEffect(() => {
-    if (showBookingPreviewAndContacts) {
-      if (!patientName) {
-        setFormError("Please write your name");
-      }
-      if (!contactNumber) {
-        setFormError("Please write your phone number");
-      }
-      if (!email) {
-        setFormError("Please write your email");
-      }
-    }
-  }, [showBookingPreviewAndContacts, patientName, contactNumber, email]);
 
   // ------------------------------  Handling Contact Details section
 
@@ -185,9 +170,6 @@ export default function BookingTreatmentsList() {
     }));
   };
 
-  const handleTimeSlotClear = () => {
-    setSelectedTimeSlot();
-  };
   // ------------------ Select Doctor
 
   const handleDoctorSelect = (id, firstName, lastName) => {
@@ -237,9 +219,9 @@ export default function BookingTreatmentsList() {
     setFormError("");
   };
   const resetPatientDetailsForm = () => {
-    setPatientName();
-    setContactNumber();
-    setEmail();
+    setPatientName("");
+    setContactNumber("");
+    setEmail("");
   };
 
   const SuccessPopup = ({ onClose }) => (
@@ -288,8 +270,6 @@ export default function BookingTreatmentsList() {
       patientDetails: { name: patientName, phone: contactNumber, email: email },
     };
 
-    // console.log("Booking data to send to Backend: ", bookingData);
-
     try {
       // --------- Send the treatment data to the server
 
@@ -309,6 +289,7 @@ export default function BookingTreatmentsList() {
         setFormSuccess(true);
         resetForm();
         resetPatientDetailsForm();
+        setShowBookingPreviewAndContacts(false);
       } else {
         console.error("Failed to book treatment");
         setFormError(
@@ -321,12 +302,18 @@ export default function BookingTreatmentsList() {
     }
   };
 
+  // console.log(
+  //   "Booking data: ",
+  //   selectedTreatment,
+  //   selectedDate,
+  //   selectedTimeSlot,
+  //   selectedDoctor,
+  //   patientName,
+  //   contactNumber,
+  //   email
+  // );
   console.log(
-    "Booking data: ",
-    selectedTreatment,
-    selectedDate,
-    selectedTimeSlot,
-    selectedDoctor,
+    "Booking data to send to Backend Patient Details: ",
     patientName,
     contactNumber,
     email

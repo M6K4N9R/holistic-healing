@@ -10,7 +10,7 @@ export default function PreviewBookingAndContacts({
   onHandleEmailInput,
   onHandlePatientNameInput,
 }) {
-  console.log("selectedTimeSlot In Preview ", selectedTreatment);
+  // console.log("selectedTimeSlot In Preview ", selectedTreatment);
   return (
     <>
       <div className={previewBookingAndContacts}>
