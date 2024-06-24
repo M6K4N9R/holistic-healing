@@ -326,7 +326,7 @@ export default function BookingTreatmentsList() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 mb-12 ${inter.className}`}
     >
       <BookingForm
         onSubmit={handleBookingSubmit}
