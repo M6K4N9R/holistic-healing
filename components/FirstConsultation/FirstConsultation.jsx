@@ -1,4 +1,4 @@
-import { StyledBox } from "../HealthChat/HealthChat";
+import { StyledBox } from "../SearchBar/SearchBar";
 import { StyledButton } from "../DefaulButton/DefaultButton";
 
 export default function HealthChatInvite() {

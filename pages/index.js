@@ -1,6 +1,6 @@
 // import Image from "next/image";
 import { Inter, Grechen_Fuemen } from "next/font/google";
-import HealthChatInvite from "@/components/HealthChat/HealthChat";
+import HealthChatInvite from "@/components/SearchBar/SearchBar";
 import UserTopBar from "@/components/UserTopBar/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
 import { useSession } from "next-auth/react";
@@ -36,13 +36,14 @@ export default function Home() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-5 px-5 mb-24 ${inter.className}`}
+      className={`flex flex-col min-h-screen items-center justify-between pt-0 pb-5 px-5 mb-24 ${inter.className}`}
     >
       <UserTopBar />
       <HealthChatInvite />
-      <div className="relative flex place-items-center">
-        <TreatmentsList />
-      </div>
+
+      {/* <div className="relative flex place-items-center"> */}
+      <TreatmentsList />
+      {/* </div> */}
 
       {/* <h1 className={`${grechen.className}`}>Better Holistic.</h1>
       <p>Your naturopathic practice in Berlin.</p> */}

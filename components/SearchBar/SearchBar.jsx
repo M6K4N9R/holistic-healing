@@ -16,15 +16,19 @@ const StyledBox = styled.section`
   border-radius: 9px;
 `;
 
-export default function HealthChatInvite() {
+export default function SearchBar() {
   return (
     <StyledBox>
-      <h2>Tell us how you feel</h2>
-      <p className="px-3 text-center">
-        Here you can fill in our health related questionaire and get suggestion
-        on naturopathic treatments.
-      </p>
-      <StyledButton>Start Chat</StyledButton>
+      <label htmlFor="email" className="self-start text-base font-semibold">
+        Search for symptoms
+      </label>
+      <input
+        type="search"
+        id="site-search"
+        name="q"
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+      />
+      <StyledButton>Search</StyledButton>
     </StyledBox>
   );
 }
