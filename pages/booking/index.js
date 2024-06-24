@@ -35,18 +35,50 @@ export default function BookingTreatmentsList() {
   // If Treatment is Selected =
   useEffect(() => {
     // Mapping through existing bookings collection to find treatments === selectedTreatment
-    if (data && selectedTreatment?.isSelected === true) {
-      const excistingBookingsWithSelectedTreatment = data.bookings.filter(
-        (booking) => booking.treatment._id === selectedTreatment.id
+    if (data && selectedTreatment?.isSelected === true && selectedDate?.date) {
+      const excistingBookingsOnSelectedDate = data.bookings.filter(
+        (booking) => booking.date.date === selectedDate.date
       );
-      // console.log(
-      //   "Selected Treatment is: ",
-      //   selectedTreatment,
-      //   "excistingBookingsWithSelectedTreatment: ",
-      //   excistingBookingsWithSelectedTreatment
-      // );
+      const doctorsWhoOfferSelectedTreatment = data?.doctors.filter((doctor) =>
+        doctor.treatments.includes(selectedTreatment.id)
+      );
+      const doctorsWhoOfferSelectedTreatmentAndAvailable =
+        excistingBookingsOnSelectedDate.filter((booking) =>
+          doctorsWhoOfferSelectedTreatment.includes(booking.doctor._id)
+        );
+      console.log(
+        "Selected Treatment is: ",
+        selectedTreatment,
+        "excistingBookingsOnSelectedDate: ",
+        excistingBookingsOnSelectedDate,
+        "doctorsWhoOfferSelectedTreatmentAndAvailable: ",
+        doctorsWhoOfferSelectedTreatmentAndAvailable
+      );
+      // if (
+      //   excistingBookingsWithSelectedTreatment.length > 0 &&
+      //   selectedDate?.date
+      // ) {
+      //   const excistingBookingsWithSelectedTreatmentOnSelectedDate =
+      //     excistingBookingsWithSelectedTreatment?.filter(
+      //       (booking) => booking.date.date === selectedDate.date
+      //     );
+      //   console.log(
+      //     "On same date bookings: ",
+      //     excistingBookingsWithSelectedTreatmentOnSelectedDate
+      //   );
+      //   if (
+      //     excistingBookingsWithSelectedTreatmentOnSelectedDate.length > 0 &&
+      //     selectedTimeSlot?.isSelected === true
+      //   ) {
+      //     const doctorsWhoOfferSelectedTreatment =
+      //       excistingBookingsWithSelectedTreatmentOnSelectedDate?.filter(
+      //         (booking) => booking.time === selectedTimeSlot.timeSlot
+      //       );
+      //   }
+      // }
+      console.log("Selected date: ", selectedDate);
     }
-  }, [selectedTreatment, data]);
+  }, [selectedTreatment, data, selectedDate, selectedTimeSlot]);
 
   // ----- Scroll to Contact Details in BookingForm
 
