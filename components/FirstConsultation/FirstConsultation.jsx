@@ -6,6 +6,7 @@ import {
   image,
   imageWrapper,
   imageContainer,
+  book,
 } from "./FirstConsultation.module.css";
 
 export default function FirstConsultation() {
@@ -24,10 +25,14 @@ export default function FirstConsultation() {
 
   return (
     <section className={container}>
-      <h3 className="text-center pt-6">First Consultation</h3>
-      <p className="text-sm text-center -mt-2 mb-10">
-        In-depth initial consultation resulting in personalized treatments plan
-      </p>
+      <div className="text-center pt-4 pb-5">
+        <h3>First Consultation</h3>
+        <p className="text-sm mb-5">
+          In-depth initial consultation resulting in personalized treatments
+          plan
+        </p>
+        <button className={book}>Book</button>
+      </div>
       <section className={imageContainer}>
         <Link href="./booking/">
           <div className={imageWrapper}>

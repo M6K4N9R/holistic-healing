@@ -12,3 +12,38 @@
   color: var(--dark);
   border-radius: 9px;
 }
+
+.search {
+    background-color: var(--white);
+    border: 1px solid var(--primary);
+    border-radius: 6px;
+    box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+    box-sizing: border-box;
+    color: var(--primary);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 6px 16px;
+    position: relative;
+    margin-right: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+  
+  .search:hover {
+    background-color: var(--primary);
+    color: var(--white);
+    box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+  }
+  
+  .search:active {
+    background-color: var(--primary);
+    color: var(--dark);
+  }

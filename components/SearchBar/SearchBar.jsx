@@ -1,5 +1,4 @@
-import { StyledButton } from "../DefaulButton/DefaultButton";
-import { container } from "./SearchBar.module.css";
+import { container, search } from "./SearchBar.module.css";
 
 export default function SearchBar() {
   return (
@@ -13,7 +12,7 @@ export default function SearchBar() {
         name="q"
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
       />
-      <StyledButton>Search</StyledButton>
+      <button className={search}>Search</button>
     </section>
   );
 }
