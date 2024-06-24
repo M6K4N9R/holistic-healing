@@ -68,6 +68,9 @@ export default function PreviewBookingAndContacts({
                 id="contact-number"
                 name="contact-number"
                 type="tel"
+                minLength="7"
+                maxLength="14"
+                inputmode="tel"
                 onChange={onHandleContactNumberInput}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
@@ -84,6 +87,7 @@ export default function PreviewBookingAndContacts({
                 id="email"
                 name="email"
                 type="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 onChange={onHandleEmailInput}
                 required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"

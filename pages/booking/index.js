@@ -32,27 +32,52 @@ export default function BookingTreatmentsList() {
 
   //--------------------------------- UseEffect Hocks for UPDATED STATES
 
-  // If Treatment is Selected =
+  // --------------- When Treatment is Selected:
   useEffect(() => {
-    // Mapping through existing bookings collection to find treatments === selectedTreatment
+    // Find existing bookings on Selected date
     if (data && selectedTreatment?.isSelected === true && selectedDate?.date) {
-      const excistingBookingsOnSelectedDate = data.bookings.filter(
+      const existingBookingsOnSelectedDate = data.bookings.filter(
         (booking) => booking.date.date === selectedDate.date
       );
+
+      // checking doctors who offer selected Treatment
+
       const doctorsWhoOfferSelectedTreatment = data?.doctors.filter((doctor) =>
         doctor.treatments.includes(selectedTreatment.id)
       );
+
+      // Looking for possible time slots
+      if (doctorsWhoOfferSelectedTreatment.length === 1) {
+        const availableDoctorAllTimeSlots =
+          doctorsWhoOfferSelectedTreatment[0].availability;
+
+        const bookedTimesOnSelectedDate = existingBookingsOnSelectedDate.map(
+          (booking) => booking.time
+        );
+        const availableDoctorFreeTimeSlot = availableDoctorAllTimeSlots.filter(
+          (timeSlot) => !bookedTimesOnSelectedDate.includes(timeSlot)
+        );
+        console.log(
+          "availableDoctorAllTimeSlots ",
+          availableDoctorAllTimeSlots,
+          "availableDoctorFreeTimeSlot",
+          availableDoctorFreeTimeSlot,
+          "TIME READ: ",
+          existingBookingsOnSelectedDate[0].time
+        );
+      }
+
       const doctorsWhoOfferSelectedTreatmentAndAvailable =
-        excistingBookingsOnSelectedDate.filter((booking) =>
+        existingBookingsOnSelectedDate.filter((booking) =>
           doctorsWhoOfferSelectedTreatment.includes(booking.doctor._id)
         );
       console.log(
         "Selected Treatment is: ",
         selectedTreatment,
         "excistingBookingsOnSelectedDate: ",
-        excistingBookingsOnSelectedDate,
-        "doctorsWhoOfferSelectedTreatmentAndAvailable: ",
-        doctorsWhoOfferSelectedTreatmentAndAvailable
+        existingBookingsOnSelectedDate,
+        "doctorsWhoOfferSelectedTreatment: ",
+        doctorsWhoOfferSelectedTreatment
       );
       // if (
       //   excistingBookingsWithSelectedTreatment.length > 0 &&
