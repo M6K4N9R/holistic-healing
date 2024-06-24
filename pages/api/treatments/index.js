@@ -11,6 +11,10 @@ export default async function handler(request, response) {
       { slug: 1, _id: 0 }
     );
 
+    const firstConsultation = await Treatment.findOne({
+      name: "First Consultation",
+    });
+
     const logo = await Logo.find();
     console.log("Logo in request: ", logo);
     console.log("Treatments: ", treatments);
@@ -18,6 +22,8 @@ export default async function handler(request, response) {
     if (!treatments && !logo) {
       return response.status(404).json({ status: "Not Found" });
     }
-    response.status(200).json({ treatments, treatmentNames, logo });
+    response
+      .status(200)
+      .json({ treatments, treatmentNames, logo, firstConsultation });
   }
 }

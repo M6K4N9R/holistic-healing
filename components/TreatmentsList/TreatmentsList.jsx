@@ -5,9 +5,6 @@ import { container } from "./TreatmentList.module.css";
 
 export default function TreatmentsList() {
   const { data, isLoading } = useSWR("/api/treatments");
-  const treatments = data?.treatments;
-
-  console.log("Treatments on Home: ", treatments);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -16,7 +13,9 @@ export default function TreatmentsList() {
   if (!data) {
     return;
   }
-  console.log("Data of treatments", treatments);
+  const treatments = data?.treatments;
+
+  console.log("Treatments on Home: ", treatments);
 
   return (
     <section className={container}>
@@ -33,7 +32,7 @@ export default function TreatmentsList() {
                   loading="eager"
                   className="rounded-md"
                   priority={true}
-                  style={{ objectFit: 'cover' }}
+                  style={{ objectFit: "cover" }}
                   width={140}
                   height={50}
                 />

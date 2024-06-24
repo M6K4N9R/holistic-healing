@@ -50,7 +50,7 @@ export default function Home() {
 
       <HealthChatInvite />
       <TreatmentsList />
-      {/* <FirstConsultation /> */}
+      <FirstConsultation />
     </main>
   );
 }
