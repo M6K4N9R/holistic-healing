@@ -54,6 +54,7 @@ export default function BookingTreatmentsList() {
         const bookedTimesOnSelectedDate = existingBookingsOnSelectedDate.map(
           (booking) => booking.time
         );
+
         const availableDoctorFreeTimeSlot = availableDoctorAllTimeSlots.filter(
           (timeSlot) => !bookedTimesOnSelectedDate.includes(timeSlot)
         );
