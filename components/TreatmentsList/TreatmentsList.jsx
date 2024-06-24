@@ -34,7 +34,7 @@ export default function TreatmentsList() {
                 // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority={true}
                 width={160}
-                height={70}
+                height={80}
               />
               <div className="absolute z-20 inset-0">
                 <div className="bg-primary h-full w-full rounded-md opacity-60 group-hover:opacity-100" />

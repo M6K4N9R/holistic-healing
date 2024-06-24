@@ -46,7 +46,7 @@ export default function UserPage() {
 
   return (
     <>
-      <div className="flex w-11/12 justify-between items-baseline bg-bright shadow-md rounded-lg p-3 my-3 mx-auto">
+      <div className="flex w-11/12 justify-between items-baseline bg-bright shadow-md rounded-lg p-3 mt-3 pb-5 mb-24 mx-auto">
         <h3 className={` ${grechen.className}`}>
           Welcome back{" "}
           <span className="text-secondary font-bold">{doctorName}</span>

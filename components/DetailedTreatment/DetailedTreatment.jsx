@@ -85,7 +85,7 @@ export default function DetailedTreatment() {
 
   return (
     <>
-      <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-gray-100 m-2 p-2">
+      <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-white text-dark m-2 p-2">
         <button onClick={handlePrev} value={"<"}>
           {"<"}
         </button>
@@ -94,7 +94,7 @@ export default function DetailedTreatment() {
           {">"}
         </button>
       </div>
-      <div className="flex flex-col items-start mb-5">
+      <div className="flex flex-col items-start mb-24">
         <Image
           alt={currentTreatment.name}
           src={currentTreatment.image}

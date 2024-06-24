@@ -1,5 +1,5 @@
 .previewBookingAndContacts {
-  margin: 2rem auto;
+  margin: 2rem auto 0 auto;
   padding: 1rem;
   width: 90vw;
   height: auto;
@@ -46,7 +46,7 @@
 
 .submit:hover {
   background-color: var(--bright);
-  box-shadow: var(--white) 0 1px 1px 1px;;
+  box-shadow: var(--white) 0 1px 1px 1px;
 }
 
 .submit:focus {
@@ -64,7 +64,7 @@
 .submit:active {
   color: var(--white);
   background-color: var(--primary);
-  border: 1px solid var(--bright);;
+  border: 1px solid var(--bright);
   box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
 }
 

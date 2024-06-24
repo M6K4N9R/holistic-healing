@@ -10,8 +10,8 @@ const BottomNavBar = () => {
       <Link href="/">
         <div className={router.pathname === "/" ? styles.active : ""}>Home</div>
       </Link>
-      <Link href="/about">
-        <div className={router.pathname === "/about" ? styles.active : ""}>
+      <Link href="/treatments/ear-accupuncture">
+        <div className={router.pathname === "/treatments" ? styles.active : ""}>
           About
         </div>
       </Link>
