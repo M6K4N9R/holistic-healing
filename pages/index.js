@@ -3,6 +3,7 @@ import { Inter, Grechen_Fuemen } from "next/font/google";
 import HealthChatInvite from "@/components/SearchBar/SearchBar";
 import UserTopBar from "@/components/UserTopBar/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
+import FirstConsultation from "@/components/FirstConsultation/FirstConsultation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -49,6 +50,7 @@ export default function Home() {
 
       <HealthChatInvite />
       <TreatmentsList />
+      {/* <FirstConsultation /> */}
     </main>
   );
 }
