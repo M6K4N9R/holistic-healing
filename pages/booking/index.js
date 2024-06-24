@@ -22,6 +22,9 @@ export default function BookingTreatmentsList() {
   const [selectedDoctor, setSelectedDoctor] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [selectedTimeSlot, setSelectedTimeSlot] = useState();
+  const [posibleTimeSlotsFiltered, setPosibleTimeSlotsFiltered] =
+    useState(false);
+  const [filteredTimeSlots, setFilteredTimeSlots] = useState([]);
   const [formSuccess, setFormSuccess] = useState(false);
   const [showBookingPreviewAndContacts, setShowBookingPreviewAndContacts] =
     useState(false);
@@ -58,13 +61,15 @@ export default function BookingTreatmentsList() {
         const availableDoctorFreeTimeSlot = availableDoctorAllTimeSlots.filter(
           (timeSlot) => !bookedTimesOnSelectedDate.includes(timeSlot)
         );
+        setPosibleTimeSlotsFiltered(true);
+        setFilteredTimeSlots(availableDoctorFreeTimeSlot);
         console.log(
           "availableDoctorAllTimeSlots ",
           availableDoctorAllTimeSlots,
           "availableDoctorFreeTimeSlot",
           availableDoctorFreeTimeSlot,
           "TIME READ: ",
-          existingBookingsOnSelectedDate[0].time
+          existingBookingsOnSelectedDate[0]?.time
         );
       }
 
@@ -359,6 +364,7 @@ export default function BookingTreatmentsList() {
         selectedTreatment={selectedTreatment}
         selectedDate={selectedDate}
         selectedTimeSlot={selectedTimeSlot}
+        filteredTimeSlots={filteredTimeSlots}
         selectedDoctor={selectedDoctor}
         data={data}
         handleTreatmentSelect={handleTreatmentSelect}

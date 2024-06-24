@@ -5,6 +5,7 @@ export default function TimeSlots({
   doctorBloodloverData,
   selectedTreatment,
   selectedDate,
+  filteredTimeSlots,
   bookedDays,
   selectedTimeSlot,
 
@@ -83,20 +84,35 @@ export default function TimeSlots({
       <h3 className="text-left">Select time</h3>
 
       <div className={timeSlots}>
-        {sortedTimeSlots.map((timeSlot, index) => (
-          <button
-            key={index}
-            type="button"
-            className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
-              timeSlot === selectedTimeSlot?.timeSlot
-                ? "bg-primary text-white font-semibold"
-                : "bg-bright text-dark"
-            }`}
-            onClick={() => onSelect(timeSlot)}
-          >
-            {timeSlot}
-          </button>
-        ))}
+        {filteredTimeSlots.length > 1
+          ? filteredTimeSlots.map((timeSlot, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
+                  timeSlot === selectedTimeSlot?.timeSlot
+                    ? "bg-primary text-white font-semibold"
+                    : "bg-bright text-dark"
+                }`}
+                onClick={() => onSelect(timeSlot)}
+              >
+                {timeSlot}
+              </button>
+            ))
+          : sortedTimeSlots.map((timeSlot, index) => (
+              <button
+                key={index}
+                type="button"
+                className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
+                  timeSlot === selectedTimeSlot?.timeSlot
+                    ? "bg-primary text-white font-semibold"
+                    : "bg-bright text-dark"
+                }`}
+                onClick={() => onSelect(timeSlot)}
+              >
+                {timeSlot}
+              </button>
+            ))}
       </div>
     </>
   );

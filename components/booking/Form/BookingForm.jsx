@@ -22,6 +22,7 @@ export default function BookingForm({
   handleContactNumberInput,
   handleEmailInput,
   handlePatientNameInput,
+  filteredTimeSlots
 }) {
   // ==================== Fetched data is: ============
   const {
@@ -55,6 +56,7 @@ export default function BookingForm({
         <TimeSlots
           doctorHealingtouchData={doctorHealingtouchData}
           doctorBloodloverData={doctorBloodloverData}
+          filteredTimeSlots={filteredTimeSlots}
           selectedTreatment={selectedTreatment}
           selectedDate={selectedDate}
           selectedTimeSlot={selectedTimeSlot}
