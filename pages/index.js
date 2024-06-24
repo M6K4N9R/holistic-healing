@@ -39,12 +39,14 @@ export default function Home() {
       className={`flex flex-col min-h-screen items-center justify-between pt-0 pb-5 px-5 mb-24 ${inter.className}`}
     >
       <UserTopBar grechen={grechen} />
-      <div className="self-start">
-        
-        <p className={`${grechen.className}  text-slate-500 -mt-4`}>
-          Your naturopathic practice in Berlin.
-        </p>
-      </div>
+
+      <h1 className={`${grechen.className} text-secondary text-center mt-8`}>
+        Holistic Healing{" "}
+      </h1>
+      <p className={`${grechen.className} text-gray-600 text-lg -mt-2`}>
+        your naturopathic practice in Berlin
+      </p>
+
       <HealthChatInvite />
       <TreatmentsList />
     </main>
