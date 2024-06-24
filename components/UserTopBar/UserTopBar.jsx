@@ -1,9 +1,8 @@
 import AuthButton from "../auth-button/AuthButton";
 import { useSession } from "next-auth/react";
 
-export default function UserTopBar() {
+export default function UserTopBar({grechen}) {
   const { data: session } = useSession();
-
 
   return (
     <section className="flex justify-between items-center w-full">
@@ -19,8 +18,8 @@ export default function UserTopBar() {
           </>
         ) : (
           <>
-            <h3>Good morning.</h3>
-            <p className="text-slate-500">What can we do for you?</p>
+            <h2 className={`${grechen.className}`}>Better Holistic.</h2>
+            
           </>
         )}
       </div>
