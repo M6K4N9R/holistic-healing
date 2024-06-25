@@ -98,6 +98,7 @@ export default function Home() {
       <SearchBar
         filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
         onHandleSymptomSearch={handleSymptomSearch}
+        falseSearchedSymptom={falseSearchedSymptom}
       />
       <TreatmentsList
         treatments={treatments}

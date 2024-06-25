@@ -3,6 +3,7 @@ import { container, search } from "./SearchBar.module.css";
 export default function SearchBar({
   onHandleSymptomSearch,
   filteredSymptomsFromDuplicates,
+  falseSearchedSymptom,
 }) {
   return (
     <form className={container} onSubmit={onHandleSymptomSearch}>
@@ -24,6 +25,12 @@ export default function SearchBar({
           <option key={`${symptom}-${index}`} value={symptom} />
         ))}
       </datalist>
+      {falseSearchedSymptom && (
+        <div className="border border-solid border-secondary p-2 w-full rounded-lg text-center text-sm">
+          Maybe our treatments do not address your symptom. <br /> Consider
+          booking <span className="font-semibold">First Consultation</span>.
+        </div>
+      )}
       <button type="submit" className={search}>
         Search
       </button>
