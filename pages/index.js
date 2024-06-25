@@ -21,7 +21,21 @@ export default function Home() {
   const { data, isLoading } = useSWR("/api/treatments");
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [searchedSymptom, setSearchedSymptom] = useState([]);
+  const [searchedSymptom, setSearchedSymptom] = useState();
+  const [falseSearchedSymptom, setFalseSearchedSymptom] = useState(false);
+
+  useEffect(() => {
+    if (data?.treatments && searchedSymptom) {
+      const foundSymptom = data?.treatments.some((treatment) =>
+        treatment.symptoms.some((symptom) =>
+          symptom.toLowerCase().includes(searchedSymptom.toLowerCase())
+        )
+      );
+      setFalseSearchedSymptom(!foundSymptom);
+    } else {
+      setFalseSearchedSymptom(false);
+    }
+  }, [data, searchedSymptom]);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.email) {
@@ -61,10 +75,12 @@ export default function Home() {
 
   const handleSymptomSearch = async (event) => {
     event.preventDefault();
-    setSearchedSymptom(event.target.searchBar.value);
+    const searchTerm = event.target.searchBar.value.trim();
+    setSearchedSymptom(searchTerm);
   };
 
   console.log("searchedSymptom on home Page: ", searchedSymptom);
+  console.log("falseSearchedSymptom on home Page: ", falseSearchedSymptom);
 
   return (
     <main
@@ -83,7 +99,11 @@ export default function Home() {
         filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
         onHandleSymptomSearch={handleSymptomSearch}
       />
-      <TreatmentsList treatments={treatments} />
+      <TreatmentsList
+        treatments={treatments}
+        searchedSymptom={searchedSymptom}
+        falseSearchedSymptom={falseSearchedSymptom}
+      />
       <FirstConsultation firstConsultation={firstConsultation} />
     </main>
   );
