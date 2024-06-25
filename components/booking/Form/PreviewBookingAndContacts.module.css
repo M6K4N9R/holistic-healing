@@ -45,8 +45,11 @@
 }
 
 .submit:hover {
-  background-color: var(--bright);
-  box-shadow: var(--white) 0 1px 1px 1px;
+  background-color: var(--primary);
+  color: var(--white);
+  border: 1px solid var(--bright);
+
+  /* box-shadow: var(--white) 0 1px 1px 1px; */
 }
 
 .submit:focus {
@@ -62,7 +65,7 @@
 }
 
 .submit:active {
-  color: var(--white);
+  color: var(--dark);
   background-color: var(--primary);
   border: 1px solid var(--bright);
   box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
@@ -70,12 +73,12 @@
 
 .edit {
   appearance: none;
-  background-color: transparent;
-  border: 1px solid var(--primary);
+  background-color: var(--primary);
+  border: 1px solid var(--white);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
-  color: var(--primary);
+  color: var(--white);
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
@@ -99,8 +102,8 @@
 }
 
 .edit:hover {
-  background-color: var(--pastel);
-  color: var(--bright);
+  background-color: var(--white);
+  color: var(--secondary);
 }
 
 .edit:focus {

@@ -96,8 +96,9 @@ export default function PreviewBookingAndContacts({
           </div>
         </div>
         <div className="text-center mx-auto my-6">
+        <button type="button" className={edit} onClick={() => onClear()}>Edit</button>
           <button type="submit" className={submit}>
-            Book an appointment
+            Confirm
           </button>
         </div>
       </div>
