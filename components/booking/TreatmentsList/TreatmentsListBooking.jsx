@@ -9,9 +9,9 @@ export default function TreatmentsListBooking({
     <>
       <div className="flex justify-between items-center">
         <h3>Choose the treatment</h3>
-        <button type="button" className={btn} onClick={() => onClear()}>
+        {/* <button type="button" className={btn} onClick={() => onClear()}>
           clear
-        </button>
+        </button> */}
       </div>
       <ul className={treatmentsListBooking}>
         {treatmentNames.map((treatment) => (

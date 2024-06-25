@@ -22,7 +22,7 @@ export default function BookingForm({
   handleContactNumberInput,
   handleEmailInput,
   handlePatientNameInput,
-  filteredTimeSlots
+  filteredTimeSlots, handleEditBooking
 }) {
   // ==================== Fetched data is: ============
   const {
@@ -82,6 +82,7 @@ export default function BookingForm({
               onHandleContactNumberInput={handleContactNumberInput}
               onHandleEmailInput={handleEmailInput}
               onHandlePatientNameInput={handlePatientNameInput}
+              onEdit={handleEditBooking}
             />
           </div>
         )}

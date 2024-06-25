@@ -299,6 +299,13 @@ export default function BookingTreatmentsList() {
     setEmail(event.target.value);
   };
 
+  const handleEditBooking = () => {
+    console.log("Handle Edit");
+    setSelectedTimeSlot();
+    setSelectedDoctor();
+    setShowBookingPreviewAndContacts(false);
+  };
+
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
@@ -377,6 +384,7 @@ export default function BookingTreatmentsList() {
         handleEmailInput={handleEmailInput}
         handlePatientNameInput={handlePatientNameInput}
         bookingPreviewRef={bookingPreviewRef}
+        handleEditBooking={handleEditBooking}
       />
 
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}
