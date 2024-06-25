@@ -85,28 +85,7 @@ export default function BookingTreatmentsList() {
         "doctorsWhoOfferSelectedTreatment: ",
         doctorsWhoOfferSelectedTreatment
       );
-      // if (
-      //   excistingBookingsWithSelectedTreatment.length > 0 &&
-      //   selectedDate?.date
-      // ) {
-      //   const excistingBookingsWithSelectedTreatmentOnSelectedDate =
-      //     excistingBookingsWithSelectedTreatment?.filter(
-      //       (booking) => booking.date.date === selectedDate.date
-      //     );
-      //   console.log(
-      //     "On same date bookings: ",
-      //     excistingBookingsWithSelectedTreatmentOnSelectedDate
-      //   );
-      //   if (
-      //     excistingBookingsWithSelectedTreatmentOnSelectedDate.length > 0 &&
-      //     selectedTimeSlot?.isSelected === true
-      //   ) {
-      //     const doctorsWhoOfferSelectedTreatment =
-      //       excistingBookingsWithSelectedTreatmentOnSelectedDate?.filter(
-      //         (booking) => booking.time === selectedTimeSlot.timeSlot
-      //       );
-      //   }
-      // }
+
       console.log("Selected date: ", selectedDate);
     }
   }, [selectedTreatment, data, selectedDate, selectedTimeSlot]);
@@ -156,21 +135,6 @@ export default function BookingTreatmentsList() {
     availableTimeSlots.push(doctorBloodloverData.availability);
   }
 
-  /* 
-  ----------------- Filtering timeSlots options based on selected Treatment
-  
-  const excistingBookingsWithSelectedTreatment = [{}] // 1. Go through bookings and return bookings who's booking.treatment === selectedtreatment
-  const excistingBookingsWithSelectedDate = excistingBookingsWithSelectedTreatment.map((booking)=> booking.date.date.includes(selectedDate.date)) // 2. 
-  const timeSlotIsAlreadyBookedBooking = excistingBookingsWithSelectedDate.map((booking) => booking.time === selectedTimeSlot)
-  const doctorOfMatchedTreatment = timeSlotIsAlreadyBookedBooking.doctor
-  const otherDoctorsWhoCanDoThisTreatment = doctors.map((doctor) => doctor.availability.includes(selectedTimeSlot))
-  const doctorsThatAreNotBookedOnThisDayAndTime = bookings.map((booking) => )
-    if (timeSlotIsAlreadyBooked?.length > 0 && ) {
-      
-    }
-    
-
-*/
   // ===================== HANDLING SELECTION and CLEARING SELECTION FUNCTIONS
 
   // ----------------- Select/Clear Treatment
@@ -240,23 +204,6 @@ export default function BookingTreatmentsList() {
 
   // ====================================== HANDLING SUBMIT =========================
 
-  // const formFirstValidation = () => {
-  //   if (
-  //     !selectedTreatment ||
-  //     !selectedDate ||
-  //     !selectedTimeSlot ||
-  //     !selectedDoctor
-  //   ) {
-  //     setFormError(
-  //       "Please make sure you selected a treatment, date and time and doctor."
-  //     );
-  //     return false;
-  //   }
-
-  //   setFormError("");
-  //   return true;
-  // };
-
   const resetForm = () => {
     setSelectedTreatment();
     setSelectedDoctor();
@@ -297,6 +244,13 @@ export default function BookingTreatmentsList() {
 
   const handleEmailInput = (event) => {
     setEmail(event.target.value);
+  };
+
+  const handleEditBooking = () => {
+    console.log("Handle Edit");
+    setSelectedTimeSlot();
+    setSelectedDoctor();
+    setShowBookingPreviewAndContacts(false);
   };
 
   const handleBookingSubmit = async (event) => {
@@ -357,7 +311,7 @@ export default function BookingTreatmentsList() {
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-5 px-5  mb-24 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-5 px-5 mb-24 ${inter.className}`}
     >
       <BookingForm
         onSubmit={handleBookingSubmit}
@@ -377,6 +331,7 @@ export default function BookingTreatmentsList() {
         handleEmailInput={handleEmailInput}
         handlePatientNameInput={handlePatientNameInput}
         bookingPreviewRef={bookingPreviewRef}
+        handleEditBooking={handleEditBooking}
       />
 
       {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}

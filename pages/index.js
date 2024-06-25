@@ -1,12 +1,13 @@
 // import Image from "next/image";
 import { Inter, Grechen_Fuemen } from "next/font/google";
-import HealthChatInvite from "@/components/SearchBar/SearchBar";
+import SearchBar from "@/components/SearchBar/SearchBar";
 import UserTopBar from "@/components/UserTopBar/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
 import FirstConsultation from "@/components/FirstConsultation/FirstConsultation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -17,8 +18,24 @@ const inter = Inter({
 const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+  const { data, isLoading } = useSWR("/api/treatments");
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [searchedSymptom, setSearchedSymptom] = useState("");
+  const [falseSearchedSymptom, setFalseSearchedSymptom] = useState(false);
+
+  useEffect(() => {
+    if (data?.treatments && searchedSymptom) {
+      const foundSymptom = data?.treatments.some((treatment) =>
+        treatment.symptoms.some((symptom) =>
+          symptom.toLowerCase().includes(searchedSymptom.toLowerCase())
+        )
+      );
+      setFalseSearchedSymptom(!foundSymptom);
+    } else {
+      setFalseSearchedSymptom(false);
+    }
+  }, [data, searchedSymptom]);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.email) {
@@ -35,22 +52,64 @@ export default function Home() {
     return null; // Return null to avoid rendering the home page content
   }
 
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!data) {
+    return;
+  }
+
+  const treatments = data?.treatments;
+  const symptoms = treatments.map((treatment) => treatment.symptoms).flat();
+  const firstConsultation = data?.firstConsultation;
+
+  const filteredSymptomsFromDuplicates = symptoms.reduce(
+    (accumulator, currentValue) => {
+      return accumulator.includes(currentValue)
+        ? accumulator
+        : [...accumulator, currentValue];
+    },
+    []
+  );
+
+  const handleSymptomSearch = (symptom) => {
+    setSearchedSymptom(symptom);
+  };
+
+  const handleClearSearch = () => {
+    setSearchedSymptom("");
+  };
+
+  console.log("searchedSymptom on home Page: ", searchedSymptom);
+  console.log("falseSearchedSymptom on home Page: ", falseSearchedSymptom);
+
   return (
     <main
-      className={`flex flex-col min-h-screen items-center justify-between pt-0 pb-5 px-5 mb-24 ${inter.className}`}
+      className={`flex flex-col min-h-screen items-center justify-between max-w-lg mx-auto pt-0 pb-5 px-5 mb-24 ${inter.className}`}
     >
       <UserTopBar grechen={grechen} />
 
       <h1 className={`${grechen.className} text-secondary text-center mt-8`}>
         Holistic Healing{" "}
       </h1>
-      <p className={`${grechen.className} text-gray-600 text-lg -mt-2`}>
-        your naturopathic practice in Berlin
+      <p className="text-gray-600 text-sm -mt-2">
+        Your naturopathic practice in Berlin
       </p>
 
-      <HealthChatInvite />
-      <TreatmentsList />
-      <FirstConsultation />
+      <SearchBar
+        onHandleSymptomSearch={handleSymptomSearch}
+        onHandleClearSearch={handleClearSearch}
+        filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
+        falseSearchedSymptom={falseSearchedSymptom}
+        searchedSymptom={searchedSymptom}
+      />
+      <TreatmentsList
+        treatments={treatments}
+        searchedSymptom={searchedSymptom}
+        falseSearchedSymptom={falseSearchedSymptom}
+      />
+      <FirstConsultation firstConsultation={firstConsultation} />
     </main>
   );
 }

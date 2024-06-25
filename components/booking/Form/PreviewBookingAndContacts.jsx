@@ -1,9 +1,8 @@
 import {
   previewBookingAndContacts,
   submit,
-  edit,
+  edit
 } from "./PreviewBookingAndContacts.module.css";
-import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 
 export default function PreviewBookingAndContacts({
   selectedTreatment,
@@ -13,6 +12,7 @@ export default function PreviewBookingAndContacts({
   onHandleContactNumberInput,
   onHandleEmailInput,
   onHandlePatientNameInput,
+  onEdit
 }) {
   // console.log("selectedTimeSlot In Preview ", selectedTreatment);
   return (
@@ -96,8 +96,11 @@ export default function PreviewBookingAndContacts({
           </div>
         </div>
         <div className="text-center mx-auto my-6">
+          <button type="button" className={edit} onClick={() => onEdit()}>
+            Edit
+          </button>
           <button type="submit" className={submit}>
-            Book an appointment
+            Confirm
           </button>
         </div>
       </div>

@@ -1,21 +1,7 @@
-.container {
-  margin: 3rem auto 1rem auto;
-  padding: 1rem;
-  width: 97%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+.book {
+  appearance: none;
   background-color: var(--white);
-  box-shadow: 0px 3px 8px var(--pastel);
-  color: var(--dark);
-  border-radius: 9px;
-}
-
-.search {
-  background-color: var(--white);
-  border: 1px solid var(--primary);
+  border: 1px solid var(--white);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
@@ -26,8 +12,8 @@
   font-weight: 600;
   line-height: 20px;
   padding: 6px 16px;
+  margin-right: 0.2rem;
   position: relative;
-  margin-right: 0.5rem;
   text-align: center;
   text-decoration: none;
   user-select: none;
@@ -37,21 +23,23 @@
   white-space: nowrap;
 }
 
-.search:hover {
+.book:hover {
   background-color: var(--primary);
   color: var(--white);
+  border: 1px solid var(--bright);
+}
+
+.book:active {
+  color: var(--dark);
+  background-color: var(--primary);
+  border: 1px solid var(--bright);
   box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
 }
 
-.search:active {
-  background-color: var(--primary);
-  color: var(--dark);
-}
-
-.clear {
+.back {
   appearance: none;
   background-color: var(--primary);
-  border: 1px solid var(--primary);
+  border: 1px solid var(--white);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
@@ -63,7 +51,7 @@
   line-height: 20px;
   padding: 6px 16px;
   position: relative;
-  margin-right: 0.5rem;
+  margin-left: 0.2rem;
   text-align: center;
   text-decoration: none;
   user-select: none;
@@ -73,11 +61,11 @@
   white-space: nowrap;
 }
 
-.clear:hover {
+.back:hover {
   background-color: var(--white);
   color: var(--secondary);
 }
 
-.clear:active {
+.back:active {
   color: var(--dark);
 }

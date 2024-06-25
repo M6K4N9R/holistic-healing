@@ -1,6 +1,4 @@
 import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import Credentials from "next-auth/providers/credentials";
 import GithubProvider from "next-auth/providers/github";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/db/mongodb.js";
@@ -8,17 +6,6 @@ import clientPromise from "@/db/mongodb.js";
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
-    Credentials({
-      name: "",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "your-email@example.com",
-        },
-        password: { label: "Spicy word", type: "password" },
-      },
-    }),
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
@@ -35,17 +22,6 @@ export const authOptions = {
           // admin: false,
           // preferedColors: ["#dddddd", "#ffffff"],
         };
-      },
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code",
-        },
       },
     }),
   ],
