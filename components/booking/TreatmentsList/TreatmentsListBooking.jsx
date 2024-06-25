@@ -7,7 +7,7 @@ export default function TreatmentsListBooking({
 }) {
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center max-w-lg mx-auto">
         <h3>Choose the treatment</h3>
         {/* <button type="button" className={btn} onClick={() => onClear()}>
           clear

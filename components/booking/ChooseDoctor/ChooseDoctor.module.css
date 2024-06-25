@@ -1,7 +1,7 @@
 .chooseDoctor {
   margin: 0 auto;
   padding: 1rem;
-  width: 90vw;
+  width: 100%;
   height: auto;
   display: flex;
   justify-content: space-evenly;

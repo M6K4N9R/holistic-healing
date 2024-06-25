@@ -22,7 +22,8 @@ export default function BookingForm({
   handleContactNumberInput,
   handleEmailInput,
   handlePatientNameInput,
-  filteredTimeSlots, handleEditBooking
+  filteredTimeSlots,
+  handleEditBooking,
 }) {
   // ==================== Fetched data is: ============
   const {
@@ -39,7 +40,7 @@ export default function BookingForm({
 
   return (
     <>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="max-w-lg mx-auto">
         <TreatmentsListBooking
           treatmentNames={treatmentNames}
           selectedTreatment={selectedTreatment}
