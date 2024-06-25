@@ -1,16 +1,27 @@
-import { container, search } from "./SearchBar.module.css";
+import { container, search, clear } from "./SearchBar.module.css";
+import { useRef } from "react";
 
 export default function SearchBar({
   onHandleSymptomSearch,
   filteredSymptomsFromDuplicates,
   falseSearchedSymptom,
+  searchedSymptom,
+  onHandleClearSearch,
 }) {
+  const searchInputRef = useRef(null);
   return (
-    <form className={container} onSubmit={onHandleSymptomSearch}>
+    <form
+      className={container}
+      onSubmit={(e) => {
+        e.preventDefault();
+        onHandleSymptomSearch(e.target.searchBar.value.trim());
+      }}
+    >
       <label htmlFor="site-search" className="text-base font-semibold">
         Search for symptom
       </label>
       <input
+        ref={searchInputRef}
         type="text"
         id="site-search"
         list="symptoms"
@@ -31,9 +42,17 @@ export default function SearchBar({
           booking <span className="font-semibold">First Consultation</span>.
         </div>
       )}
-      <button type="submit" className={search}>
-        Search
-      </button>
+      <div className="text-center mx-auto my-6">
+        {searchedSymptom && (
+          <button type="button" className={clear} onClick={onHandleClearSearch}>
+            See all treatments
+          </button>
+        )}
+
+        <button type="submit" className={search}>
+          Search
+        </button>
+      </div>
     </form>
   );
 }

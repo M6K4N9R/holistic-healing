@@ -21,7 +21,7 @@ export default function Home() {
   const { data, isLoading } = useSWR("/api/treatments");
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [searchedSymptom, setSearchedSymptom] = useState();
+  const [searchedSymptom, setSearchedSymptom] = useState("");
   const [falseSearchedSymptom, setFalseSearchedSymptom] = useState(false);
 
   useEffect(() => {
@@ -73,10 +73,12 @@ export default function Home() {
     []
   );
 
-  const handleSymptomSearch = async (event) => {
-    event.preventDefault();
-    const searchTerm = event.target.searchBar.value.trim();
-    setSearchedSymptom(searchTerm);
+  const handleSymptomSearch = (symptom) => {
+    setSearchedSymptom(symptom);
+  };
+
+  const handleClearSearch = () => {
+    setSearchedSymptom("");
   };
 
   console.log("searchedSymptom on home Page: ", searchedSymptom);
@@ -96,9 +98,11 @@ export default function Home() {
       </p>
 
       <SearchBar
-        filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
         onHandleSymptomSearch={handleSymptomSearch}
+        onHandleClearSearch={handleClearSearch}
+        filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
         falseSearchedSymptom={falseSearchedSymptom}
+        searchedSymptom={searchedSymptom}
       />
       <TreatmentsList
         treatments={treatments}
