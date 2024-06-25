@@ -1,18 +1,46 @@
 import { container, search } from "./SearchBar.module.css";
+import useSWR from "swr";
 
 export default function SearchBar() {
+  const { data, isLoading } = useSWR("/api/treatments");
+
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!data) {
+    return;
+  }
+  const treatments = data?.treatments;
+  const symptoms = treatments.map((treatment) => treatment.symptoms);
+
+  console.log("Symptoms in SearchBar: ", symptoms);
+
+  const handleSymptomSearch = () => {};
+
   return (
     <section className={container}>
-      <label htmlFor="email" className="text-base font-semibold">
-        Search for symptoms
+      <label htmlFor="site-search" className="text-base font-semibold">
+        Search for symptom
       </label>
       <input
-        type="search"
+        type="text"
         id="site-search"
-        name="q"
+        list="symptoms"
+        name="search-bar"
+        placeholder=""
+        autoComplete="on"
+        required
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
       />
-      <button className={search}>Search</button>
+      <datalist id="symptoms">
+        {symptoms.map((symptom, index) => (
+          <option key={`${symptom}-${index}`} value={symptom} />
+        ))}
+      </datalist>
+      <button className={search} onClick={handleSymptomSearch}>
+        Search
+      </button>
     </section>
   );
 }

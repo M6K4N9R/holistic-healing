@@ -1,12 +1,12 @@
 // import Image from "next/image";
 import { Inter, Grechen_Fuemen } from "next/font/google";
-import HealthChatInvite from "@/components/SearchBar/SearchBar";
+import SearchBar from "@/components/SearchBar/SearchBar";
 import UserTopBar from "@/components/UserTopBar/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
 import FirstConsultation from "@/components/FirstConsultation/FirstConsultation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -19,6 +19,8 @@ const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 export default function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
+
+  const [searchedSymptom, setSearchedSymptom] = useState([]);
 
   useEffect(() => {
     if (status === "authenticated" && session?.user?.email) {
@@ -48,7 +50,7 @@ export default function Home() {
         your naturopathic practice in Berlin
       </p>
 
-      <HealthChatInvite />
+      <SearchBar />
       <TreatmentsList />
       <FirstConsultation />
     </main>

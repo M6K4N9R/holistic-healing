@@ -27,8 +27,6 @@ export default function FirstConsultation() {
     router.push("/booking/");
   }
 
-  console.log("Treatments in FirstConsultation: ", firstConsultation);
-
   return (
     <section className={container}>
       <div className="text-center pt-4 pb-5">

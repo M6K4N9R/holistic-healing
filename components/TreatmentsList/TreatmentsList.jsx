@@ -15,8 +15,6 @@ export default function TreatmentsList() {
   }
   const treatments = data?.treatments;
 
-  console.log("Treatments on Home: ", treatments);
-
   return (
     <section className={container}>
       <h3 className="pl-1">Our treatments</h3>

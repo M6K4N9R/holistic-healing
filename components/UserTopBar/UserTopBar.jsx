@@ -8,8 +8,6 @@ export default function UserTopBar({ grechen }) {
   const { data, isLoading } = useSWR("/api/treatments");
   const logo = data?.logo[1];
 
-  console.log("Logos on Home: ", logo);
-
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
