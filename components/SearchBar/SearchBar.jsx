@@ -27,7 +27,7 @@ export default function SearchBar({
         list="symptoms"
         name="searchBar"
         placeholder=""
-        autoComplete="on"
+        autoComplete="off"
         required
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
       />
