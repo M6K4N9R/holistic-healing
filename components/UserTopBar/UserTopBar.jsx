@@ -17,7 +17,7 @@ export default function UserTopBar({ grechen }) {
   }
 
   return (
-    <section className="flex justify-between items-center w-full mt-2">
+    <section className="flex justify-between items-center w-screen px-4 py-2 shadow">
       {session ? (
         <div className="flex-col justify-center items-center w-full">
           <h3 className="-mb-5">
