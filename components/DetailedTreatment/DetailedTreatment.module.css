@@ -1,0 +1,71 @@
+.book {
+  appearance: none;
+  background-color: var(--white);
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: var(--primary);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  margin-right: 0.2rem;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.book:hover {
+  background-color: var(--primary);
+  color: var(--white);
+  border: 1px solid var(--bright);
+}
+
+.book:active {
+  color: var(--dark);
+  background-color: var(--primary);
+  border: 1px solid var(--bright);
+  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
+}
+
+.back {
+  appearance: none;
+  background-color: var(--primary);
+  border: 1px solid var(--white);
+  border-radius: 6px;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: var(--white);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  margin-left: 0.2rem;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.back:hover {
+  background-color: var(--white);
+  color: var(--secondary);
+}
+
+.back:active {
+  color: var(--dark);
+}
