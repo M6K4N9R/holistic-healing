@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import {
   container,
   image,
@@ -10,6 +11,7 @@ import {
 } from "./FirstConsultation.module.css";
 
 export default function FirstConsultation() {
+  const router = useRouter();
   const { data, isLoading } = useSWR("/api/treatments");
 
   if (isLoading) {
@@ -21,6 +23,10 @@ export default function FirstConsultation() {
   }
   const firstConsultation = data?.firstConsultation;
 
+  function handleToBooking() {
+    router.push("/booking/");
+  }
+
   console.log("Treatments in FirstConsultation: ", firstConsultation);
 
   return (
@@ -31,22 +37,22 @@ export default function FirstConsultation() {
           In-depth initial consultation resulting in personalized treatments
           plan
         </p>
-        <button className={book}>Book</button>
+        <button className={book} onClick={handleToBooking}>
+          Book
+        </button>
       </div>
       <section className={imageContainer}>
-        <Link href="./booking/">
-          <div className={imageWrapper}>
-            <Image
-              alt={firstConsultation.name}
-              src={firstConsultation.image}
-              loading="eager"
-              className={image}
-              priority
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            />
-          </div>
-        </Link>
+        <div className={imageWrapper}>
+          <Image
+            alt={firstConsultation.name}
+            src={firstConsultation.image}
+            loading="eager"
+            className={image}
+            priority
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+        </div>
       </section>
     </section>
   );
