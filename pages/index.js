@@ -37,7 +37,7 @@ export default function Home() {
 
   return (
     <main
-      className={`flex flex-col min-h-screen items-center justify-between pt-0 pb-5 px-5 mb-24 ${inter.className}`}
+      className={`flex flex-col min-h-screen items-center justify-between max-w-lg mx-auto pt-0 pb-5 px-5 mb-24 ${inter.className}`}
     >
       <UserTopBar grechen={grechen} />
 

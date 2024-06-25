@@ -1,17 +1,35 @@
 .btn {
-  padding: 0.3em 0.9em;
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
   border-radius: 6px;
-  border: none;
-  font-size: 0.9rem;
-  margin-block: 0.5rem;
-  width: 5rem;
-  height: 2rem;
-  text-wrap: nowrap;
+  box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
+  box-sizing: border-box;
+  color: var(--white);
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+  padding: 6px 16px;
+  position: relative;
+  margin-right: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
 }
 
 .btn:hover {
-  opacity: 5;
-  color: var(--white);
+  background-color: var(--white);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn:active {
+  color: var(--dark);
 }
 
 .login {
