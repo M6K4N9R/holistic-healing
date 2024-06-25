@@ -10,18 +10,8 @@ import {
   book,
 } from "./FirstConsultation.module.css";
 
-export default function FirstConsultation() {
+export default function FirstConsultation({ firstConsultation }) {
   const router = useRouter();
-  const { data, isLoading } = useSWR("/api/treatments");
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!data) {
-    return;
-  }
-  const firstConsultation = data?.firstConsultation;
 
   function handleToBooking() {
     router.push("/booking/");

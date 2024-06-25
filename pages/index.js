@@ -7,6 +7,7 @@ import FirstConsultation from "@/components/FirstConsultation/FirstConsultation"
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -17,9 +18,9 @@ const inter = Inter({
 const grechen = Grechen_Fuemen({ weight: "400", subsets: ["latin"] });
 
 export default function Home() {
+  const { data, isLoading } = useSWR("/api/treatments");
   const { data: session, status } = useSession();
   const router = useRouter();
-
   const [searchedSymptom, setSearchedSymptom] = useState([]);
 
   useEffect(() => {
@@ -37,6 +38,31 @@ export default function Home() {
     return null; // Return null to avoid rendering the home page content
   }
 
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!data) {
+    return;
+  }
+
+  const treatments = data?.treatments;
+  const symptoms = treatments.map((treatment) => treatment.symptoms).flat();
+  const firstConsultation = data?.firstConsultation;
+
+  const filteredSymptomsFromDuplicates = symptoms.reduce(
+    (accumulator, currentValue) => {
+      return accumulator.includes(currentValue)
+        ? accumulator
+        : [...accumulator, currentValue];
+    },
+    []
+  );
+
+  const handleSymptomSearch = () => {};
+
+  console.log("Data on home Page: ", data);
+
   return (
     <main
       className={`flex flex-col min-h-screen items-center justify-between max-w-lg mx-auto pt-0 pb-5 px-5 mb-24 ${inter.className}`}
@@ -46,13 +72,15 @@ export default function Home() {
       <h1 className={`${grechen.className} text-secondary text-center mt-8`}>
         Holistic Healing{" "}
       </h1>
-      <p className={`${grechen.className} text-gray-600 text-lg -mt-2`}>
-        your naturopathic practice in Berlin
+      <p className="text-gray-600 text-sm -mt-2">
+        Your naturopathic practice in Berlin
       </p>
 
-      <SearchBar />
-      <TreatmentsList />
-      <FirstConsultation />
+      <SearchBar
+        filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
+      />
+      <TreatmentsList treatments={treatments} />
+      <FirstConsultation firstConsultation={firstConsultation} />
     </main>
   );
 }

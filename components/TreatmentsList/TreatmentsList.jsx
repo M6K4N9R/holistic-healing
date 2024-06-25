@@ -1,20 +1,8 @@
-import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
 import { container } from "./TreatmentList.module.css";
 
-export default function TreatmentsList() {
-  const { data, isLoading } = useSWR("/api/treatments");
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!data) {
-    return;
-  }
-  const treatments = data?.treatments;
-
+export default function TreatmentsList({ treatments }) {
   return (
     <section className={container}>
       <h3 className="pl-1">Our treatments</h3>

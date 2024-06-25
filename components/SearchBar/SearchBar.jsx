@@ -1,37 +1,11 @@
 import { container, search } from "./SearchBar.module.css";
-import useSWR from "swr";
 
-export default function SearchBar() {
-  const { data, isLoading } = useSWR("/api/treatments");
-
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
-
-  if (!data) {
-    return;
-  }
-  const treatments = data?.treatments;
-  const symptoms = treatments.map((treatment) => treatment.symptoms).flat();
-
-  const filteredSymptomsFromDuplicates = symptoms.reduce(
-    (accumulator, currentValue) => {
-      return accumulator.includes(currentValue)
-        ? accumulator
-        : [...accumulator, currentValue];
-    },
-    []
-  );
-
-  console.log(
-    "filteredSymptomsFromDuplicates in SearchBar: ",
-    filteredSymptomsFromDuplicates
-  );
-
-  const handleSymptomSearch = () => {};
-
+export default function SearchBar({
+  handleSymptomSearch,
+  filteredSymptomsFromDuplicates,
+}) {
   return (
-    <section className={container}>
+    <form className={container} onSubmit={handleSymptomSearch}>
       <label htmlFor="site-search" className="text-base font-semibold">
         Search for symptom
       </label>
@@ -50,9 +24,9 @@ export default function SearchBar() {
           <option key={`${symptom}-${index}`} value={symptom} />
         ))}
       </datalist>
-      <button className={search} onClick={handleSymptomSearch}>
+      <button type="submit" className={search} onClick={handleSymptomSearch}>
         Search
       </button>
-    </section>
+    </form>
   );
 }
