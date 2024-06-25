@@ -1,4 +1,5 @@
 import dbConnect from "@/db/dbConnect";
+import Logo from "@/db/models/Logo";
 import Treatment from "@/db/models/Treatment";
 
 export default async function handler(request, response) {
@@ -10,9 +11,19 @@ export default async function handler(request, response) {
       { slug: 1, _id: 0 }
     );
 
-    if (!treatments) {
+    const firstConsultation = await Treatment.findOne({
+      name: "First Consultation",
+    });
+
+    const logo = await Logo.find();
+    console.log("Logo in request: ", logo);
+    console.log("Treatments: ", treatments);
+
+    if (!treatments && !logo) {
       return response.status(404).json({ status: "Not Found" });
     }
-    response.status(200).json({ treatments, treatmentNames });
+    response
+      .status(200)
+      .json({ treatments, treatmentNames, logo, firstConsultation });
   }
 }

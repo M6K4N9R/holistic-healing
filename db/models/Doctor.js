@@ -6,7 +6,7 @@ const doctorSchema = new Schema({
   firstName: { type: String, required: true },
   lastName: { type: String, required: true },
   treatments: [{ type: Schema.Types.ObjectId, ref: "Treatment" }],
-  appointments: [{ type: Schema.Types.ObjectId, ref: "Booking" }],
+
   availability: { type: Array, required: true },
   days: { type: Array, required: true },
   email: { type: String, required: true },

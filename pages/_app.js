@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { SWRConfig } from "swr";
 import { SessionProvider } from "next-auth/react";
+import LayoutNavBar from "@/components/LayoutNavBar";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
@@ -11,7 +12,9 @@ export default function App({
   return (
     <SWRConfig value={{ fetcher }}>
       <SessionProvider session={session}>
-        <Component {...pageProps} />
+        <LayoutNavBar>
+          <Component {...pageProps} />
+        </LayoutNavBar>
       </SessionProvider>
     </SWRConfig>
   );

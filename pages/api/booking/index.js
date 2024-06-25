@@ -9,21 +9,69 @@ export default async function handler(request, response) {
   // ============================== GET
 
   if (request.method === "GET") {
-    const treatmentNames = await Treatment.find({}, { name: 1, _id: 1 });
-    const doctors = await Doctor.find();
+    // ------------------ GETTING Treatments --------
+    const treatmentNames = await Treatment.find(
+      {},
+      { name: 1, _id: 1, price: 1, duration: 1 }
+    );
+    // ------------------ GETTING Bookings Data to check availability --------
+    const bookings = await Booking.find()
+      .populate({
+        path: "doctor",
+        select: "availability days",
+      })
+      .populate("treatment");
 
-    // Checking TreatmentNames read
+    // ------------------- GETTING Doctor Names --------
+    const doctors = await Doctor.find({}, { email: 0 });
+
+    // ------------------- GETTING Doctors Time slots and days ----
+    const doctorHealingtouchData = await Doctor.find(
+      { lastName: "Healingtouch" },
+      { treatments: 1, availability: 1, days: 1 }
+    );
+    const doctorBloodloverData = await Doctor.find(
+      { lastName: "Bloodlover" },
+      { treatments: 1, availability: 1, days: 1 }
+    );
+
+    // ---------------------------------------------------
+    // ------------------ CHECKING TreatmentNames read ---
     if (!treatmentNames || treatmentNames.length === 0) {
       return response.status(404).json({ status: "Treatments not Found" });
     }
 
-    // Checking Doctors read
+    // -------------------- CHECKING Doctors read --------
     if (!doctors || doctors.length === 0) {
-      return response.status(404).json({ status: "Doctors not Found" });
+      return response.status(404).json({ status: "Doctor Names not Found" });
     }
 
-    // ======Response
-    response.status(200).json({ treatmentNames, doctors });
+    // -------------------- CHECKING Bookings read --------
+    if (!bookings || bookings.length === 0) {
+      return response.status(404).json({ status: "Bookings data not Found" });
+    }
+
+    // ------------------- CHECKING Doctor Healingtouch Time Slots read ------------
+    if (!doctorHealingtouchData || doctorHealingtouchData.length === 0) {
+      return response
+        .status(404)
+        .json({ status: "Doctor Healingtouch Availability info not Found" });
+    }
+    // ----------------- CHECKING Doctor Bloodlover Time Slots read ---------------
+    if (!doctorBloodloverData || doctorBloodloverData.length === 0) {
+      return response
+        .status(404)
+        .json({ status: "Doctor Bloodlover Availability info not Found" });
+    }
+
+    // =================== Response
+    response.status(200).json({
+      treatmentNames,
+      doctors,
+      doctorHealingtouchData,
+      doctorBloodloverData,
+      bookings,
+    });
   }
 
   // =============================== POST
@@ -32,7 +80,7 @@ export default async function handler(request, response) {
     try {
       const booking = request.body;
       await Booking.create(booking);
-
+      console.log("In api/booking request.body is: ", request.body);
       response.status(201).json({
         status: "Booking is created",
       });

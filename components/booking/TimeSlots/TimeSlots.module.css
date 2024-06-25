@@ -1,0 +1,16 @@
+.timeSlots {
+  margin: 0 auto;
+  padding: 1rem;
+  width: 90vw;
+  height: auto;
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: space-evenly;
+  gap: 0.5rem;
+  background-color: var(--white);
+  box-shadow: 0px 3px 8px var(--pastel);
+  color: var(--dark);
+  border-radius: 9px;
+}

@@ -1,10 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import React from "react";
 import useSWR from "swr";
-import { StyledButton } from "@/components/DefaulButton/DefaultButton";
-import MyCalendar from "@/components/Calendar/Calendar";
 import { useSession } from "next-auth/react";
 import { Inter } from "next/font/google";
+import BookingForm from "@/components/booking/Form/BookingForm";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -17,16 +16,124 @@ export default function BookingTreatmentsList() {
   const { data, isLoading } = useSWR("/api/booking");
   const { data: session, status } = useSession();
 
-  console.log("User: ", session);
-
   // ===================== Tracking the booking process of selection
 
-  const [selectedTreatment, setSelectedTreatment] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState("");
-  const [selectedTreatmentBgColor, setSelectedTreatmentBgColor] = useState("");
-  const [selectedDoctorBgColor, setSelectedDoctorBgColor] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedDay, setSelectedDay] = useState("");
+  const [selectedTreatment, setSelectedTreatment] = useState();
+  const [selectedDoctor, setSelectedDoctor] = useState();
+  const [selectedDate, setSelectedDate] = useState();
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState();
+  const [posibleTimeSlotsFiltered, setPosibleTimeSlotsFiltered] =
+    useState(false);
+  const [filteredTimeSlots, setFilteredTimeSlots] = useState([]);
+  const [formSuccess, setFormSuccess] = useState(false);
+  const [showBookingPreviewAndContacts, setShowBookingPreviewAndContacts] =
+    useState(false);
+  const bookingPreviewRef = useRef(null);
+  const [patientName, setPatientName] = useState("");
+  const [contactNumber, setContactNumber] = useState("");
+  const [email, setEmail] = useState("");
+
+  //--------------------------------- UseEffect Hocks for UPDATED STATES
+
+  // --------------- When Treatment is Selected:
+  useEffect(() => {
+    // Find existing bookings on Selected date
+    if (data && selectedTreatment?.isSelected === true && selectedDate?.date) {
+      const existingBookingsOnSelectedDate = data.bookings.filter(
+        (booking) => booking.date.date === selectedDate.date
+      );
+
+      // checking doctors who offer selected Treatment
+
+      const doctorsWhoOfferSelectedTreatment = data?.doctors.filter((doctor) =>
+        doctor.treatments.includes(selectedTreatment.id)
+      );
+
+      // Looking for possible time slots
+      if (doctorsWhoOfferSelectedTreatment.length === 1) {
+        const availableDoctorAllTimeSlots =
+          doctorsWhoOfferSelectedTreatment[0].availability;
+
+        const bookedTimesOnSelectedDate = existingBookingsOnSelectedDate.map(
+          (booking) => booking.time
+        );
+
+        const availableDoctorFreeTimeSlot = availableDoctorAllTimeSlots.filter(
+          (timeSlot) => !bookedTimesOnSelectedDate.includes(timeSlot)
+        );
+        setPosibleTimeSlotsFiltered(true);
+        setFilteredTimeSlots(availableDoctorFreeTimeSlot);
+        console.log(
+          "availableDoctorAllTimeSlots ",
+          availableDoctorAllTimeSlots,
+          "availableDoctorFreeTimeSlot",
+          availableDoctorFreeTimeSlot,
+          "TIME READ: ",
+          existingBookingsOnSelectedDate[0]?.time
+        );
+      }
+
+      const doctorsWhoOfferSelectedTreatmentAndAvailable =
+        existingBookingsOnSelectedDate.filter((booking) =>
+          doctorsWhoOfferSelectedTreatment.includes(booking.doctor._id)
+        );
+      console.log(
+        "Selected Treatment is: ",
+        selectedTreatment,
+        "excistingBookingsOnSelectedDate: ",
+        existingBookingsOnSelectedDate,
+        "doctorsWhoOfferSelectedTreatment: ",
+        doctorsWhoOfferSelectedTreatment
+      );
+      // if (
+      //   excistingBookingsWithSelectedTreatment.length > 0 &&
+      //   selectedDate?.date
+      // ) {
+      //   const excistingBookingsWithSelectedTreatmentOnSelectedDate =
+      //     excistingBookingsWithSelectedTreatment?.filter(
+      //       (booking) => booking.date.date === selectedDate.date
+      //     );
+      //   console.log(
+      //     "On same date bookings: ",
+      //     excistingBookingsWithSelectedTreatmentOnSelectedDate
+      //   );
+      //   if (
+      //     excistingBookingsWithSelectedTreatmentOnSelectedDate.length > 0 &&
+      //     selectedTimeSlot?.isSelected === true
+      //   ) {
+      //     const doctorsWhoOfferSelectedTreatment =
+      //       excistingBookingsWithSelectedTreatmentOnSelectedDate?.filter(
+      //         (booking) => booking.time === selectedTimeSlot.timeSlot
+      //       );
+      //   }
+      // }
+      console.log("Selected date: ", selectedDate);
+    }
+  }, [selectedTreatment, data, selectedDate, selectedTimeSlot]);
+
+  // ----- Scroll to Contact Details in BookingForm
+
+  useEffect(() => {
+    if (showBookingPreviewAndContacts && bookingPreviewRef.current) {
+      bookingPreviewRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [showBookingPreviewAndContacts]);
+
+  // ------------------------------  Handling Contact Details section
+
+  useEffect(() => {
+    if (
+      selectedTreatment &&
+      selectedDate &&
+      selectedTimeSlot &&
+      selectedDoctor
+    ) {
+      setShowBookingPreviewAndContacts(true);
+    }
+  }, [selectedTreatment, selectedDate, selectedTimeSlot, selectedDoctor]);
 
   // =========================================
 
@@ -37,9 +144,51 @@ export default function BookingTreatmentsList() {
   if (!data) {
     return;
   }
-  const { treatmentNames, doctors } = data;
 
-  // ===================== Select the date and Get the day from the date
+  // ===================== Destructured variables from data
+
+  // ---------- Available Time Slots
+
+  let availableTimeSlots = [];
+  function getAvailableTimeSlots() {
+    availableTimeSlots.push(doctorHealingtouchData.availability);
+
+    availableTimeSlots.push(doctorBloodloverData.availability);
+  }
+
+  /* 
+  ----------------- Filtering timeSlots options based on selected Treatment
+  
+  const excistingBookingsWithSelectedTreatment = [{}] // 1. Go through bookings and return bookings who's booking.treatment === selectedtreatment
+  const excistingBookingsWithSelectedDate = excistingBookingsWithSelectedTreatment.map((booking)=> booking.date.date.includes(selectedDate.date)) // 2. 
+  const timeSlotIsAlreadyBookedBooking = excistingBookingsWithSelectedDate.map((booking) => booking.time === selectedTimeSlot)
+  const doctorOfMatchedTreatment = timeSlotIsAlreadyBookedBooking.doctor
+  const otherDoctorsWhoCanDoThisTreatment = doctors.map((doctor) => doctor.availability.includes(selectedTimeSlot))
+  const doctorsThatAreNotBookedOnThisDayAndTime = bookings.map((booking) => )
+    if (timeSlotIsAlreadyBooked?.length > 0 && ) {
+      
+    }
+    
+
+*/
+  // ===================== HANDLING SELECTION and CLEARING SELECTION FUNCTIONS
+
+  // ----------------- Select/Clear Treatment
+
+  const handleTreatmentSelect = (id, name) => {
+    setSelectedTreatment((prevTreatment) => ({
+      ...prevTreatment,
+      id: id,
+      name: name,
+      isSelected: true,
+    }));
+  };
+
+  const handleTreatmentClear = () => {
+    setSelectedTreatment();
+  };
+
+  //----------- Select Date and getting the day of the week
 
   const handleSelectDate = (date) => {
     const days = [
@@ -51,28 +200,120 @@ export default function BookingTreatmentsList() {
       "Friday",
       "Saturday",
     ];
-    const jsDate = new Date(date.year, date.month - 1, date.day);
 
+    // Convert Calendar date Object into a string
+    const selectedDateString = `${date.year}/${date.month}/${date.day}`;
+
+    // Getting the day of the week
+    const jsDate = new Date(date.year, date.month - 1, date.day);
     const dayOfWeek = days[jsDate.getDay()];
-    setSelectedDate(date);
-    setSelectedDay(dayOfWeek);
+
+    // Updating the state
+    setSelectedDate((prevDate) => ({
+      ...prevDate,
+      date: selectedDateString,
+      day: dayOfWeek,
+    }));
+  };
+
+  // ------------------ Select Time Slot
+
+  const handleTimeSlotSelect = (time) => {
+    setSelectedTimeSlot((prevTimeSlot) => ({
+      ...prevTimeSlot,
+      timeSlot: time,
+      isSelected: true,
+    }));
+  };
+
+  // ------------------ Select Doctor
+
+  const handleDoctorSelect = (id, firstName, lastName) => {
+    setSelectedDoctor((prevDoctor) => ({
+      ...prevDoctor,
+      id: id,
+      firstName: firstName,
+      lastName: lastName,
+      isSelected: true,
+    }));
+  };
+
+  // ====================================== HANDLING SUBMIT =========================
+
+  // const formFirstValidation = () => {
+  //   if (
+  //     !selectedTreatment ||
+  //     !selectedDate ||
+  //     !selectedTimeSlot ||
+  //     !selectedDoctor
+  //   ) {
+  //     setFormError(
+  //       "Please make sure you selected a treatment, date and time and doctor."
+  //     );
+  //     return false;
+  //   }
+
+  //   setFormError("");
+  //   return true;
+  // };
+
+  const resetForm = () => {
+    setSelectedTreatment();
+    setSelectedDoctor();
+    setSelectedDate();
+    setSelectedTimeSlot();
+  };
+  const resetPatientDetailsForm = () => {
+    setPatientName("");
+    setContactNumber("");
+    setEmail("");
+  };
+
+  const SuccessPopup = ({ onClose }) => (
+    <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-6 m-2 rounded shadow-lg">
+        <h2 className="text-xl font-bold mb-4">Thank you.</h2>
+        <p>
+          Your appointment has been successfully booked! You will receive an
+          email confirmation shortly.
+        </p>
+        <button
+          className="mt-4 bg-primary text-white px-4 py-2 rounded"
+          onClick={onClose}
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+
+  const handlePatientNameInput = (event) => {
+    setPatientName(event.target.value);
+  };
+
+  const handleContactNumberInput = (event) => {
+    setContactNumber(event.target.value);
+  };
+
+  const handleEmailInput = (event) => {
+    setEmail(event.target.value);
   };
 
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
 
-    // ================ Renaming selected Treatment and Doctor to match Doctor Schema
+    // ------- Renaming selected Treatment and Doctor to match Doctor Schema
 
     const bookingData = {
-      treatment: selectedTreatment,
-      doctor: selectedDoctor,
+      treatment: selectedTreatment?.id,
+      doctor: selectedDoctor?.id,
       date: selectedDate,
-      day: selectedDay,
+      time: selectedTimeSlot?.timeSlot,
+      patientDetails: { name: patientName, phone: contactNumber, email: email },
     };
-    console.log("Booking data: ", bookingData);
 
     try {
-      // ====================== Send the treatment data to the server
+      // --------- Send the treatment data to the server
 
       const response = await fetch("/api/booking", {
         method: "POST",
@@ -87,81 +328,58 @@ export default function BookingTreatmentsList() {
           "Treatment booked successfully. The response is: ",
           bookingData
         );
-        // mutate();
+        setFormSuccess(true);
+        resetForm();
+        resetPatientDetailsForm();
+        setShowBookingPreviewAndContacts(false);
       } else {
         console.error("Failed to book treatment");
+        setFormError(
+          "Failed to book the appointment. Please reload the page and try again."
+        );
       }
     } catch (error) {
       console.error("Error:", error);
+      setFormError("An error occurred. Please try again.");
     }
   };
 
-  const handleTreatmentSelect = (id) => {
-    setSelectedTreatment(id);
-    setSelectedTreatmentBgColor("bg-primary text-white font-semibold");
-  };
-  const handleDoctorSelect = (id) => {
-    setSelectedDoctor(id);
-    setSelectedDoctorBgColor("bg-primary text-white font-semibold");
-  };
-  console.log("Selected treatment is: ", selectedTreatment);
-  console.log("Selected doctor is: ", selectedDoctor);
+  // console.log(
+  //   "Booking data: ",
+  //   selectedTreatment,
+  //   selectedDate,
+  //   selectedTimeSlot,
+  //   selectedDoctor,
+  //   patientName,
+  //   contactNumber,
+  //   email
+  // );
 
   return (
     <main
-      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-10 px-5 ${inter.className}`}
+      className={`flex min-h-screen flex-col items-center justify-between pt-0 pb-5 px-5  mb-24 ${inter.className}`}
     >
-      <form onSubmit={handleBookingSubmit}>
-        <h2 className="text-center mt-3 mb-3">Choose the treatment</h2>
-        <ul className="p-2 mt-5">
-          {treatmentNames.map((treatment) => (
-            <li
-              key={treatment._id}
-              className={`rounded-lg  w-4/6 m-1
-          p-1 cursor-pointer text-center ${
-            treatment._id === selectedTreatment
-              ? selectedTreatmentBgColor
-              : "bg-secondary/20"
-          }`}
-            >
-              <button
-                type="button"
-                onClick={() => handleTreatmentSelect(treatment._id)}
-              >
-                {treatment.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <h2 className="text-center mt-3 mb-3">Pick a date</h2>
+      <BookingForm
+        onSubmit={handleBookingSubmit}
+        selectedTreatment={selectedTreatment}
+        selectedDate={selectedDate}
+        selectedTimeSlot={selectedTimeSlot}
+        filteredTimeSlots={filteredTimeSlots}
+        selectedDoctor={selectedDoctor}
+        data={data}
+        handleTreatmentSelect={handleTreatmentSelect}
+        handleTreatmentClear={handleTreatmentClear}
+        handleSelectDate={handleSelectDate}
+        handleTimeSlotSelect={handleTimeSlotSelect}
+        handleDoctorSelect={handleDoctorSelect}
+        showBookingPreviewAndContacts={showBookingPreviewAndContacts}
+        handleContactNumberInput={handleContactNumberInput}
+        handleEmailInput={handleEmailInput}
+        handlePatientNameInput={handlePatientNameInput}
+        bookingPreviewRef={bookingPreviewRef}
+      />
 
-        <MyCalendar onDateChange={handleSelectDate} />
-
-        <h2 className="text-center mt-3 mb-3">Choose your Doctor</h2>
-        <ul className="p-2 mt-5">
-          {doctors.map((doctor) => (
-            <li
-              key={doctor._id}
-              className={`rounded-lg  w-4/6 m-1
-          p-1 text-center ${
-            doctor._id !== selectedDoctor
-              ? "bg-secondary/20"
-              : selectedDoctorBgColor
-          }`}
-            >
-              <button
-                type="button"
-                onClick={() => handleDoctorSelect(doctor._id)}
-              >
-                {doctor.firstName} {doctor.lastName}
-              </button>
-            </li>
-          ))}
-        </ul>
-        <div className="text-center mx-auto my-6">
-          <StyledButton>Book an appointment</StyledButton>
-        </div>
-      </form>
+      {formSuccess && <SuccessPopup onClose={() => setFormSuccess(false)} />}
     </main>
   );
 }
