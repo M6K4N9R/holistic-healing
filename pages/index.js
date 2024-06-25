@@ -59,9 +59,12 @@ export default function Home() {
     []
   );
 
-  const handleSymptomSearch = () => {};
+  const handleSymptomSearch = async (event) => {
+    event.preventDefault();
+    setSearchedSymptom(event.target.searchBar.value);
+  };
 
-  console.log("Data on home Page: ", data);
+  console.log("searchedSymptom on home Page: ", searchedSymptom);
 
   return (
     <main
@@ -78,6 +81,7 @@ export default function Home() {
 
       <SearchBar
         filteredSymptomsFromDuplicates={filteredSymptomsFromDuplicates}
+        onHandleSymptomSearch={handleSymptomSearch}
       />
       <TreatmentsList treatments={treatments} />
       <FirstConsultation firstConsultation={firstConsultation} />

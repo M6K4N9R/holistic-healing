@@ -1,11 +1,11 @@
 import { container, search } from "./SearchBar.module.css";
 
 export default function SearchBar({
-  handleSymptomSearch,
+  onHandleSymptomSearch,
   filteredSymptomsFromDuplicates,
 }) {
   return (
-    <form className={container} onSubmit={handleSymptomSearch}>
+    <form className={container} onSubmit={onHandleSymptomSearch}>
       <label htmlFor="site-search" className="text-base font-semibold">
         Search for symptom
       </label>
@@ -13,7 +13,7 @@ export default function SearchBar({
         type="text"
         id="site-search"
         list="symptoms"
-        name="search-bar"
+        name="searchBar"
         placeholder=""
         autoComplete="on"
         required
@@ -24,7 +24,7 @@ export default function SearchBar({
           <option key={`${symptom}-${index}`} value={symptom} />
         ))}
       </datalist>
-      <button type="submit" className={search} onClick={handleSymptomSearch}>
+      <button type="submit" className={search}>
         Search
       </button>
     </form>

@@ -3,7 +3,6 @@ import {
   submit,
   edit
 } from "./PreviewBookingAndContacts.module.css";
-import { StyledButton } from "@/components/DefaulButton/DefaultButton";
 
 export default function PreviewBookingAndContacts({
   selectedTreatment,
