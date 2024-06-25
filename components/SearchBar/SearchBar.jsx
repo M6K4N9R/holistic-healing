@@ -12,9 +12,21 @@ export default function SearchBar() {
     return;
   }
   const treatments = data?.treatments;
-  const symptoms = treatments.map((treatment) => treatment.symptoms);
+  const symptoms = treatments.map((treatment) => treatment.symptoms).flat();
 
-  console.log("Symptoms in SearchBar: ", symptoms);
+  const filteredSymptomsFromDuplicates = symptoms.reduce(
+    (accumulator, currentValue) => {
+      return accumulator.includes(currentValue)
+        ? accumulator
+        : [...accumulator, currentValue];
+    },
+    []
+  );
+
+  console.log(
+    "filteredSymptomsFromDuplicates in SearchBar: ",
+    filteredSymptomsFromDuplicates
+  );
 
   const handleSymptomSearch = () => {};
 
@@ -34,7 +46,7 @@ export default function SearchBar() {
         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
       />
       <datalist id="symptoms">
-        {symptoms.map((symptom, index) => (
+        {filteredSymptomsFromDuplicates.map((symptom, index) => (
           <option key={`${symptom}-${index}`} value={symptom} />
         ))}
       </datalist>
