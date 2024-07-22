@@ -1,4 +1,4 @@
-import { chooseDoctor, btn } from "./ChooseDoctor.module.css";
+import styles from "./ChooseDoctor.module.css";
 export default function ChooseDoctor({
   doctors,
   selectedDoctor,
@@ -6,13 +6,11 @@ export default function ChooseDoctor({
   selectedDate,
   onSelect,
 }) {
-  // console.log("In Choose Doctor SelectedTreatment is: ", selectedTreatment);
-  // -------- Conditional rendering for Please Choose Treatment First
   if (selectedTreatment === undefined || selectedDate === undefined) {
     return (
       <>
-        <h3 className="text-left">Choose Doctor</h3>
-        <div className="px-2 py-1 text-center align-middle shadow-pastel rounded-lg bg-bright text-dark">
+        <h3 className={styles.title}>Choose doctor</h3>
+        <div className={styles.note}>
           <p>Please choose a treatment and date first.</p>
         </div>
       </>
@@ -27,31 +25,17 @@ export default function ChooseDoctor({
       lastName: doctor.lastName,
     }));
 
-  // console.log("In Choose Doctor doctors are: ", doctors);
-  // console.log(
-  //   "In Choose Doctor doctorsWhoOfferSelectedTreatment: ",
-  //   doctorsWhoOfferSelectedTreatment
-  // );
   return (
     <>
-      <div className="flex justify-between items-center">
-        <h3>Choose doctor</h3>
-      </div>
+      <h3 className={styles.title}>Choose doctor</h3>
 
-      {/* ----------------- Conditional Rendering of a note, but need to add the name of Treatment
-       {doctorsWhoOfferSelectedTreatment.length === 1 && (
-        <div className="text-center mt-4">
-          <p>Only 👇 offers {selectedTreatment.name}</p>
-        </div>
-      )} */}
-      <ul className={chooseDoctor}>
+      <ul className={styles.chooseDoctor}>
         {doctorsWhoOfferSelectedTreatment.map((doctor) => (
           <button
-            className={`rounded-lg  w-11/12
-            px-2 py-1 cursor-pointer text-left  ${
+            className={`${styles.btn}  ${
               doctor.id === selectedDoctor?.id
-                ? "bg-primary text-white font-semibold"
-                : "bg-bright text-dark"
+                ? styles.selected
+                : styles.notSelected
             }`}
             key={doctor.id}
             type="button"
