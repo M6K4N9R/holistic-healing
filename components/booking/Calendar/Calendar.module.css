@@ -1,33 +1,14 @@
-.calendar {
-  width: 90%;
-  margin: 0 auto;
+.title {
+  text-align: left;
+}
+
+.container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* justify-content: space-between; */
-  border: 1px solid var(--pastel);
-  border-radius: 9px;
-  padding: 10px;
+  justify-content: center;
+  width: 100%;
+  gap: 1rem;
+  margin: 0 auto;
+  box-shadow: 0 4px 6px var(--pastel);
+  border-radius: 0.5rem;
   background-color: var(--white);
-  color: var(--dark);
-}
-
-.calendarDay {
-  /* Styles for individual calendar days */
-  padding: 5px;
-  text-align: center;
-  cursor: pointer;
-  color: #191919; /* dark color */
-}
-
-.calendarDay.selected {
-  /* Styles for the selected day */
-  background-color: #a05c7b; /* secondary color */
-  color: #ededed; /* white color */
-}
-
-.calendarDay.disabled {
-  /* Styles for disabled days */
-  color: #bdbbb6; /* pastel color */
-  cursor: not-allowed;
 }
