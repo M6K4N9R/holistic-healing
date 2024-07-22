@@ -1,9 +1,6 @@
 import { appointmentBlock } from "./AppointmentBlock.module.css";
 
-
 export default function AppointmentBlock({ treatment, date }) {
-  // const dateString = `${date.month} ${date.day}`;
-
   return (
     <>
       <div className={appointmentBlock}>
