@@ -1,8 +1,4 @@
-import {
-  previewBookingAndContacts,
-  submit,
-  edit
-} from "./PreviewBookingAndContacts.module.css";
+import styles from "./PreviewBookingAndContacts.module.css";
 
 export default function PreviewBookingAndContacts({
   selectedTreatment,
@@ -12,40 +8,34 @@ export default function PreviewBookingAndContacts({
   onHandleContactNumberInput,
   onHandleEmailInput,
   onHandlePatientNameInput,
-  onEdit
+  onEdit,
 }) {
-  // console.log("selectedTimeSlot In Preview ", selectedTreatment);
   return (
     <>
-      <div className={previewBookingAndContacts}>
-        <div className="text-center text-white border-b-2 border-bright">
+      <div className={styles.previewBookingAndContacts}>
+        <div className={styles.titleReviewBooking}>
           <h3>Please review your booking</h3>
         </div>
-        <div className="text-center mt-6 ">
-          <h4 className="text-white font-semibold">
-            {selectedTreatment?.name}
-          </h4>
-          <h4 className="text-white font-semibold">
-            <span className="font-thin text-sm">with{"  "}</span>
+        <div className={styles.bookingInfoSection}>
+          <h4 className={styles.bookingInfoTitle}>{selectedTreatment?.name}</h4>
+          <h4 className={styles.bookingInfoTitle}>
+            <span className={styles.bookingInfoSpanThin}>with{"  "}</span>
             {selectedDoctor?.firstName} {selectedDoctor?.lastName}
           </h4>
-          <h4 className="text-white font-semibold">
-            <span className="font-thin text-sm">on{"  "}</span>
+          <h4 className={styles.bookingInfoTitle}>
+            <span className={styles.bookingInfoSpanThin}>on{"  "}</span>
             {selectedDate?.date}
-            <span className="font-thin text-sm"> at </span>{" "}
-            <span className="text-white font-semibold">
+            <span className={styles.bookingInfoSpanThin}> at </span>{" "}
+            <span className={styles.bookingInfoTitle}>
               {selectedTimeSlot?.timeSlot}
             </span>
           </h4>
-          <div className="mt-7 border-2 border-bright p-3 rounded-lg ">
-            <p className="-mt-6  border-primary rounded-lg bg-primary mx-1 text-wrap text-bright">
+          <div className={styles.contactDetailsSection}>
+            <p className={styles.contactDetailsTitle}>
               Please fill your contact details.
             </p>
-            <div className="mb-4 mt-3">
-              <label
-                htmlFor="full-name"
-                className="block text-left text-sm font-medium text-gray-300"
-              >
+            <div className={styles.inputNameSection}>
+              <label htmlFor="full-name" className={styles.inputLabel}>
                 Your name
               </label>
               <input
@@ -54,14 +44,12 @@ export default function PreviewBookingAndContacts({
                 type="text"
                 onChange={onHandlePatientNameInput}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                className={styles.input}
               />
+              {/* =================================== Check Inputs styles =============================== */}
             </div>
-            <div className="mt-6 mb-4">
-              <label
-                htmlFor="contact-number"
-                className="block text-left text-sm font-medium text-gray-300"
-              >
+            <div className={styles.inputPhoneSection}>
+              <label htmlFor="contact-number" className={styles.inputLabel}>
                 Phone
               </label>
               <input
@@ -73,14 +61,11 @@ export default function PreviewBookingAndContacts({
                 inputmode="tel"
                 onChange={onHandleContactNumberInput}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                className={styles.input}
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="email"
-                className="block text-left text-sm font-medium text-gray-300"
-              >
+              <label htmlFor="email" className={styles.inputLabel}>
                 Email
               </label>
               <input
@@ -90,12 +75,12 @@ export default function PreviewBookingAndContacts({
                 pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                 onChange={onHandleEmailInput}
                 required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                className={styles.input}
               />
             </div>
           </div>
         </div>
-        <div className="text-center mx-auto my-6">
+        <div className={styles.buttonsSection}>
           <button type="button" className={edit} onClick={() => onEdit()}>
             Edit
           </button>
