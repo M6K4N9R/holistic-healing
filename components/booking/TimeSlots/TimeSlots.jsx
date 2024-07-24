@@ -1,4 +1,4 @@
-import { timeSlots } from "./TimeSlots.module.css";
+import styles from "./TimeSlots.module.css";
 
 export default function TimeSlots({
   doctorHealingtouchData,
@@ -11,13 +11,7 @@ export default function TimeSlots({
 
   onSelect,
 }) {
-  // console.log(
-  //   "In timeSlots:",
-  //   "selectedTreatment:",
-  //   selectedTreatment,
-  //   "selectedDate:",
-  //   selectedDate
-  // );
+
 
   if (selectedTreatment === undefined || selectedDate === undefined) {
     return (
@@ -30,12 +24,6 @@ export default function TimeSlots({
     );
   }
 
-  //
-
-  // Go
-  // If doctors.treatments.includes(selectedtreatment.id) {
-  // and if doctors.days.includes(selectedDate.day) and doctors.availability}
-  // If selectedTimeslot?.timeSlot
 
   // ---------------- Doctors Time Slots
   const healingtouchTimes = doctorHealingtouchData[0].availability;
@@ -72,27 +60,21 @@ export default function TimeSlots({
   });
   // ------------------------------------ END OF SORTING SIME SLOTS
 
-  // console.log(
-  //   "In Time Slots alltimesSlots: ",
-  //   allTimeSlots,
-  //   "Sorted time slots: ",
-  //   sortedTimeSlots
-  // );
 
   return (
     <>
       <h3 className="text-left">Select time</h3>
 
-      <div className={timeSlots}>
+      <div className={styles.timeSlots}>
         {filteredTimeSlots.length > 1
           ? filteredTimeSlots.map((timeSlot, index) => (
               <button
                 key={index}
                 type="button"
-                className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
+                className={`${styles.btn} ${
                   timeSlot === selectedTimeSlot?.timeSlot
-                    ? "bg-primary text-white font-semibold"
-                    : "bg-bright text-dark"
+                    ? styles.selected
+                    : styles.notSelected
                 }`}
                 onClick={() => onSelect(timeSlot)}
               >
@@ -103,10 +85,10 @@ export default function TimeSlots({
               <button
                 key={index}
                 type="button"
-                className={`w-32 px-2 py-1 h-8 text-center align-middle rounded-lg bg-bright text-dark ${
+                className={`${styles.btn} ${
                   timeSlot === selectedTimeSlot?.timeSlot
-                    ? "bg-primary text-white font-semibold"
-                    : "bg-bright text-dark"
+                  ? styles.selected
+                  : styles.notSelected
                 }`}
                 onClick={() => onSelect(timeSlot)}
               >

@@ -81,10 +81,10 @@ export default function PreviewBookingAndContacts({
           </div>
         </div>
         <div className={styles.buttonsSection}>
-          <button type="button" className={edit} onClick={() => onEdit()}>
+          <button type="button" className={styles.edit} onClick={() => onEdit()}>
             Edit
           </button>
-          <button type="submit" className={submit}>
+          <button type="submit" className={styles.submit}>
             Confirm
           </button>
         </div>
