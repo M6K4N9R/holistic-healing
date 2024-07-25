@@ -103,11 +103,12 @@ export default function DetailedTreatment() {
             </div>
           ))}
         </div>
-        <div className="self-center gap-2">
+        <div className={styles.buttonsContainer}>
           <StyledPlainButton onClick={handleGoBack}>Go back</StyledPlainButton>
-          <StyledButton
+          <button
+            className={styles.btnBook}
             onClick={handleBookAnAppointment}
-          >{`Book ${currentTreatment.name}`}</StyledButton>
+          >{`Book ${currentTreatment.name}`}</button>
         </div>
       </div>
     </>

@@ -64,22 +64,27 @@
   color: white;
 }
 
-.book {
-  appearance: none;
-  background-color: var(--white);
-  border: 1px solid var(--white);
+.buttonsContainer {
+  display: flex;
+  align-self: center;
+  gap: 0.5rem;
+}
+
+.btnBook {
+  background-color: var(--primary);
+  border: 1px solid var(--primary);
   border-radius: 6px;
   box-shadow: rgba(27, 31, 35, 0.1) 0 1px 0;
   box-sizing: border-box;
-  color: var(--primary);
+  color: var(--white);
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   padding: 6px 16px;
-  margin-right: 0.2rem;
   position: relative;
+  margin-right: 0.5rem;
   text-align: center;
   text-decoration: none;
   user-select: none;
@@ -87,19 +92,18 @@
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.book:hover {
+.btnBook:hover {
+  background-color: #fff;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btnBook:active {
   background-color: var(--primary);
-  color: var(--white);
-  border: 1px solid var(--bright);
-}
-
-.book:active {
   color: var(--dark);
-  background-color: var(--primary);
-  border: 1px solid var(--bright);
-  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
 }
 
 .back {
