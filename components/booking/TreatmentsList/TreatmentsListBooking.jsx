@@ -1,26 +1,19 @@
-import { treatmentsListBooking, btn } from "./TreatmentsListBooking.module.css";
+import styles from "./TreatmentsListBooking.module.css";
 export default function TreatmentsListBooking({
   treatmentNames,
   selectedTreatment,
   onSelect,
-  onClear,
 }) {
   return (
     <>
-      <div className="flex justify-between items-center max-w-lg mx-auto">
-        <h3>Choose the treatment</h3>
-        {/* <button type="button" className={btn} onClick={() => onClear()}>
-          clear
-        </button> */}
-      </div>
-      <ul className={treatmentsListBooking}>
+      <h3 className={styles.title}>Choose the treatment</h3>
+      <ul className={styles.treatmentsListBooking}>
         {treatmentNames.map((treatment) => (
           <button
-            className={`rounded-lg  w-11/12
-            px-2 py-1 cursor-pointer text-left  ${
+            className={`${styles.btn}  ${
               treatment._id === selectedTreatment?.id
-                ? "bg-primary text-white font-semibold"
-                : "bg-bright text-dark"
+                ? styles.selected
+                : styles.notSelected
             }`}
             key={treatment._id}
             type="button"

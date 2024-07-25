@@ -15,6 +15,10 @@
   border-radius: 9px;
 }
 
+.title {
+  text-align: left;
+}
+
 .btn {
   display: flex;
   justify-content: center;

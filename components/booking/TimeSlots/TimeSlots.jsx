@@ -63,8 +63,7 @@ export default function TimeSlots({
 
   return (
     <>
-      <h3 className="text-left">Select time</h3>
-
+      <h3 className={styles.title}>Select time</h3>
       <div className={styles.timeSlots}>
         {filteredTimeSlots.length > 1
           ? filteredTimeSlots.map((timeSlot, index) => (
