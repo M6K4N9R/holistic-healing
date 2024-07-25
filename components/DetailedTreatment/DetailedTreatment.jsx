@@ -4,23 +4,8 @@ import Image from "next/image";
 import styled from "styled-components";
 import { StyledButton } from "../DefaulButton/DefaultButton";
 import { StyledPlainButton } from "../DefaulButton/DefaultButton";
+import styles from "./DetailedTreatment.module.css";
 
-const StyledSymptomsBox = styled.section`
-  margin: 3rem auto 2rem auto;
-  padding: 1rem;
-  width: 90vw;
-  height: auto;
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  align-content: space-evenly;
-  gap: 0.5rem;
-  background-color: var(--white);
-  box-shadow: 0px 3px 8px var(--pastel);
-  color: var(--dark);
-  border-radius: 9px;
-`;
 
 export default function DetailedTreatment() {
   const router = useRouter();
@@ -49,7 +34,7 @@ export default function DetailedTreatment() {
   console.log("Data on detailed page: ", data);
   console.log("Array of slugs: ", treatmentNamesArray);
 
-  // =========================================== Buttons ========
+  // =========================================== Next Prev Buttons ========
 
   function handleNext() {
     let indexOfNextTreatment;
@@ -107,7 +92,7 @@ export default function DetailedTreatment() {
           <p className="white-space-pre-wrap">{currentTreatment.text}</p>
         </div>
 
-        <StyledSymptomsBox>
+        <div className={styles.symptomsContainer}>
           <h3>Symptoms Addressed</h3>
           <p className="white-space-pre-wrap mb-4">
             {`You can consider booking`}{" "}
@@ -122,7 +107,7 @@ export default function DetailedTreatment() {
               {symptom}
             </div>
           ))}
-        </StyledSymptomsBox>
+        </div>
         <div className="self-center gap-2">
           <StyledPlainButton onClick={handleGoBack}>Go back</StyledPlainButton>
           <StyledButton
