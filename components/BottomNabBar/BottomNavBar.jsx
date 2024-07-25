@@ -24,7 +24,7 @@ const BottomNavBar = () => {
       <Link href="/treatments/ear-accupuncture">
         <div
           className={
-            aboutPathnames.includes(router.pathname) ? styles.active : ""
+            router.pathname === "/treatments/[slug]" ? styles.active : ""
           }
         >
           About
