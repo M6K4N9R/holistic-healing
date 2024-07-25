@@ -1,3 +1,15 @@
+.nextPrevButtonsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 0.5rem 0.25rem;
+  align-items: center;
+  border-radius: 0.5rem;
+  background-color: var(--white);
+  color: var(--dark);
+  margin: 0.5rem;
+}
+
 .symptomsContainer {
   margin: 3rem auto 2rem auto;
   padding: 1rem;

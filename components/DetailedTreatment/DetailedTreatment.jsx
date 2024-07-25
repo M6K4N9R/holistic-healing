@@ -1,11 +1,9 @@
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import styled from "styled-components";
 import { StyledButton } from "../DefaulButton/DefaultButton";
 import { StyledPlainButton } from "../DefaulButton/DefaultButton";
 import styles from "./DetailedTreatment.module.css";
-
 
 export default function DetailedTreatment() {
   const router = useRouter();
@@ -70,7 +68,7 @@ export default function DetailedTreatment() {
 
   return (
     <>
-      <div className="flex flex-row justify-around px-1 items-center rounded-lg bg-white text-dark m-2 p-2">
+      <div className={styles.nextPrevButtonsContainer}>
         <button onClick={handlePrev} value={"<"}>
           {"<"}
         </button>
