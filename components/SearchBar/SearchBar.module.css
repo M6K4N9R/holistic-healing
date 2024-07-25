@@ -71,11 +71,13 @@
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease;
 }
 
 .clear:hover {
   background-color: var(--white);
   color: var(--secondary);
+  border: 1px solid var(--secondary);
 }
 
 .clear:active {
