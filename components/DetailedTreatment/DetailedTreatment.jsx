@@ -77,31 +77,28 @@ export default function DetailedTreatment() {
           {">"}
         </button>
       </div>
-      <div className="flex flex-col items-start mb-24">
+      <div className={styles.bodyContainer}>
         <Image
           alt={currentTreatment.name}
           src={currentTreatment.image}
           width={1920}
           height={1080}
-          className="w-full h-[70vh] object-cover md:w-[90vw] lg:w-[45vw]"
+          className={styles.image}
         />
-        <div className="px-3">
+        <div className={styles.text}>
           <h2>{currentTreatment.name}</h2>
-          <p className="white-space-pre-wrap">{currentTreatment.text}</p>
+          <p className={styles.p}>{currentTreatment.text}</p>
         </div>
 
         <div className={styles.symptomsContainer}>
           <h3>Symptoms Addressed</h3>
-          <p className="white-space-pre-wrap mb-4">
+          <p className={styles.p}>
             {`You can consider booking`}{" "}
             <strong>{`${currentTreatment.name}`}</strong>{" "}
             {`when you have the following symptoms:`}
           </p>
           {currentTreatment.symptoms.map((symptom, index) => (
-            <div
-              className="grow px-2 py-1 h-8 text-center align-middle rounded-lg bg-secondary text-white"
-              key={index}
-            >
+            <div className={styles.symptom} key={index}>
               {symptom}
             </div>
           ))}

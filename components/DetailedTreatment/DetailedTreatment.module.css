@@ -10,8 +10,31 @@
   margin: 0.5rem;
 }
 
+.bodyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 6rem;
+}
+
+.image {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+}
+
+.text {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.p {
+  white-space: pre-wrap;
+  margin-bottom: 1rem;
+}
+
 .symptomsContainer {
-  margin: 3rem auto 2rem auto;
+  margin: 2rem auto 2rem auto;
   padding: 1rem;
   width: 90vw;
   height: auto;
@@ -25,6 +48,20 @@
   box-shadow: 0px 3px 8px var(--pastel);
   color: var(--dark);
   border-radius: 9px;
+}
+
+.symptom {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  padding: 0.5rem 0.5rem;
+  height: 2rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  background-color: var(--secondary);
+  color: white;
 }
 
 .book {
@@ -97,4 +134,18 @@
 
 .back:active {
   color: var(--dark);
+}
+
+/* =============================================== RESPONSIVE ============================  */
+
+@media (min-width: 768px) {
+  .image {
+    width: 90vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .image {
+    width: 45vw;
+  }
 }
