@@ -1,8 +1,6 @@
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { StyledButton } from "../DefaulButton/DefaultButton";
-import { StyledPlainButton } from "../DefaulButton/DefaultButton";
 import styles from "./DetailedTreatment.module.css";
 
 export default function DetailedTreatment() {
@@ -104,7 +102,9 @@ export default function DetailedTreatment() {
           ))}
         </div>
         <div className={styles.buttonsContainer}>
-          <StyledPlainButton onClick={handleGoBack}>Go back</StyledPlainButton>
+          <button className={styles.btnBack} onClick={handleGoBack}>
+            Go back
+          </button>
           <button
             className={styles.btnBook}
             onClick={handleBookAnAppointment}
