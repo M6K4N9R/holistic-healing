@@ -35,12 +35,12 @@
   touch-action: manipulation;
   vertical-align: middle;
   white-space: nowrap;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .search:hover {
   background-color: var(--primary);
   color: var(--white);
-  box-shadow: rgba(20, 70, 32, 0.2) 0 1px 0 inset;
 }
 
 .search:active {
