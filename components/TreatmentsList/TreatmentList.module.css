@@ -16,7 +16,7 @@
 
 .image {
   border-radius: 0.375rem;
-  object-fit: cover; /
+  object-fit: cover;
 }
 
 .overlay {
@@ -49,4 +49,12 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
+}
+
+.conditional {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: -0.5rem;
 }

@@ -46,10 +46,8 @@ export default function TreatmentsList({
 
   return (
     <section className={styles.container}>
-      <h3 className="pl-1">Our treatments</h3>
-      <section className="flex justify-center gap-2 flex-wrap -mt-2">
-        {conditionalRendering()}
-      </section>
+      <h3>Our treatments</h3>
+      <section className={styles.conditional}>{conditionalRendering()}</section>
     </section>
   );
 }
