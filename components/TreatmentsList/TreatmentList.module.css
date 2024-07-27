@@ -53,8 +53,22 @@
 
 .conditional {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 0.5rem;
   flex-wrap: wrap;
   margin-top: -0.5rem;
+}
+
+/* ======================================== RESPONSIVE ================================== */
+
+@media (min-width: 640px) {
+  .container {
+    width: 80%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    width: 80%;
+  }
 }
