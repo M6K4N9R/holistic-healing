@@ -2,13 +2,7 @@ import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import {
-  container,
-  image,
-  imageWrapper,
-  imageContainer,
-  book,
-} from "./FirstConsultation.module.css";
+import styles from "./FirstConsultation.module.css";
 
 export default function FirstConsultation({ firstConsultation }) {
   const router = useRouter();
@@ -18,26 +12,25 @@ export default function FirstConsultation({ firstConsultation }) {
   }
 
   return (
-    <section className={container}>
-      <div className="text-center pt-4 pb-5">
+    <section className={styles.container}>
+      <div className={styles.header}>
         <h3>First Consultation</h3>
-        <p className="text-sm mb-5">
+        <p className={styles.p}>
           In-depth initial consultation resulting in personalized treatments
           plan
         </p>
-        <button className={book} onClick={handleToBooking}>
+        <button className={styles.book} onClick={handleToBooking}>
           Book
         </button>
       </div>
-      <section className={imageContainer}>
-        <div className={imageWrapper}>
+      <section className={styles.imageContainer}>
+        <div className={styles.imageWrapper}>
           <Image
             alt={firstConsultation.name}
             src={firstConsultation.image}
             loading="eager"
-            className={image}
-            priority
-            fill
+            className={styles.image}
+            fill={true}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         </div>
