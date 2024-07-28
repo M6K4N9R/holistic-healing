@@ -30,7 +30,7 @@ export default function TreatmentsList({
             loading="eager"
             className={styles.image}
             priority={true}
-            width={140}
+            width={160}
             height={50}
           />
           <div className={styles.overlay}>
