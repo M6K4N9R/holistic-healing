@@ -2,10 +2,12 @@
   margin: 3rem auto 1rem auto;
   padding: 1rem;
   width: 97%;
+  max-width: 48rem;
+  height: auto;
   background-color: var(--white);
   box-shadow: 0px 3px 8px var(--pastel);
-  border-radius: 9px;
   color: var(--dark);
+  border-radius: 9px;
 }
 
 .header {

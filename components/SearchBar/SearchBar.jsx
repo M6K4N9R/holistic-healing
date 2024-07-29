@@ -1,4 +1,4 @@
-import { container, search, clear } from "./SearchBar.module.css";
+import styles from "./SearchBar.module.css";
 import { useRef } from "react";
 
 export default function SearchBar({
@@ -11,45 +11,53 @@ export default function SearchBar({
   const searchInputRef = useRef(null);
   return (
     <form
-      className={container}
+      className={styles.container}
       onSubmit={(e) => {
         e.preventDefault();
         onHandleSymptomSearch(e.target.searchBar.value.trim());
       }}
     >
-      <label htmlFor="site-search" className="text-base font-semibold">
+      <label htmlFor="symptom-search" className={styles.label}>
         Search for symptom
       </label>
       <input
         ref={searchInputRef}
         type="text"
-        id="site-search"
+        id="symptom-search"
         list="symptoms"
         name="searchBar"
         placeholder=""
         autoComplete="off"
         required
-        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+        className={styles.input}
       />
       <datalist id="symptoms">
         {filteredSymptomsFromDuplicates.map((symptom, index) => (
-          <option key={`${symptom}-${index}`} value={symptom} />
+          <option
+            key={`${symptom}-${index}`}
+            value={symptom}
+            className={styles.symptomOption}
+          />
         ))}
       </datalist>
       {falseSearchedSymptom && (
-        <div className="border border-solid border-secondary p-2 w-full rounded-lg text-center text-sm">
+        <div className={styles.noResultsMessage}>
           Maybe our treatments do not address your symptom. <br /> Consider
-          booking <span className="font-semibold">First Consultation</span>.
+          booking <strong>First Consultation</strong>.
         </div>
       )}
-      <div className="text-center mx-auto my-6">
+      <div className={styles.buttonsContainer}>
         {searchedSymptom && (
-          <button type="button" className={clear} onClick={onHandleClearSearch}>
+          <button
+            type="button"
+            className={styles.clear}
+            onClick={onHandleClearSearch}
+          >
             See all treatments
           </button>
         )}
 
-        <button type="submit" className={search}>
+        <button type="submit" className={styles.search}>
           Search
         </button>
       </div>
