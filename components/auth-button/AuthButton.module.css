@@ -23,7 +23,7 @@
 }
 
 .btn:hover {
-  background-color: var(--white);
+  background-color: #fff;
   color: var(--primary);
   border: 1px solid var(--primary);
 }
