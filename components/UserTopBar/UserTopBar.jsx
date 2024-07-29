@@ -2,6 +2,7 @@ import AuthButton from "../auth-button/AuthButton";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import Image from "next/image";
+import styles from "./UserTopBar.module.css";
 
 export default function UserTopBar({ grechen }) {
   const { data: session } = useSession();
@@ -17,10 +18,10 @@ export default function UserTopBar({ grechen }) {
   }
 
   return (
-    <section className="flex justify-between items-center w-screen px-4 py-2 shadow">
+    <section className={styles.container}>
       {session ? (
-        <div className="flex-col justify-center items-center w-full">
-          <h3 className="-mb-5">
+        <div className={styles.userGreeting}>
+          <h3 className={styles.greetingMessage}>
             Good morning <br />
             {session.user.name}
           </h3>
@@ -31,9 +32,6 @@ export default function UserTopBar({ grechen }) {
             alt="Holistic Healing Logo"
             src={logo.logoPrimary}
             loading="eager"
-            // className="rounded-md"
-            // style={{ objectFit: "contain" }}
-            // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority={true}
             width={40}
             height={40}
@@ -41,9 +39,7 @@ export default function UserTopBar({ grechen }) {
         </>
       )}
 
-      <div className="p-0.5">
-        <AuthButton />
-      </div>
+      <AuthButton />
     </section>
   );
 }
