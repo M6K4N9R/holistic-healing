@@ -36,7 +36,7 @@ export default function TreatmentsList({
           <div className={styles.overlay}>
             <div className={styles.overlayBackground} />
           </div>
-          <div className={styles.title}>
+          <div className={styles.treatmentName}>
             <h3>{treatment.name}</h3>
           </div>
         </div>
