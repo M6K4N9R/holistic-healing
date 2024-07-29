@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import styles from "./HomePage.module.css";
 
 const inter = Inter({
   weight: ["400", "700", "900"],
@@ -49,7 +50,7 @@ export default function Home() {
   }
 
   if (status === "authenticated") {
-    return null; // Return null to avoid rendering the home page content
+    return null;
   }
 
   if (isLoading) {
@@ -85,9 +86,7 @@ export default function Home() {
   console.log("falseSearchedSymptom on home Page: ", falseSearchedSymptom);
 
   return (
-    <main
-      className={`flex flex-col min-h-screen items-center justify-between max-w-lg mx-auto pt-0 pb-5 px-5 mb-24 ${inter.className}`}
-    >
+    <main className={`${styles.container} ${inter.className}`}>
       <UserTopBar grechen={grechen} />
 
       <h1 className={`${grechen.className} text-secondary text-center mt-8`}>
