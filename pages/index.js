@@ -82,9 +82,6 @@ export default function Home() {
     setSearchedSymptom("");
   };
 
-  console.log("searchedSymptom on home Page: ", searchedSymptom);
-  console.log("falseSearchedSymptom on home Page: ", falseSearchedSymptom);
-
   return (
     <main className={`${styles.container} ${inter.className}`}>
       <UserTopBar grechen={grechen} />

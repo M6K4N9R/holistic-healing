@@ -12,3 +12,15 @@
   padding-right: 1.25rem;
   margin-bottom: 6rem;
 }
+
+@media (min-width: 768px) {
+.container {
+  max-width: 90%;
+}
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 100%;
+  }
+}
