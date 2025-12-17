@@ -1,13 +1,13 @@
-import { SWRConfig } from 'swr';
-import { SessionProvider } from 'next-auth/react';
-import LayoutNavBar from '@/components/LayoutNavBar';
-import './globals.css'; // Your global styles
-import { Grechen_Fuemen } from 'next/font/google';
+import { SWRConfig } from "swr";
+import { SessionProvider } from "next-auth/react";
+import LayoutNavBar from "@/components/LayoutNavBar";
+import "../global.css";
+import { Grechen_Fuemen } from "next/font/google";
 
-const grechen = Grechen_Fuemen({ 
-  weight: "400", 
+const grechen = Grechen_Fuemen({
+  weight: "400",
   subsets: ["latin"],
-  variable: '--font-grechen'
+  variable: "--font-grechen",
 });
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -22,9 +22,7 @@ export default function RootLayout({
       <body>
         <SWRConfig value={{ fetcher }}>
           <SessionProvider>
-            <LayoutNavBar>
-              {children}
-            </LayoutNavBar>
+            <LayoutNavBar>{children}</LayoutNavBar>
           </SessionProvider>
         </SWRConfig>
       </body>
