@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.19",
     "@nextui-org/calendar": "^2.0.7",
     "@nextui-org/react": "^2.4.2",
+    "clsx": "^2.1.1",
     "mongodb": "^6.7.0",
     "mongoose": "^8.4.1",
     "next": "14.2.3",
@@ -25,6 +26,7 @@
     "react-dom": "^18",
     "styled-components": "^6.1.11",
     "swr": "^2.2.5",
+    "tailwind-merge": "^3.4.0",
     "tailwind-variants": "^0.2.1"
   },
   "devDependencies": {
