@@ -1,4 +1,66 @@
-// import Image from "next/image";
+// app/page.tsx
+import { Suspense } from 'react';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
+import SearchBar from '@/components/SearchBar/SearchBar';
+import UserTopBar from '@/components/UserTopBar/UserTopBar';
+import TreatmentsList from '@/components/TreatmentsList/TreatmentsList';
+import FirstConsultation from '@/components/FirstConsultation/FirstConsultation';
+import type { TreatmentsData } from '@/types/api';
+import { fetchTreatments } from '@/lib/api/api';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Holistic Healing - Naturopathic Practice Berlin',
+  description: 'Your path to natural wellness with personalized treatments.',
+};
+
+
+export default async function Home() {
+  const session = await useSession(); // Server-side session
+  
+  // Auth redirect (server-side, faster)
+  if (session?.user?.email) {
+    const doctorSlug = encodeURIComponent(session.user.email);
+    redirect(`/doctors/${doctorSlug}`);
+  }
+
+  const data = await fetchTreatments(); // Typed SSR fetch
+  
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50">
+      <UserTopBar />
+      
+      <section className="text-center py-16 px-4">
+        <h1 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-indigo-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+          Holistic Healing
+        </h1>
+        <p className="text-xl text-gray-600 max-w-md mx-auto">
+          Your naturopathic practice in Berlin
+        </p>
+      </section>
+
+      <Suspense fallback={<TreatmentSkeleton />}>
+        <SearchBar 
+          treatments={data.treatments}
+          firstConsultation={data.firstConsultation}
+        />
+        <TreatmentsList treatments={data.treatments} />
+        <FirstConsultation firstConsultation={data.firstConsultation} />
+      </Suspense>
+    </main>
+  );
+}
+
+
+
+
+
+
+
+// =========================================================== OLD CODE ========================================
+
+/* 
 import { Inter, Grechen_Fuemen } from "next/font/google";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import UserTopBar from "@/components/UserTopBar/UserTopBar";
@@ -109,3 +171,4 @@ export default function Home() {
     </main>
   );
 }
+ */

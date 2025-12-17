@@ -1,7 +1,8 @@
 import { SWRConfig } from "swr";
 import { SessionProvider } from "next-auth/react";
-import LayoutNavBar from "@/components/LayoutNavBar";
-import "../global.css";
+import LayoutNavBar from "../components/LayoutNavBar";
+import type { TreatmentsData } from "../types/api";
+import "@/styles/global.css";
 import { Grechen_Fuemen } from "next/font/google";
 
 const grechen = Grechen_Fuemen({
