@@ -1,4 +1,4 @@
-import BottomNavBar from "./BottomNabBar/BottomNavBar";
+import BottomNavBar from "./BottomNavBar";
 
 const LayoutNavBar = ({ children }) => {
   return (
