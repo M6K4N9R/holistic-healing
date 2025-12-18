@@ -1,4 +1,3 @@
-// app/page.tsx
 import { Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
@@ -17,7 +16,8 @@ export const metadata: Metadata = {
 
 
 export default async function Home() {
-  const session = await useSession(); // Server-side session
+  const session = await useSession(); 
+  
   
   // Auth redirect (server-side, faster)
   if (session?.user?.email) {
