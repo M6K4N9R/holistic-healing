@@ -1,17 +1,12 @@
-import { SWRConfig } from "swr";
-import { SessionProvider } from "next-auth/react";
-import LayoutNavBar from "../components/LayoutNavBar";
-import type { TreatmentsData } from "../types/api";
-import "@/styles/global.css";
-import { Grechen_Fuemen } from "next/font/google";
+import './globals.css';
+import { Grechen_Fuemen } from 'next/font/google';
+import Providers from '@/components/Providers'; 
 
-const grechen = Grechen_Fuemen({
-  weight: "400",
+const grechen = Grechen_Fuemen({ 
+  weight: "400", 
   subsets: ["latin"],
-  variable: "--font-grechen",
+  variable: '--font-grechen'
 });
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function RootLayout({
   children,
@@ -20,12 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={grechen.variable}>
-      <body>
-        <SWRConfig value={{ fetcher }}>
-          <SessionProvider>
-            <LayoutNavBar>{children}</LayoutNavBar>
-          </SessionProvider>
-        </SWRConfig>
+      <body className="bg-gradient-to-br from-indigo-50 to-emerald-50 antialiased">
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
