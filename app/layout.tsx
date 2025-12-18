@@ -1,4 +1,4 @@
-import "@/styles/";
+import "@/styles/globals.css";
 import { Grechen_Fuemen } from "next/font/google";
 import Providers from "@/components/Providers";
 

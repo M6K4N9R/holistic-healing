@@ -1,12 +1,11 @@
-import { Suspense } from "react";
-import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth"; // Direct import
 import SearchBar from "@/components/SearchBar";
 import UserTopBar from "@/components/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
 import FirstConsultation from "@/components/FirstConsultation";
-import type { TreatmentsData } from "@/types/api";
 import { fetchTreatments } from "@/lib/api/api";
+import { Suspense } from "react";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,15 +14,16 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const session = await useSession();
+  // ✅ Direct server-side session
+  const session = await getServerSession();
 
-  // Auth redirect (server-side, faster)
+  // Auth redirect
   if (session?.user?.email) {
     const doctorSlug = encodeURIComponent(session.user.email);
     redirect(`/doctors/${doctorSlug}`);
   }
 
-  const data = await fetchTreatments(); // Typed SSR fetch
+  const data = await fetchTreatments();
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50">
@@ -39,10 +39,7 @@ export default async function Home() {
       </section>
 
       <Suspense fallback={<TreatmentSkeleton />}>
-        <SearchBar
-          treatments={data.treatments}
-          firstConsultation={data.firstConsultation}
-        />
+        <SearchBar />
         <TreatmentsList treatments={data.treatments} />
         <FirstConsultation firstConsultation={data.firstConsultation} />
       </Suspense>
