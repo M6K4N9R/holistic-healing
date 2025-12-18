@@ -1,23 +1,21 @@
-import { Suspense } from 'react';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
-import SearchBar from '@/components/SearchBar';
-import UserTopBar from '@/components/UserTopBar/UserTopBar';
-import TreatmentsList from '@/components/TreatmentsList/TreatmentsList';
-import FirstConsultation from '@/components/FirstConsultation';
-import type { TreatmentsData } from '@/types/api';
-import { fetchTreatments } from '@/lib/api/api';
-import { Metadata } from 'next';
+import { Suspense } from "react";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import SearchBar from "@/components/SearchBar";
+import UserTopBar from "@/components/UserTopBar";
+import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
+import FirstConsultation from "@/components/FirstConsultation";
+import type { TreatmentsData } from "@/types/api";
+import { fetchTreatments } from "@/lib/api/api";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Holistic Healing - Naturopathic Practice Berlin',
-  description: 'Your path to natural wellness with personalized treatments.',
+  title: "Holistic Healing - Naturopathic Practice Berlin",
+  description: "Your path to natural wellness with personalized treatments.",
 };
 
-
 export default async function Home() {
-  const session = await useSession(); 
-  
+  const session = await useSession();
 
   // Auth redirect (server-side, faster)
   if (session?.user?.email) {
@@ -26,11 +24,11 @@ export default async function Home() {
   }
 
   const data = await fetchTreatments(); // Typed SSR fetch
-  
+
   return (
     <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50">
       <UserTopBar />
-      
+
       <section className="text-center py-16 px-4">
         <h1 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-indigo-600 to-emerald-600 bg-clip-text text-transparent mb-4">
           Holistic Healing
@@ -41,7 +39,7 @@ export default async function Home() {
       </section>
 
       <Suspense fallback={<TreatmentSkeleton />}>
-        <SearchBar 
+        <SearchBar
           treatments={data.treatments}
           firstConsultation={data.firstConsultation}
         />
@@ -51,12 +49,6 @@ export default async function Home() {
     </main>
   );
 }
-
-
-
-
-
-
 
 // =========================================================== OLD CODE ========================================
 
