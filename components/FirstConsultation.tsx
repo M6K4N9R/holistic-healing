@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation'; // Not needed but ready
+import { usePathname } from 'next/navigation'; 
 import { cn } from '@/lib/utils';
 
 interface FirstConsultationProps {
@@ -18,7 +18,6 @@ export default function FirstConsultation({
 }: FirstConsultationProps) {
   return (
     <section className="bg-gradient-to-br from-emerald-50 to-indigo-50 rounded-3xl p-8 md:p-12 shadow-2xl max-w-4xl mx-auto mb-20">
-      {/* Content */}
       <div className="text-center md:text-left md:pr-8 lg:pr-12">
         <h3 className="text-3xl md:text-4xl font-light text-gray-900 mb-6 bg-gradient-to-r from-emerald-600 to-indigo-600 bg-clip-text text-transparent">
           First Consultation
@@ -47,7 +46,7 @@ export default function FirstConsultation({
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover group-hover:scale-105 transition-transform duration-500"
-            priority // eager equivalent for hero images
+            priority 
           />
           <div className="absolute inset-0 bg-gradient-to-t from-emerald-500/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
         </div>

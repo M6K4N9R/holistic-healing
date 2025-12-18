@@ -1,10 +1,10 @@
 import { Suspense } from 'react';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import SearchBar from '@/components/SearchBar/SearchBar';
+import SearchBar from '@/components/SearchBar';
 import UserTopBar from '@/components/UserTopBar/UserTopBar';
 import TreatmentsList from '@/components/TreatmentsList/TreatmentsList';
-import FirstConsultation from '@/components/FirstConsultation/FirstConsultation';
+import FirstConsultation from '@/components/FirstConsultation';
 import type { TreatmentsData } from '@/types/api';
 import { fetchTreatments } from '@/lib/api/api';
 import { Metadata } from 'next';
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default async function Home() {
   const session = await useSession(); 
   
-  
+
   // Auth redirect (server-side, faster)
   if (session?.user?.email) {
     const doctorSlug = encodeURIComponent(session.user.email);
