@@ -1,11 +1,11 @@
-import './globals.css';
-import { Grechen_Fuemen } from 'next/font/google';
-import Providers from '@/components/Providers'; 
+import "@/styles/";
+import { Grechen_Fuemen } from "next/font/google";
+import Providers from "@/components/Providers";
 
-const grechen = Grechen_Fuemen({ 
-  weight: "400", 
+const grechen = Grechen_Fuemen({
+  weight: "400",
   subsets: ["latin"],
-  variable: '--font-grechen'
+  variable: "--font-grechen",
 });
 
 export default function RootLayout({
@@ -16,9 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={grechen.variable}>
       <body className="bg-gradient-to-br from-indigo-50 to-emerald-50 antialiased">
-        <Providers>
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

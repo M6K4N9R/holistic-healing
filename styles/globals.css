@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --white: 240 240 240;
+    --dark: 25 25 25;
+    --primary: 131 151 136; /* #839788 */
+    --secondary: 160 92 123; /* #a05c7b */
+    --emerald: 34 197 94;
+    --indigo: 99 102 241;
+    --pastel: 189 187 182;
+    --bright: 229 209 208;
+  }
+
+  /* Dark mode */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --white: 45 45 45;
+      --dark: 240 240 240;
+    }
+  }
+}
+
+@layer components {
+  /* Wellness typography */
+  h1 { 
+    @apply text-4xl md:text-5xl font-black bg-gradient-to-r from-emerald-600 via-indigo-600 to-emerald-600 bg-clip-text text-transparent leading-tight;
+  }
+  h2 { 
+    @apply text-2xl md:text-3xl font-bold text-gray-900;
+  }
+  h3 { 
+    @apply text-xl md:text-2xl font-semibold text-gray-900;
+  }
+  p { 
+    @apply text-base md:text-lg text-gray-600 leading-relaxed;
+  }
+
+  /* Custom utilities */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/50 shadow-xl;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
