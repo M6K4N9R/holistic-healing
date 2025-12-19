@@ -18,7 +18,7 @@ export interface BookingFormData {
   treatmentName: string;
   doctorId: string;
   doctorName: string;
-  date: Date;
+  date?: Date;
   timeSlot: string;
   patientName: string;
   email: string;

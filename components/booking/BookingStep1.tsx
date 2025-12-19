@@ -3,21 +3,39 @@
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import useSWR from "swr";
-import { Treatment } from "@/types/booking";
 
-export function BookingStep1({ step }: { step: number }) {
+export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
-  const { data: treatments } = useSWR<Treatment[]>("/api/treatments");
+  const { data, isLoading } = useSWR("/api/treatments");
+
+  // 🔍 DEBUG: Check what API returns
+  console.log("API Data:", data);
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-20">
+        <div className="inline-flex flex-col items-center gap-4">
+          <div className="w-16 h-16 border-4 border-emerald-200 border-t-emerald-500 rounded-full animate-spin" />
+          <p className="text-lg text-emerald-600 font-semibold">
+            Loading treatments...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ Correct data access
+  const treatments = data?.treatments || [];
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
-      <h3 className="text-2xl font-bold text-emerald-700 mb-6">
+      <h3 className="text-3xl font-bold text-emerald-700 mb-8 text-center bg-gradient-to-r from-emerald-600 to-indigo-600 bg-clip-text text-transparent">
         Choose Treatment & Date
       </h3>
 
       {/* Treatment Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-12">
-        {treatments?.map((treatment) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        {treatments.map((treatment: any) => (
           <button
             key={treatment._id}
             type="button"
@@ -26,24 +44,24 @@ export function BookingStep1({ step }: { step: number }) {
               form.setValue("treatmentName", treatment.name);
             }}
             className={cn(
-              "group relative h-24 rounded-3xl p-6 font-bold text-left shadow-lg transition-all duration-300 overflow-hidden",
+              "group relative h-28 rounded-3xl p-6 font-bold text-left shadow-lg transition-all duration-300 overflow-hidden hover:shadow-2xl hover:-translate-y-2",
               form.watch("treatmentId") === treatment._id
-                ? "bg-gradient-to-r from-emerald-500 to-indigo-600 text-white shadow-2xl scale-105"
-                : "bg-white/70 backdrop-blur-xl border-2 border-emerald-200 hover:shadow-2xl hover:-translate-y-2 hover:border-emerald-400 hover:bg-emerald-50"
+                ? "bg-gradient-to-r from-emerald-500 to-indigo-600 text-white shadow-2xl scale-[1.02]"
+                : "bg-white/80 backdrop-blur-xl border-2 border-emerald-200 hover:border-emerald-400 hover:bg-emerald-50"
             )}
           >
             <span className="relative z-10">{treatment.name}</span>
             {form.watch("treatmentId") === treatment._id && (
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-indigo-500 -skew-x-3 -rotate-1 scale-110 opacity-75" />
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/75 to-indigo-500/75 -skew-x-3 -rotate-1 scale-110" />
             )}
           </button>
         ))}
       </div>
 
-      {/* Calendar */}
+      {/* Calendar - only show after treatment selected */}
       {form.watch("treatmentId") && (
-        <div className="space-y-4">
-          <label className="text-lg font-semibold text-emerald-700 block mb-2">
+        <div className="space-y-4 max-w-sm mx-auto">
+          <label className="text-xl font-semibold text-emerald-700 block mb-4 text-center">
             Select Date
           </label>
           <div className="relative">
@@ -51,16 +69,14 @@ export function BookingStep1({ step }: { step: number }) {
               type="date"
               min={new Date().toISOString().split("T")[0]}
               max={
-                new Date(Date.now() + 56 * 24 * 60 * 60 * 1000)
-                  .toISOString()
-                  .split("T")[0]
+                new Date(Date.now() + 56 * 86400000).toISOString().split("T")[0]
               }
               value={form.watch("date")?.toISOString().split("T")[0] || ""}
               onChange={(e) => form.setValue("date", new Date(e.target.value))}
-              className="w-full p-4 pl-12 pr-12 text-lg font-medium bg-white/80 backdrop-blur-xl rounded-3xl border-2 border-emerald-200 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-200/50 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              className="w-full p-5 pl-14 pr-14 text-lg font-semibold bg-white/90 backdrop-blur-xl rounded-3xl border-2 border-emerald-200 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-200/50 shadow-2xl hover:shadow-3xl transition-all duration-300 cursor-pointer"
             />
             <svg
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 text-emerald-500 pointer-events-none"
+              className="absolute right-5 top-1/2 -translate-y-1/2 w-6 h-6 text-emerald-500 pointer-events-none"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
