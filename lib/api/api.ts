@@ -1,9 +1,6 @@
-// lib/api/api.ts
 import type { TreatmentsData } from "@/types/api";
-import "server-only";
-
+/* 
 export async function fetchTreatments(): Promise<TreatmentsData> {
-  // Get base URL in server environment
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ||
     process.env.VERCEL_URL?.startsWith("http")
@@ -12,13 +9,25 @@ export async function fetchTreatments(): Promise<TreatmentsData> {
       ? `https://${process.env.VERCEL_URL}`
       : "http://localhost:3000";
 
-  const res = await fetch(`${baseUrl}/api/treatments`, {
+  // 🔍 DEBUG: Log the baseUrl
+  console.log('BASE_URL:', baseUrl);
+  console.log('NEXT_PUBLIC_BASE_URL:', process.env.NEXT_PUBLIC_BASE_URL);
+  
+  const url = `${baseUrl}/api/treatments`;
+  console.log('FULL URL:', url); // Should be http://localhost:3000/api/treatments
+  
+  const res = await fetch(url, {
+    next: { revalidate: 3600 },
+  });
+  // ...
+}
+ */
+
+export async function fetchTreatments(): Promise<TreatmentsData> {
+  const res = await fetch("http://localhost:3000/api/treatments", {
     next: { revalidate: 3600 },
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch treatments");
-  }
-
+  if (!res.ok) throw new Error("Failed to fetch treatments");
   return res.json();
 }

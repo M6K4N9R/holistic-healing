@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth"; // Direct import
 import SearchBar from "@/components/SearchBar";
 import UserTopBar from "@/components/UserTopBar";
-import TreatmentsList from "@/components/TreatmentsList/TreatmentsList";
+import Treatments
+import TreatmentSkeleton from "@/components/TreatmentSkeleton";
 import FirstConsultation from "@/components/FirstConsultation";
 import { fetchTreatments } from "@/lib/api/api";
 import { Suspense } from "react";
