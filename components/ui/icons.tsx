@@ -1,4 +1,7 @@
 import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChevronLeftIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
   CalendarIcon,
@@ -11,6 +14,9 @@ import {
 } from "@heroicons/react/24/outline";
 
 export {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ChevronLeftIcon,
   MagnifyingGlassIcon,
   XMarkIcon,
   CalendarIcon,
