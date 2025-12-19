@@ -6,11 +6,14 @@ import {
   XMarkIcon,
   CalendarIcon,
   HeartIcon,
+  ClockIcon,
   UserIcon,
   SparklesIcon,
   SunIcon,
   ScaleIcon,
   HomeIcon,
+  EnvelopeIcon,
+  PhoneIcon,
 } from "@heroicons/react/24/outline";
 
 export {
@@ -21,9 +24,12 @@ export {
   XMarkIcon,
   CalendarIcon,
   HeartIcon,
+  ClockIcon,
   UserIcon,
   SparklesIcon,
   SunIcon,
   ScaleIcon,
   HomeIcon,
+  EnvelopeIcon,
+  PhoneIcon,
 };

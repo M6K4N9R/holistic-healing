@@ -3,7 +3,7 @@
 import { useFormContext } from 'react-hook-form';
 import useSWR from 'swr';
 import { cn } from '@/lib/utils';
-import { ClockIcon, UserIcon } from 'lucide-react';
+import { ClockIcon, UserIcon } from '@/components/ui/icons';
 
 export function BookingStep2({ step }: { step: number }) {
   const form = useFormContext();
