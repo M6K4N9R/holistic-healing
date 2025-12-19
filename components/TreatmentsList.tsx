@@ -9,7 +9,7 @@ interface Treatment {
   name: string;
   slug: string;
   image: string;
-  symptoms: string[];
+  symptoms?: string[]; 
 }
 
 interface TreatmentsListProps {

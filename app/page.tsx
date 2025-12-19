@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth"; // Direct import
 import SearchBar from "@/components/SearchBar";
 import UserTopBar from "@/components/UserTopBar";
-import Treatments
+import TreatmentsList from "@/components/TreatmentsList";
 import TreatmentSkeleton from "@/components/TreatmentSkeleton";
 import FirstConsultation from "@/components/FirstConsultation";
 import { fetchTreatments } from "@/lib/api/api";
@@ -41,8 +41,8 @@ export default async function Home() {
 
       <Suspense fallback={<TreatmentSkeleton />}>
         <SearchBar />
-        <TreatmentsList treatments={data.treatments} />
-        <FirstConsultation firstConsultation={data.firstConsultation} />
+        <TreatmentsList treatments={data.treatments as any[]} />
+        <FirstConsultation firstConsultation={data.firstConsultation as any} />
       </Suspense>
     </main>
   );

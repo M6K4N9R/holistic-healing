@@ -6,19 +6,32 @@ export interface Symptom {
 export interface Treatment {
   _id: string;
   name: string;
-  symptoms: Symptom[];
-  description?: string;
-  image?: string;
+  slug: string;
+  price: number;
+  duration: number;
+  description: string;
+  text: string;
+  image: string;
+  location: string[];
+  symptoms: string[];
 }
 
 export interface FirstConsultation {
-  title: string;
-  description: string;
+  _id: string;
+  name: string;
+  slug: string;
   price: number;
   duration: number;
+  description: string;
+  image: string;
+  text: string;
+  location: string[];
+  symptoms: string[];
 }
 
 export interface TreatmentsData {
   treatments: Treatment[];
   firstConsultation: FirstConsultation;
+  treatmentNames?: { slug: string }[];
+  logo?: any[];
 }

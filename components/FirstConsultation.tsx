@@ -10,6 +10,8 @@ interface FirstConsultationProps {
     name: string;
     image: string;
     description?: string;
+    price?: number;
+    duration?: number;
   };
 }
 
