@@ -5,7 +5,7 @@ import useSWR from 'swr';
 import { cn } from '@/lib/utils';
 import { ClockIcon, UserIcon } from '@/components/ui/icons';
 
-export function BookingStep2({ step }: { step: number }) {
+export default function BookingStep2({ step }: { step: number }) {
   const form = useFormContext();
   const treatmentId = form.watch('treatmentId');
   const date = form.watch('date');

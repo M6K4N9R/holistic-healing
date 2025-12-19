@@ -9,7 +9,7 @@ import {
   UserIcon,
 } from "@/components/ui/icons";
 
-export function BookingStep3({ step }: { step: number }) {
+export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
 
   const isComplete = form.watch("timeSlot") && form.watch("doctorId");
