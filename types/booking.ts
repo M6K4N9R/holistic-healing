@@ -13,14 +13,18 @@ export interface Doctor {
   treatments: string[]; // treatment IDs
 }
 
-export interface BookingFormData {
-  treatmentId: string;
-  treatmentName: string;
-  doctorId: string;
-  doctorName: string;
-  date?: Date;
-  timeSlot: string;
-  patientName: string;
-  email: string;
-  phone: string;
-}
+import { z } from "zod";
+
+export const BookingFormSchema = z.object({
+  treatmentId: z.string().min(1),
+  treatmentName: z.string().min(1),
+  doctorId: z.string().min(1),
+  doctorName: z.string().min(1),
+  date: z.date(),
+  timeSlot: z.string().min(1),
+  patientName: z.string().min(1),
+  email: z.string().email(),
+  phone: z.string().min(7),
+});
+
+export type BookingFormData = z.infer<typeof BookingFormSchema>;
