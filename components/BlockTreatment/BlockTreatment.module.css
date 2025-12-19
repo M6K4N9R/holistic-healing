@@ -1,9 +1,0 @@
-.container {
-  width: 16rem;
-  height: 8rem;
-  position: relative;
-}
-
-.image {
-  object-fit: contain;
-}
