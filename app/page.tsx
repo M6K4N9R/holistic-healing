@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  // ✅ Direct server-side session
+  // Direct server-side session
   const session = await getServerSession();
 
   // Auth redirect

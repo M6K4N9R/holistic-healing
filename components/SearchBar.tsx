@@ -124,7 +124,7 @@ export default function SearchBar({
         )}
         <button
           type="submit"
-          className="flex-1 bg-gradient-to-r from-emerald-500 to-indigo-600 hover:from-emerald-600 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
+          className="btn-primary"
         >
           Search
         </button>
