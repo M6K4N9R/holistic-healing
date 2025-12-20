@@ -7,24 +7,33 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // backgroundImage: {
-      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-      //   "gradient-conic":
-      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      // },
       colors: {
-        white: "#ededed",
-        dark: "#191919",
-        grey: "#3c3c3c",
-        primary: "#839788",
-        secondary: "#a05c7b",
-        pastel: "#bdbbb6",
-        bright: "#e5d1d0",
+        // Core neutrals
+        white: "rgb(var(--white) / <alpha-value>)",
+        dark: "rgb(var(--dark) / <alpha-value>)",
+
+        // Semantic system
+        surface: {
+          DEFAULT: "rgb(var(--surface) / <alpha-value>)",
+          muted: "rgb(230 225 210 / <alpha-value>)",
+        },
+        accent: {
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          light: "rgb(120 140 150 / <alpha-value>)",
+          dark: "rgb(70 85 100 / <alpha-value>)",
+        },
+        neutral: "rgb(var(--neutral) / <alpha-value>)",
+        emphasis: {
+          DEFAULT: "rgb(var(--emphasis) / <alpha-value>)",
+          light: "rgb(160 150 120 / <alpha-value>)",
+        },
+        muted: "rgb(var(--muted) / <alpha-value>)",
       },
       boxShadow: {
-        pastel: "0px 3px 8px var(--pastel)",
+        soft: "0 10px 30px rgb(var(--muted) / 0.2)",
+        glow: "0 0 20px rgb(var(--emphasis) / 0.3)",
       },
     },
-    plugins: [],
   },
+  plugins: [],
 };
