@@ -1,40 +1,150 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Wellness Haven - Professional Next.js Treatment Booking Platform
 
-## Getting Started
+[
+[
+[
+[
+✨ Production-Ready Features
 
-First, run the development server:
+    Dynamic Treatment Pages (/treatments/[slug]) with image galleries, symptom matchers, and carousel navigation
 
-```bash
+    Multi-Step Booking Flow with doctor selection, time slots, and patient details
+
+    Responsive Design - Mobile-first, accessible, dark mode support
+
+    OKLCH Color System - Sophisticated wellness palette (linen, olive, slate) with CSS custom properties
+
+    Heroicons Integration - Tree-shaken, theme-aware stroke icons
+
+    SWR Data Fetching - Optimized API calls with loading states and skeletons
+
+    Glassmorphism UI - Backdrop blur, subtle shadows, micro-animations
+
+🏗️ Tech Stack
+
+text
+Frontend: Next.js 14.2 (App Router) + TypeScript 5.5
+Styling: Tailwind CSS 3.4 + shadcn/ui + OKLCH CSS Variables
+Icons: @heroicons/react 2.1 (outline stroke system)
+Data: SWR 2.2 + TypeScript interfaces
+Routing: Next.js App Router + Dynamic Segments
+UI: Custom glassmorphism components + Tailwind animations
+
+🎨 Design System
+
+CSS Custom Properties (globals.css):
+
+text
+Primary: --surface (linen/charcoal), --white (off-white), --dark (contrast)
+Accents: --emphasis (dusty olive), --accent (blue slate), --neutral (pale oak)
+Usage: bg-[hsl(var(--surface))], text-[hsl(var(--dark))], stroke-[hsl(var(--emphasis))]
+
+Theme Features:
+
+    ✅ Automatic dark mode (prefers-color-scheme)
+
+    ✅ Consistent spacing (p-4/8/12/16, gap-4/8/12/16)
+
+    ✅ Rounded components (rounded-xl/2xl/3xl)
+
+    ✅ Subtle shadows (shadow-md/lg/xl/2xl)
+
+    ✅ Smooth transitions (duration-200/300/400/500)
+
+📁 Project Structure
+
+text
+app/
+├── treatments/[slug]/ # Dynamic treatment pages w/ carousel
+├── booking/ # Multi-step booking flow
+├── globals.css # OKLCH theme system
+├── layout.tsx # Root layout + providers
+components/
+├── ui/ # shadcn/ui + custom glassmorphism
+│ ├── icons.tsx # Heroicons exports (tree-shaken)
+│ └── skeletons/ # Loading states
+lib/
+├── utils.ts # cn() class merger
+└── swr.ts # API fetcher config
+
+🚀 Quick Start
+
+bash
+
+# Clone & Install
+
+git clone <repo> wellness-haven
+cd wellness-haven
+npm install
+
+# Environment (optional)
+
+cp .env.example .env.local
+
+# Development
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# Production Build
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+npm run build && npm start
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+🔧 API Endpoints
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+text
+GET /api/treatments # All treatments + slugs
+GET /api/doctors # Doctor availability
+POST /api/bookings # Create booking (TBD)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+🎯 User Flows
 
-## Learn More
+    Browse Treatments → /treatments/[slug] → Hero image + symptoms → Book
 
-To learn more about Next.js, take a look at the following resources:
+    Book Treatment → /booking → Step 1 (Treatment) → Step 2 (Doctor/Time) → Step 3 (Details) → Confirm
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    Mobile Optimized → Swipe carousel, touch-friendly buttons, responsive grids
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+📱 Responsive Breakpoints
+Screen Classes Features
+Mobile sm: 2-col symptoms → 1-col, smaller nav
+Tablet md: Side-by-side layout, larger text
+Desktop lg: 2-col main content, expanded spacing
+⚡ Performance Optimizations
 
-## Deploy on Vercel
+    Tree-shaken Heroicons (0KB unused icons)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    Next.js Image (automatic optimization)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+    SWR Caching (stale-while-revalidate)
+
+    CSS Variables (no duplicate color definitions)
+
+    Tailwind JIT (purge unused styles)
+
+🌟 Professional Standards
+
+    TypeScript Everywhere - Full interfaces, no any
+
+    Accessibility - ARIA labels, keyboard nav, focus states
+
+    SEO Ready - Dynamic metadata, semantic HTML
+
+    Dark Mode - Native prefers-color-scheme
+
+    Production CSS - OKLCH color space, consistent tokens
+
+🤝 Contributing
+
+    Fork → Branch (feat/treatment-carousel)
+
+    npm run dev → Test changes
+
+    Lint: npm run lint
+
+    PR with screenshots
+
+📄 License
+
+MIT - Built for production wellness clinics and spas.
+
+Built with ❤️ | December 2025 | Ready for Vercel/Netlify deployment
