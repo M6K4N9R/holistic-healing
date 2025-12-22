@@ -8,30 +8,28 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Core neutrals
-        white: "rgb(var(--white) / <alpha-value>)",
-        dark: "rgb(var(--dark) / <alpha-value>)",
+        // Neutrals
+        surface: "hsl(var(--surface))",
+        "on-surface": "hsl(var(--on-surface))",
+        "surface-variant": "hsl(var(--surface-variant))",
+        "on-surface-variant": "hsl(var(--on-surface-variant))",
 
-        // Semantic system
-        surface: {
-          DEFAULT: "rgb(var(--surface) / <alpha-value>)",
-          muted: "rgb(230 225 210 / <alpha-value>)",
-        },
-        accent: {
-          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
-          light: "rgb(120 140 150 / <alpha-value>)",
-          dark: "rgb(70 85 100 / <alpha-value>)",
-        },
-        neutral: "rgb(var(--neutral) / <alpha-value>)",
-        emphasis: {
-          DEFAULT: "rgb(var(--emphasis) / <alpha-value>)",
-          light: "rgb(160 150 120 / <alpha-value>)",
-        },
-        muted: "rgb(var(--muted) / <alpha-value>)",
-      },
-      boxShadow: {
-        soft: "0 10px 30px rgb(var(--muted) / 0.2)",
-        glow: "0 0 20px rgb(var(--emphasis) / 0.3)",
+        // Primary
+        primary: "hsl(var(--primary))",
+        "on-primary": "hsl(var(--on-primary))",
+        "primary-container": "hsl(var(--primary-container))",
+        "on-primary-container": "hsl(var(--on-primary-container))",
+
+        // Secondary
+        secondary: "hsl(var(--secondary))",
+        "on-secondary": "hsl(var(--on-secondary))",
+        "secondary-container": "hsl(var(--secondary-container))",
+        "on-secondary-container": "hsl(var(--on-secondary-container))",
+
+        // Tertiary + Outlines
+        tertiary: "hsl(var(--tertiary))",
+        outline: "hsl(var(--outline))",
+        "outline-variant": "hsl(var(--outline-variant))",
       },
     },
   },

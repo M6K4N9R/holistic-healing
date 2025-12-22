@@ -4,24 +4,79 @@
 
 @layer base {
   :root {
-    --white: 240 240 240;
-    --dark: 25 25 25;
-    --surface: 240 234 220; /* Soft Linen */
-    --accent: 90 109 121; /* Blue Slate */
-    --neutral: 220 200 172; /* Pale Oak */
-    --emphasis: 133 124 93; /* Dusty Olive */
-    --muted: 197 181 125; /* Sand */
+    /* ==================== NEUTRAL SYSTEM ==================== */
+    --surface: 240 234 220; /* Main page bg (soft linen) */
+    --on-surface: 25 25 25; /* Main text */
+
+    --surface-variant: 250 248 240; /* Cards, subtle containers */
+    --on-surface-variant: 80 75 60; /* Subtle text, labels */
+
+    --surface-bright: 255 255 255; /* Tooltips, overlays */
+    --surface-dim: 230 228 215; /* Dimmed surfaces */
+
+    /* ==================== PRIMARY (Olive Wellness) ==================== */
+    --primary: 133 124 93; /* Main buttons, links */
+    --on-primary: 255 255 255; /* Text on primary */
+
+    --primary-container: 197 181 125; /* Filled buttons, selected states */
+    --on-primary-container: 30 25 15; /* Text on primary-container */
+
+    /* ==================== SECONDARY (Slate Professional) ==================== */
+    --secondary: 90 109 121; /* Secondary buttons, nav */
+    --on-secondary: 255 255 255; /* Text on secondary */
+
+    --secondary-container: 220 200 172; /* Hover states, subtle accents */
+    --on-secondary-container: 40 35 25; /* Text on secondary-container */
+
+    /* ==================== TERTIARY (Warm Sand Accent) ==================== */
+    --tertiary: 197 181 125; /* Icons, subtle highlights */
+    --on-tertiary: 30 25 15;
+
+    --tertiary-container: 240 230 210; /* Tertiary buttons */
+    --on-tertiary-container: 50 45 30;
+
+    /* ==================== ICONS & OUTLINES ==================== */
+    --outline: 210 195 165; /* Borders, dividers */
+    --outline-variant: 230 225 210; /* Subtle borders */
   }
 
+  /* ==================== DARK MODE ==================== */
   @media (prefers-color-scheme: dark) {
     :root {
-      --white: 235 235 245; /* Off-white for text */
-      --dark: 240 240 240; /* Bright text base */
-      --surface: 28 28 30; /* Deep charcoal bg */
-      --accent: 120 90 110; /* Muted blue-slate */
-      --neutral: 190 175 155; /* Desaturated oak */
-      --emphasis: 160 155 120; /* Darker olive */
-      --muted: 140 130 100; /* Muted sand border */
+      /* Neutrals - Dark */
+      --surface: 28 28 30;
+      --on-surface: 235 235 245;
+
+      --surface-variant: 45 45 47;
+      --on-surface-variant: 190 190 200;
+
+      --surface-bright: 70 70 75;
+      --surface-dim: 35 35 37;
+
+      /* Primary - Dark */
+      --primary: 175 170 140; /* Brighter for dark mode */
+      --on-primary: 30 25 15;
+
+      --primary-container: 90 85 65;
+      --on-primary-container: 235 235 245;
+
+      /* Secondary - Dark */
+      --secondary: 140 155 165;
+      --on-secondary: 20 20 25;
+
+      --secondary-container: 55 55 60;
+      --on-secondary-container: 220 220 230;
+
+      /* Tertiary - Dark */
+      --tertiary: 210 200 180;
+      --on-tertiary: 40 35 25;
+
+      --tertiary-container: 75 70 55;
+      --on-tertiary-container: 240 240 245;
+
+      /* Outlines - Dark */
+      --outline: 85 85 90;
+      --outline-variant: 65 65 70;
     }
   }
 }
