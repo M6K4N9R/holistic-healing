@@ -81,7 +81,7 @@
     @apply text-xl md:text-2xl font-semibold text-on-surface-variant;
   }
   p {
-    @apply text-base md:text-lg text-on-surface-variant leading-relaxed;
+    @apply text-base md:text-lg text-on-surface leading-relaxed;
   }
 
   /* ==================== CUSTOM UTILITIES ==================== */
