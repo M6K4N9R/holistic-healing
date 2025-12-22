@@ -4,111 +4,116 @@
 
 @layer base {
   :root {
-    /* ==================== NEUTRAL SYSTEM ==================== */
-    --surface: 240 234 220; /* Main page bg (soft linen) */
-    --on-surface: 25 25 25; /* Main text */
+    /* ==================== FULL MATERIAL 3 WELLNESS PALETTE ==================== */
+    --surface: 240 234 220;
+    --on-surface: 25 25 25;
+    --surface-variant: 250 248 240;
+    --on-surface-variant: 80 75 60;
+    --surface-bright: 255 255 255;
+    --surface-dim: 230 228 215;
 
-    --surface-variant: 250 248 240; /* Cards, subtle containers */
-    --on-surface-variant: 80 75 60; /* Subtle text, labels */
+    --primary: 133 124 93;
+    --on-primary: 255 255 255;
+    --primary-container: 197 181 125;
+    --on-primary-container: 30 25 15;
 
-    --surface-bright: 255 255 255; /* Tooltips, overlays */
-    --surface-dim: 230 228 215; /* Dimmed surfaces */
+    --secondary: 90 109 121;
+    --on-secondary: 255 255 255;
+    --secondary-container: 220 200 172;
+    --on-secondary-container: 40 35 25;
 
-    /* ==================== PRIMARY (Olive Wellness) ==================== */
-    --primary: 133 124 93; /* Main buttons, links */
-    --on-primary: 255 255 255; /* Text on primary */
-
-    --primary-container: 197 181 125; /* Filled buttons, selected states */
-    --on-primary-container: 30 25 15; /* Text on primary-container */
-
-    /* ==================== SECONDARY (Slate Professional) ==================== */
-    --secondary: 90 109 121; /* Secondary buttons, nav */
-    --on-secondary: 255 255 255; /* Text on secondary */
-
-    --secondary-container: 220 200 172; /* Hover states, subtle accents */
-    --on-secondary-container: 40 35 25; /* Text on secondary-container */
-
-    /* ==================== TERTIARY (Warm Sand Accent) ==================== */
-    --tertiary: 197 181 125; /* Icons, subtle highlights */
+    --tertiary: 197 181 125;
     --on-tertiary: 30 25 15;
-
-    --tertiary-container: 240 230 210; /* Tertiary buttons */
+    --tertiary-container: 240 230 210;
     --on-tertiary-container: 50 45 30;
 
-    /* ==================== ICONS & OUTLINES ==================== */
-    --outline: 210 195 165; /* Borders, dividers */
-    --outline-variant: 230 225 210; /* Subtle borders */
+    --outline: 210 195 165;
+    --outline-variant: 230 225 210;
+
+    /* Legacy fallbacks (remove later) */
+    --dark: 25 25 25;
+    --white: 240 240 240;
   }
 
-  /* ==================== DARK MODE ==================== */
   @media (prefers-color-scheme: dark) {
     :root {
-      /* Neutrals - Dark */
       --surface: 28 28 30;
       --on-surface: 235 235 245;
-
       --surface-variant: 45 45 47;
       --on-surface-variant: 190 190 200;
-
       --surface-bright: 70 70 75;
       --surface-dim: 35 35 37;
 
-      /* Primary - Dark */
-      --primary: 175 170 140; /* Brighter for dark mode */
+      --primary: 175 170 140;
       --on-primary: 30 25 15;
-
       --primary-container: 90 85 65;
       --on-primary-container: 235 235 245;
 
-      /* Secondary - Dark */
       --secondary: 140 155 165;
       --on-secondary: 20 20 25;
-
       --secondary-container: 55 55 60;
       --on-secondary-container: 220 220 230;
 
-      /* Tertiary - Dark */
       --tertiary: 210 200 180;
       --on-tertiary: 40 35 25;
-
       --tertiary-container: 75 70 55;
       --on-tertiary-container: 240 240 245;
 
-      /* Outlines - Dark */
       --outline: 85 85 90;
       --outline-variant: 65 65 70;
+
+      /* Legacy fallbacks */
+      --dark: 235 235 245;
+      --white: 235 235 245;
     }
   }
 }
 
 @layer components {
-  /* Wellness typography - using semantic colors */
+  /* ==================== WELLNESS TYPOGRAPHY (Fixed) ==================== */
   h1 {
-    @apply text-4xl md:text-5xl font-black text-dark leading-tight;
+    @apply text-4xl md:text-5xl font-black text-on-surface leading-tight;
   }
   h2 {
-    @apply text-2xl md:text-3xl font-bold text-dark;
+    @apply text-2xl md:text-3xl font-bold text-on-surface;
   }
   h3 {
-    @apply text-xl md:text-2xl font-semibold text-dark;
+    @apply text-xl md:text-2xl font-semibold text-on-surface-variant;
   }
   p {
-    @apply text-base md:text-lg text-dark leading-relaxed;
+    @apply text-base md:text-lg text-on-surface-variant leading-relaxed;
   }
 
-  /* Custom utilities - updated for your palette */
+  /* ==================== CUSTOM UTILITIES ==================== */
   .glass {
-    @apply bg-surface/80 backdrop-blur-xl 
-           border border-muted/50 shadow-soft;
+    @apply bg-surface-variant/90 backdrop-blur-xl 
+           border border-outline-variant/50 shadow-md;
   }
 
-  /* Button component */
+  /* ==================== BUTTONS (Material 3) ==================== */
   .btn-primary {
     @apply inline-flex items-center gap-3 
-           bg-gradient-to-r from-accent to-emphasis 
-           hover:from-accent-dark hover:to-emphasis 
-           text-white font-semibold px-8 py-4 rounded-2xl 
-           text-lg shadow-soft hover:shadow-glow 
-           hover:-translate-y-1 transition-all duration-300 transform;
+           bg-gradient-to-r from-primary via-secondary to-tertiary 
+           text-on-primary font-black px-8 py-4 rounded-2xl 
+           text-lg shadow-xl hover:shadow-2xl 
+           hover:-translate-y-1 transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-3 
+           bg-surface-variant border-2 border-outline-variant 
+           text-on-surface-variant hover:bg-secondary-container hover:text-on-secondary-container
+           hover:border-secondary font-semibold px-8 py-4 rounded-2xl 
+           text-lg shadow-md hover:shadow-lg 
+           hover:-translate-y-0.5 transition-all duration-300;
+  }
+
+  /* ==================== ICONS ==================== */
+  .icon-primary {
+    @apply stroke-primary stroke-2;
+  }
+
+  .icon-surface {
+    @apply stroke-on-surface-variant stroke-2;
   }
 }
