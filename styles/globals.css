@@ -6,18 +6,22 @@
   :root {
     --white: 240 240 240;
     --dark: 25 25 25;
-    --surface: 240 234 220; /* Soft Linen - backgrounds */
-    --accent: 90 109 121; /* Blue Slate - primary actions */
-    --neutral: 220 200 172; /* Pale Oak - secondary elements */
-    --emphasis: 133 124 93; /* Dusty Olive - highlights */
-    --muted: 197 181 125; /* Sand - borders/dividers */
+    --surface: 240 234 220; /* Soft Linen */
+    --accent: 90 109 121; /* Blue Slate */
+    --neutral: 220 200 172; /* Pale Oak */
+    --emphasis: 133 124 93; /* Dusty Olive */
+    --muted: 197 181 125; /* Sand */
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --white: 45 45 45;
-      --dark: 240 240 240;
-      --surface: 35 35 35;
+      --white: 235 235 245; /* Off-white for text */
+      --dark: 240 240 240; /* Bright text base */
+      --surface: 28 28 30; /* Deep charcoal bg */
+      --accent: 120 90 110; /* Muted blue-slate */
+      --neutral: 190 175 155; /* Desaturated oak */
+      --emphasis: 160 155 120; /* Darker olive */
+      --muted: 140 130 100; /* Muted sand border */
     }
   }
 }
@@ -25,9 +29,7 @@
 @layer components {
   /* Wellness typography - using semantic colors */
   h1 {
-    @apply text-4xl md:text-5xl font-black 
-           bg-gradient-to-r from-accent via-emphasis to-accent 
-           bg-clip-text text-transparent leading-tight;
+    @apply text-4xl md:text-5xl font-black text-dark leading-tight;
   }
   h2 {
     @apply text-2xl md:text-3xl font-bold text-dark;
@@ -36,7 +38,7 @@
     @apply text-xl md:text-2xl font-semibold text-dark;
   }
   p {
-    @apply text-base md:text-lg text-neutral leading-relaxed;
+    @apply text-base md:text-lg text-dark leading-relaxed;
   }
 
   /* Custom utilities - updated for your palette */
