@@ -4,67 +4,79 @@
 
 @layer base {
   :root {
-    /* ==================== FULL MATERIAL 3 WELLNESS PALETTE ==================== */
-    --surface: 240 234 220;
-    --on-surface: 25 25 25;
-    --surface-variant: 250 248 240;
-    --on-surface-variant: 80 75 60;
-    --surface-bright: 255 255 255;
-    --surface-dim: 230 228 215;
+    /* ==================== NEUTRAL SYSTEM ==================== */
+    --surface: 240 234 220; /* Main page bg (soft linen) */
+    --on-surface: 25 25 25; /* Main text */
 
-    --primary: 133 124 93;
-    --on-primary: 255 255 255;
-    --primary-container: 197 181 125;
-    --on-primary-container: 30 25 15;
+    --surface-variant: 250 248 240; /* Cards, subtle containers */
+    --on-surface-variant: 80 75 60; /* Subtle text, labels */
 
-    --secondary: 90 109 121;
-    --on-secondary: 255 255 255;
-    --secondary-container: 220 200 172;
-    --on-secondary-container: 40 35 25;
+    --surface-bright: 255 255 255; /* Tooltips, overlays */
+    --surface-dim: 230 228 215; /* Dimmed surfaces */
 
-    --tertiary: 197 181 125;
+    /* ==================== PRIMARY (Olive Wellness) ==================== */
+    --primary: 133 124 93; /* Main buttons, links */
+    --on-primary: 255 255 255; /* Text on primary */
+
+    --primary-container: 197 181 125; /* Filled buttons, selected states */
+    --on-primary-container: 30 25 15; /* Text on primary-container */
+
+    /* ==================== SECONDARY (Slate Professional) ==================== */
+    --secondary: 90 109 121; /* Secondary buttons, nav */
+    --on-secondary: 255 255 255; /* Text on secondary */
+
+    --secondary-container: 220 200 172; /* Hover states, subtle accents */
+    --on-secondary-container: 40 35 25; /* Text on secondary-container */
+
+    /* ==================== TERTIARY (Warm Sand Accent) ==================== */
+    --tertiary: 197 181 125; /* Icons, subtle highlights */
     --on-tertiary: 30 25 15;
-    --tertiary-container: 240 230 210;
+
+    --tertiary-container: 240 230 210; /* Tertiary buttons */
     --on-tertiary-container: 50 45 30;
 
-    --outline: 210 195 165;
-    --outline-variant: 230 225 210;
-
-    /* Legacy fallbacks (remove later) */
-    --dark: 25 25 25;
-    --white: 240 240 240;
+    /* ==================== ICONS & OUTLINES ==================== */
+    --outline: 210 195 165; /* Borders, dividers */
+    --outline-variant: 230 225 210; /* Subtle borders */
   }
 
+  /* ==================== DARK MODE ==================== */
   @media (prefers-color-scheme: dark) {
     :root {
+      /* Neutrals - Dark */
       --surface: 28 28 30;
       --on-surface: 235 235 245;
+
       --surface-variant: 45 45 47;
       --on-surface-variant: 190 190 200;
+
       --surface-bright: 70 70 75;
       --surface-dim: 35 35 37;
 
-      --primary: 175 170 140;
+      /* Primary - Dark */
+      --primary: 175 170 140; /* Brighter for dark mode */
       --on-primary: 30 25 15;
+
       --primary-container: 90 85 65;
       --on-primary-container: 235 235 245;
 
+      /* Secondary - Dark */
       --secondary: 140 155 165;
       --on-secondary: 20 20 25;
+
       --secondary-container: 55 55 60;
       --on-secondary-container: 220 220 230;
 
+      /* Tertiary - Dark */
       --tertiary: 210 200 180;
       --on-tertiary: 40 35 25;
+
       --tertiary-container: 75 70 55;
       --on-tertiary-container: 240 240 245;
 
+      /* Outlines - Dark */
       --outline: 85 85 90;
       --outline-variant: 65 65 70;
-
-      /* Legacy fallbacks */
-      --dark: 235 235 245;
-      --white: 235 235 245;
     }
   }
 }
