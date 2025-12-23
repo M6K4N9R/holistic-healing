@@ -6,7 +6,7 @@
   :root {
     /* ==================== NEUTRAL SYSTEM ==================== */
     --surface: 240 234 220; /* Main page bg (soft linen) */
-    --on-surface: 25 25 25; /* Main text */
+    --on-surface: 25 25 25; /* Main text  (Dark charcoal) */
 
     --surface-variant: 250 248 240; /* Cards, subtle containers */
     --on-surface-variant: 80 75 60; /* Subtle text, labels */

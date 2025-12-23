@@ -84,8 +84,7 @@ POST /api/bookings # Create booking (TBD)
 
     SEO Ready - Dynamic metadata, semantic HTML
 
-    Dark Mode - Native prefers-color-scheme
-
-    Production CSS - OKLCH color space, consistent tokens
+    14 color roles Color Palette based on Material 3 Expressive + HCT principles guarantees WCAG-AA contrast in light/dark modes.
+    
 
 Built with ❤️ | December 2025 | Ready for Vercel/Netlify deployment
