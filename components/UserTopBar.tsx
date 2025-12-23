@@ -22,7 +22,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
   // Loading skeleton
   if (!data && !error) {
     return (
-      <section className="flex items-center justify-between p-6 bg-gradient-to-r from-emerald-50 to-indigo-50 shadow-sm">
+      <section className="flex items-center justify-between p-6 bg-surface-variant shadow-md">
         <div className="w-10 h-10 bg-gray-200 rounded-xl animate-pulse" />
         <div className="w-24 h-8 bg-gray-200 rounded-lg animate-pulse" />
       </section>
@@ -32,7 +32,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
   const logo = data?.[1]?.logoPrimary;
 
   return (
-    <section className="flex items-center justify-between p-6 md:px-8 lg:px-12 bg-gradient-to-r from-emerald-50/80 via-white to-indigo-50/80 backdrop-blur-md shadow-lg border-b border-emerald-100/50 sticky top-0 z-40">
+    <section className="flex items-center justify-between p-6 md:px-8 lg:px-12 bg-surface-variant backdrop-blur-md shadow-md border-b border-outline-variant sticky top-0 z-40">
       {/* Logo or Greeting */}
       <div className="flex items-center space-x-4">
         {session ? (

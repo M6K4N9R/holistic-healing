@@ -14,19 +14,19 @@
     --surface-bright: 255 255 255; /* Tooltips, overlays */
     --surface-dim: 230 228 215; /* Dimmed surfaces */
 
-    /* ==================== PRIMARY (Olive Wellness) ==================== */
-    --primary: 133 124 93; /* Main buttons, links */
+    /* ==================== PRIMARY (Slate Professional) ==================== */
+    --primary: 90 109 121; /* Main buttons, links */
     --on-primary: 255 255 255; /* Text on primary */
 
-    --primary-container: 197 181 125; /* Filled buttons, selected states */
-    --on-primary-container: 30 25 15; /* Text on primary-container */
+    --primary-container: 220 200 172; /* Filled buttons, selected states */
+    --on-primary-container: 40 35 25; /* Text on primary-container */
 
-    /* ==================== SECONDARY (Slate Professional) ==================== */
-    --secondary: 90 109 121; /* Secondary buttons, nav */
+    /* ==================== SECONDARY (Olive Wellness) ==================== */
+    --secondary: 133 124 93; /* Secondary buttons, nav */
     --on-secondary: 255 255 255; /* Text on secondary */
 
-    --secondary-container: 220 200 172; /* Hover states, subtle accents */
-    --on-secondary-container: 40 35 25; /* Text on secondary-container */
+    --secondary-container: 197 181 125; /* Hover states, subtle accents */
+    --on-secondary-container: 30 25 15; /* Text on secondary-container */
 
     /* ==================== TERTIARY (Warm Sand Accent) ==================== */
     --tertiary: 197 181 125; /* Icons, subtle highlights */
@@ -105,19 +105,37 @@
   /* ==================== BUTTONS (Material 3) ==================== */
   .btn-primary {
     @apply inline-flex items-center gap-3 
-           bg-gradient-to-r from-primary via-secondary to-tertiary 
+           bg-primary 
            text-on-primary font-black px-8 py-4 rounded-2xl 
-           text-lg shadow-xl hover:shadow-2xl 
-           hover:-translate-y-1 transition-all duration-300;
+           shadow-sm hover:shadow-md 
+           hover:-translate-y-0.5 transition-all duration-200;
   }
 
   .btn-secondary {
     @apply inline-flex items-center gap-3 
-           bg-surface-variant border-2 border-outline-variant 
-           text-on-surface-variant hover:bg-secondary-container hover:text-on-secondary-container
+           bg-secondary border-b border-outline-variant 
+           text-on-secondary hover:bg-secondary-container hover:text-on-secondary-container
            hover:border-secondary font-semibold px-8 py-4 rounded-2xl 
-           text-lg shadow-md hover:shadow-lg 
-           hover:-translate-y-0.5 transition-all duration-300;
+           shadow-md hover:shadow-lg 
+           hover:-translate-y-0.5 transition-all duration-200;
+  }
+
+  /* ==================== AUTH BUTTONS ==================== */
+  .btn-login {
+    @apply inline-flex items-center gap-2 
+         bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl 
+         shadow-md hover:shadow-lg hover:-translate-y-0.5 
+         hover:bg-primary-container hover:text-on-primary-container
+         transition-all duration-200 border border-primary/20;
+  }
+
+  .btn-logout {
+    @apply inline-flex items-center gap-2 
+         bg-surface-variant text-on-surface-variant font-semibold px-6 py-3 rounded-xl 
+         border-2 border-outline-variant hover:border-secondary
+         hover:bg-secondary-container hover:text-on-secondary-container
+         shadow-sm hover:shadow-md hover:-translate-y-0.5 
+         transition-all duration-200;
   }
 
   /* ==================== ICONS ==================== */

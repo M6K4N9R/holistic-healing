@@ -27,7 +27,7 @@ export default async function Home() {
   const data = await fetchTreatments();
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-indigo-50 to-emerald-50">
+    <main className="min-h-screen bg-surface">
       <UserTopBar />
 
       <section className="text-center py-16 px-4">
