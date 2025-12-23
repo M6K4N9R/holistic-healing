@@ -27,7 +27,7 @@ export default async function Home() {
   const data = await fetchTreatments();
 
   return (
-    <main className="min-h-screen bg-primary">
+    <main className="min-h-screen bg-primary text-on-primary">
       <UserTopBar />
 
       <section className="text-center py-16 px-4">

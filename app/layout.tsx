@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={grechen.variable}>
-      <body className="bg-surface antialiased">
+      <body className="antialiased font-sans">
         <Providers>{children}</Providers>
       </body>
     </html>
