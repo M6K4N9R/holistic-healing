@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={grechen.variable}>
-      <body className="bg-gradient-to-br from-indigo-50 to-emerald-50 antialiased">
+      <body className="bg-surface antialiased">
         <Providers>{children}</Providers>
       </body>
     </html>

@@ -27,11 +27,11 @@ export default async function Home() {
   const data = await fetchTreatments();
 
   return (
-    <main className="min-h-screen bg-surface">
+    <main className="min-h-screen bg-primary">
       <UserTopBar />
 
       <section className="text-center py-16 px-4">
-        <h1 className="text-5xl md:text-6xl font-light bg-gradient-to-r from-indigo-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+        <h1 className="text-5xl md:text-6xl font-light text-on-surface mb-4">
           Holistic Healing
         </h1>
         <p className="text-xl text-gray-600 max-w-md mx-auto">
@@ -42,7 +42,7 @@ export default async function Home() {
       <Suspense fallback={<TreatmentSkeleton />}>
         <SearchBar />
         <TreatmentsList treatments={data.treatments as any[]} />
-        <FirstConsultation firstConsultation={data.firstConsultation as any} />
+        {/* <FirstConsultation firstConsultation={data.firstConsultation as any} /> */}
       </Suspense>
     </main>
   );
