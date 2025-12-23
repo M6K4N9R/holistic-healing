@@ -5,6 +5,7 @@ import UserTopBar from "@/components/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList";
 import TreatmentSkeleton from "@/components/TreatmentSkeleton";
 import FirstConsultation from "@/components/FirstConsultation";
+import BottomNavBar from "@/components/BottomNavBar";
 import { fetchTreatments } from "@/lib/api/api";
 import { Suspense } from "react";
 import { Metadata } from "next";
@@ -27,7 +28,7 @@ export default async function Home() {
   const data = await fetchTreatments();
 
   return (
-    <main className="min-h-screen bg-primary text-on-primary">
+    <main className="min-h-screen bg-secondary text-on-secondary">
       <UserTopBar />
 
       <section className="text-center py-16 px-4">
@@ -43,6 +44,7 @@ export default async function Home() {
         <SearchBar />
         <TreatmentsList treatments={data.treatments as any[]} />
         {/* <FirstConsultation firstConsultation={data.firstConsultation as any} /> */}
+        <BottomNavBar />
       </Suspense>
     </main>
   );
