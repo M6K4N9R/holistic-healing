@@ -32,7 +32,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
   const logo = data?.[1]?.logoPrimary;
 
   return (
-    <section className="flex items-center justify-between p-6 md:px-8 lg:px-12 bg-surface-variant backdrop-blur-md shadow-md border-b border-outline-variant sticky top-0 z-40">
+    <section className="flex items-center justify-between p-6 md:px-8 lg:px-12 bg-secondary backdrop-blur-md shadow-md border-b border-outline-variant sticky top-0 z-40">
       {/* Logo or Greeting */}
       <div className="flex items-center space-x-4">
         {session ? (

@@ -5,78 +5,78 @@
 @layer base {
   :root {
     /* ==================== NEUTRAL SYSTEM ==================== */
-    --surface: 240 234 220; /* Main page bg (soft linen) */
-    --on-surface: 25 25 25; /* Main text  (Dark charcoal) */
+    --surface: #f0eae0; /* Main page bg (soft linen) */
+    --on-surface: #191919; /* Main text  (Dark charcoal) */
 
-    --surface-variant: 250 248 240; /* Cards, subtle containers */
-    --on-surface-variant: 80 75 60; /* Subtle text, labels */
+    --surface-variant: #faf8f0; /* Cards, subtle containers */
+    --on-surface-variant: #504b3c; /* Subtle text, labels */
 
-    --surface-bright: 255 255 255; /* Tooltips, overlays */
-    --surface-dim: 230 228 215; /* Dimmed surfaces */
+    --surface-bright: #ffffff; /* Tooltips, overlays */
+    --surface-dim: #e6e4d7; /* Dimmed surfaces */
 
     /* ==================== PRIMARY (Slate Professional) ==================== */
-    --primary: 90 109 121; /* Main buttons, links */
-    --on-primary: 255 255 255; /* Text on primary */
+    --primary: #5a6d79; /* Main buttons, links */
+    --on-primary: #ffffff; /* Text on primary */
 
-    --primary-container: 220 200 172; /* Filled buttons, selected states */
-    --on-primary-container: 40 35 25; /* Text on primary-container */
+    --primary-container: #dcc8ac; /* Filled buttons, selected states */
+    --on-primary-container: #282319; /* Text on primary-container */
 
     /* ==================== SECONDARY (Olive Wellness) ==================== */
-    --secondary: 133 124 93; /* Secondary buttons, nav */
-    --on-secondary: 255 255 255; /* Text on secondary */
+    --secondary: #857c5d; /* Secondary buttons, nav */
+    --on-secondary: #ffffff; /* Text on secondary */
 
-    --secondary-container: 197 181 125; /* Hover states, subtle accents */
-    --on-secondary-container: 30 25 15; /* Text on secondary-container */
+    --secondary-container: #c5b57d; /* Hover states, subtle accents */
+    --on-secondary-container: #1e190f; /* Text on secondary-container */
 
     /* ==================== TERTIARY (Warm Sand Accent) ==================== */
-    --tertiary: 197 181 125; /* Icons, subtle highlights */
-    --on-tertiary: 30 25 15;
+    --tertiary: #c5b57d; /* Icons, subtle highlights */
+    --on-tertiary: #1e190f;
 
-    --tertiary-container: 240 230 210; /* Tertiary buttons */
-    --on-tertiary-container: 50 45 30;
+    --tertiary-container: #f0e6d2; /* Tertiary buttons */
+    --on-tertiary-container: #322d1e;
 
     /* ==================== ICONS & OUTLINES ==================== */
-    --outline: 210 195 165; /* Borders, dividers */
-    --outline-variant: 230 225 210; /* Subtle borders */
+    --outline: #d2c3a5; /* Borders, dividers */
+    --outline-variant: #e6e1d2; /* Subtle borders */
   }
 
   /* ==================== DARK MODE ==================== */
   @media (prefers-color-scheme: dark) {
     :root {
       /* Neutrals - Dark */
-      --surface: 28 28 30;
-      --on-surface: 235 235 245;
+      --surface: #1c1c1e;
+      --on-surface: #ebebf5;
 
-      --surface-variant: 45 45 47;
-      --on-surface-variant: 190 190 200;
+      --surface-variant: #2d2d2f;
+      --on-surface-variant: #bebec8;
 
-      --surface-bright: 70 70 75;
-      --surface-dim: 35 35 37;
+      --surface-bright: #46464b;
+      --surface-dim: #232325;
 
       /* Primary - Dark */
-      --primary: 175 170 140; /* Brighter for dark mode */
-      --on-primary: 30 25 15;
+      --primary: #aea983; /* Brighter for dark mode */
+      --on-primary: #1e190f;
 
-      --primary-container: 90 85 65;
-      --on-primary-container: 235 235 245;
+      --primary-container: #5a5541;
+      --on-primary-container: #ebebf5;
 
       /* Secondary - Dark */
-      --secondary: 140 155 165;
-      --on-secondary: 20 20 25;
+      --secondary: #8c9ba5;
+      --on-secondary: #141419;
 
-      --secondary-container: 55 55 60;
-      --on-secondary-container: 220 220 230;
+      --secondary-container: #37373c;
+      --on-secondary-container: #dcdce6;
 
       /* Tertiary - Dark */
-      --tertiary: 210 200 180;
-      --on-tertiary: 40 35 25;
+      --tertiary: #d2c8b4;
+      --on-tertiary: #282319;
 
-      --tertiary-container: 75 70 55;
-      --on-tertiary-container: 240 240 245;
+      --tertiary-container: #4b4535;
+      --on-tertiary-container: #f0f0f7;
 
       /* Outlines - Dark */
-      --outline: 85 85 90;
-      --outline-variant: 65 65 70;
+      --outline: #55555a;
+      --outline-variant: #414145;
     }
   }
 }
