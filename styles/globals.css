@@ -1,83 +1,77 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+:root {
+  /* ==================== NEUTRAL SYSTEM ==================== */
+  --surface: #f0eae0; /* Main page bg (soft linen) */
+  --on-surface: #191919; /* Main text  (Dark charcoal) */
 
-@layer base {
+  --surface-variant: #faf8f0; /* Cards, subtle containers */
+  --on-surface-variant: #504b3c; /* Subtle text, labels */
+
+  --surface-bright: #ffffff; /* Tooltips, overlays */
+  --surface-dim: #e6e4d7; /* Dimmed surfaces */
+
+  /* ==================== PRIMARY (Slate Professional) ==================== */
+  --primary: #5a6d79; /* Main buttons, links */
+  --on-primary: #ffffff; /* Text on primary */
+
+  --primary-container: #dcc8ac; /* Filled buttons, selected states */
+  --on-primary-container: #282319; /* Text on primary-container */
+
+  /* ==================== SECONDARY (Olive Wellness) ==================== */
+  --secondary: #857c5d; /* Secondary buttons, nav */
+  --on-secondary: #ffffff; /* Text on secondary */
+
+  --secondary-container: #c5b57d; /* Hover states, subtle accents */
+  --on-secondary-container: #1e190f; /* Text on secondary-container */
+
+  /* ==================== TERTIARY (Warm Sand Accent) ==================== */
+  --tertiary: #c5b57d; /* Icons, subtle highlights */
+  --on-tertiary: #1e190f;
+
+  --tertiary-container: #f0e6d2; /* Tertiary buttons */
+  --on-tertiary-container: #322d1e;
+
+  /* ==================== ICONS & OUTLINES ==================== */
+  --outline: #d2c3a5; /* Borders, dividers */
+  --outline-variant: #e6e1d2; /* Subtle borders */
+}
+
+/* ==================== DARK MODE ==================== */
+@media (prefers-color-scheme: dark) {
   :root {
-    /* ==================== NEUTRAL SYSTEM ==================== */
-    --surface: #f0eae0; /* Main page bg (soft linen) */
-    --on-surface: #191919; /* Main text  (Dark charcoal) */
+    /* Neutrals - Dark */
+    --surface: #1c1c1e;
+    --on-surface: #ebebf5;
 
-    --surface-variant: #faf8f0; /* Cards, subtle containers */
-    --on-surface-variant: #504b3c; /* Subtle text, labels */
+    --surface-variant: #2d2d2f;
+    --on-surface-variant: #bebec8;
 
-    --surface-bright: #ffffff; /* Tooltips, overlays */
-    --surface-dim: #e6e4d7; /* Dimmed surfaces */
+    --surface-bright: #46464b;
+    --surface-dim: #232325;
 
-    /* ==================== PRIMARY (Slate Professional) ==================== */
-    --primary: #5a6d79; /* Main buttons, links */
-    --on-primary: #ffffff; /* Text on primary */
+    /* Primary - Dark */
+    --primary: #aea983; /* Brighter for dark mode */
+    --on-primary: #1e190f;
 
-    --primary-container: #dcc8ac; /* Filled buttons, selected states */
-    --on-primary-container: #282319; /* Text on primary-container */
+    --primary-container: #5a5541;
+    --on-primary-container: #ebebf5;
 
-    /* ==================== SECONDARY (Olive Wellness) ==================== */
-    --secondary: #857c5d; /* Secondary buttons, nav */
-    --on-secondary: #ffffff; /* Text on secondary */
+    /* Secondary - Dark */
+    --secondary: #8c9ba5;
+    --on-secondary: #141419;
 
-    --secondary-container: #c5b57d; /* Hover states, subtle accents */
-    --on-secondary-container: #1e190f; /* Text on secondary-container */
+    --secondary-container: #37373c;
+    --on-secondary-container: #dcdce6;
 
-    /* ==================== TERTIARY (Warm Sand Accent) ==================== */
-    --tertiary: #c5b57d; /* Icons, subtle highlights */
-    --on-tertiary: #1e190f;
+    /* Tertiary - Dark */
+    --tertiary: #d2c8b4;
+    --on-tertiary: #282319;
 
-    --tertiary-container: #f0e6d2; /* Tertiary buttons */
-    --on-tertiary-container: #322d1e;
+    --tertiary-container: #4b4535;
+    --on-tertiary-container: #f0f0f7;
 
-    /* ==================== ICONS & OUTLINES ==================== */
-    --outline: #d2c3a5; /* Borders, dividers */
-    --outline-variant: #e6e1d2; /* Subtle borders */
-  }
-
-  /* ==================== DARK MODE ==================== */
-  @media (prefers-color-scheme: dark) {
-    :root {
-      /* Neutrals - Dark */
-      --surface: #1c1c1e;
-      --on-surface: #ebebf5;
-
-      --surface-variant: #2d2d2f;
-      --on-surface-variant: #bebec8;
-
-      --surface-bright: #46464b;
-      --surface-dim: #232325;
-
-      /* Primary - Dark */
-      --primary: #aea983; /* Brighter for dark mode */
-      --on-primary: #1e190f;
-
-      --primary-container: #5a5541;
-      --on-primary-container: #ebebf5;
-
-      /* Secondary - Dark */
-      --secondary: #8c9ba5;
-      --on-secondary: #141419;
-
-      --secondary-container: #37373c;
-      --on-secondary-container: #dcdce6;
-
-      /* Tertiary - Dark */
-      --tertiary: #d2c8b4;
-      --on-tertiary: #282319;
-
-      --tertiary-container: #4b4535;
-      --on-tertiary-container: #f0f0f7;
-
-      /* Outlines - Dark */
-      --outline: #55555a;
-      --outline-variant: #414145;
-    }
+    /* Outlines - Dark */
+    --outline: #55555a;
+    --outline-variant: #414145;
   }
 }
 
@@ -98,8 +92,8 @@
 
   /* ==================== CUSTOM UTILITIES ==================== */
   .glass {
-    @apply bg-surface-variant/90 backdrop-blur-xl 
-           border border-outline-variant/50 shadow-md;
+    @apply bg-surface-variant backdrop-blur-xl 
+           border border-outline-variant shadow-md;
   }
 
   /* ==================== BUTTONS (Material 3) ==================== */
@@ -126,7 +120,7 @@
          bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl 
          shadow-md hover:shadow-lg hover:-translate-y-0.5 
          hover:bg-primary-container hover:text-on-primary-container
-         transition-all duration-200 border border-primary/20;
+         transition-all duration-200 border border-primary;
   }
 
   .btn-logout {
@@ -147,3 +141,7 @@
     @apply stroke-on-surface-variant stroke-2;
   }
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

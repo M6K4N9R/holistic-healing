@@ -9,27 +9,27 @@ module.exports = {
     extend: {
       colors: {
         // Neutrals
-        surface: "hsl(var(--surface))",
-        "on-surface": "hsl(var(--on-surface))",
-        "surface-variant": "hsl(var(--surface-variant))",
-        "on-surface-variant": "hsl(var(--on-surface-variant))",
+        surface: "var(--surface)",
+        "on-surface": "var(--on-surface)",
+        "surface-variant": "var(--surface-variant)",
+        "on-surface-variant": "var(--on-surface-variant)",
 
         // Primary
-        primary: "hsl(var(--primary))",
-        "on-primary": "hsl(var(--on-primary))",
-        "primary-container": "hsl(var(--primary-container))",
-        "on-primary-container": "hsl(var(--on-primary-container))",
+        primary: "var(--primary)",
+        "on-primary": "var(--on-primary)",
+        "primary-container": "var(--primary-container)",
+        "on-primary-container": "var(--on-primary-container)",
 
         // Secondary
-        secondary: "hsl(var(--secondary))",
-        "on-secondary": "hsl(var(--on-secondary))",
-        "secondary-container": "hsl(var(--secondary-container))",
-        "on-secondary-container": "hsl(var(--on-secondary-container))",
+        secondary: "var(--secondary)",
+        "on-secondary": "var(--on-secondary)",
+        "secondary-container": "var(--secondary-container)",
+        "on-secondary-container": "var(--on-secondary-container)",
 
         // Tertiary + Outlines
-        tertiary: "hsl(var(--tertiary))",
-        outline: "hsl(var(--outline))",
-        "outline-variant": "hsl(var(--outline-variant))",
+        tertiary: "var(--tertiary)",
+        outline: "var(--outline)",
+        "outline-variant": "var(--outline-variant)",
       },
     },
   },

@@ -23,8 +23,8 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
   if (!data && !error) {
     return (
       <section className="flex items-center justify-between p-6 bg-surface-variant shadow-md">
-        <div className="w-10 h-10 bg-gray-200 rounded-xl animate-pulse" />
-        <div className="w-24 h-8 bg-gray-200 rounded-lg animate-pulse" />
+        <div className="w-10 h-10 bg-primary rounded-xl animate-pulse" />
+        <div className="w-24 h-8 bg-secondary rounded-lg animate-pulse" />
       </section>
     );
   }
@@ -32,7 +32,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
   const logo = data?.[1]?.logoPrimary;
 
   return (
-    <section className="flex items-center justify-between p-6 md:px-8 lg:px-12 bg-secondary backdrop-blur-md shadow-md border-b border-outline-variant sticky top-0 z-40">
+    <section className="flex items-center justify-between p-6 md:px-8 lg:px-12 bg-surface-variant backdrop-blur-md shadow-md border-b border-outline-variant sticky top-0 z-40">
       {/* Logo or Greeting */}
       <div className="flex items-center space-x-4">
         {session ? (
@@ -61,7 +61,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
             />
           </div>
         ) : (
-          <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-indigo-500 rounded-2xl shadow-lg animate-pulse" />
+          <div className="w-10 h-10 bg-secondary rounded-2xl shadow-lg animate-pulse" />
         )}
       </div>
 
