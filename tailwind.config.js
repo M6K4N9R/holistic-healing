@@ -18,13 +18,11 @@ module.exports = {
         primary: "var(--primary)",
         "on-primary": "var(--on-primary)",
         "primary-container": "var(--primary-container)",
-        "on-primary-container": "var(--on-primary-container)",
 
         // Secondary
         secondary: "var(--secondary)",
         "on-secondary": "var(--on-secondary)",
         "secondary-container": "var(--secondary-container)",
-        "on-secondary-container": "var(--on-secondary-container)",
 
         // Tertiary + Outlines
         tertiary: "var(--tertiary)",

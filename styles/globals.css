@@ -13,15 +13,13 @@
   --primary: #5a6d79; /* Main buttons, links */
   --on-primary: #ffffff; /* Text on primary */
 
-  --primary-container: #dcc8ac; /* Filled buttons, selected states */
-  --on-primary-container: #282319; /* Text on primary-container */
+  --primary-container: #4d5e69; /* hover buttons, selected states */
 
   /* ==================== SECONDARY (Olive Wellness) ==================== */
   --secondary: #857c5d; /* Secondary buttons, nav */
   --on-secondary: #ffffff; /* Text on secondary */
 
   --secondary-container: #c5b57d; /* Hover states, subtle accents */
-  --on-secondary-container: #1e190f; /* Text on secondary-container */
 
   /* ==================== TERTIARY (Warm Sand Accent) ==================== */
   --tertiary: #c5b57d; /* Icons, subtle highlights */
@@ -108,7 +106,7 @@
   .btn-secondary {
     @apply inline-flex items-center gap-3 
            bg-secondary border-b border-outline-variant 
-           text-on-secondary hover:bg-secondary-container hover:text-on-secondary-container
+           text-on-secondary hover:bg-secondary-container hover:text-on-secondary
            hover:border-secondary font-semibold px-8 py-4 rounded-2xl 
            shadow-md hover:shadow-lg 
            hover:-translate-y-0.5 transition-all duration-200;
@@ -119,7 +117,7 @@
     @apply inline-flex items-center gap-2 
          bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl 
          shadow-md hover:shadow-lg hover:-translate-y-0.5 
-         hover:bg-primary-container hover:text-on-primary-container
+         hover:bg-primary-container hover:text-on-primary
          transition-all duration-200 border border-primary;
   }
 
@@ -127,7 +125,7 @@
     @apply inline-flex items-center gap-2 
          bg-surface-variant text-on-surface-variant font-semibold px-6 py-3 rounded-xl 
          border-2 border-outline-variant hover:border-secondary
-         hover:bg-secondary-container hover:text-on-secondary-container
+         hover:bg-secondary-container hover:text-on-secondary
          shadow-sm hover:shadow-md hover:-translate-y-0.5 
          transition-all duration-200;
   }
