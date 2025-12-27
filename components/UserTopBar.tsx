@@ -43,7 +43,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
           /* Logged-in greeting */
           <div
             className="flex items-center space-x-3 p-4 rounded-2xl 
-                        bg-surface-bright/60 backdrop-blur-sm shadow-md 
+                        bg-surface-bright backdrop-blur-sm shadow-md 
                         hover:shadow-xl transition-all duration-300 group"
           >
             <SunIcon className="w-8 h-8 text-tertiary group-hover:rotate-12 transition-transform duration-500" />
@@ -59,7 +59,7 @@ export default function UserTopBar({ grechen }: UserTopBarProps) {
         ) : /* Guest logo */
         logo ? (
           <div
-            className="relative p-3 bg-surface-bright/70 rounded-2xl shadow-lg 
+            className="relative p-3 bg-surface-bright rounded-2xl shadow-lg 
                         hover:shadow-xl hover:-translate-y-0.5 
                         transition-all duration-300 cursor-pointer"
           >

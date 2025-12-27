@@ -28,14 +28,14 @@ export default async function Home() {
   const data = await fetchTreatments();
 
   return (
-    <main className="min-h-screen bg-secondary text-on-secondary">
+    <main className="min-h-screen bg-surface text-on-surface">
       <UserTopBar />
 
       <section className="text-center py-16 px-4">
-        <h1 className="text-5xl md:text-6xl font-light text-on-surface mb-4">
+        <h1 className="text-5xl md:text-6xl font-light mb-4">
           Holistic Healing
         </h1>
-        <p className="text-xl text-gray-600 max-w-md mx-auto">
+        <p className="text-xl max-w-md mx-auto">
           Your naturopathic practice in Berlin
         </p>
       </section>

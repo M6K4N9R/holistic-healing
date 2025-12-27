@@ -64,7 +64,7 @@ export default function SearchBar({
       </label>
 
       <div className="relative group">
-        <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-400 group-focus-within:text-emerald-600 transition-all duration-300" />
+        <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-6 h-6 text-on-surface-variant group-focus-within:text-primary transition-all duration-300" />
 
         <input
           ref={inputRef}
@@ -75,7 +75,11 @@ export default function SearchBar({
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder="Search symptoms like headache, stress, fatigue..."
           autoComplete="off"
-          className="w-full pl-12 pr-12 py-5 bg-white/80 backdrop-blur-md rounded-3xl border-2 border-gray-200 focus:border-emerald-400 focus:ring-4 focus:ring-emerald-200/50 focus:outline-none text-lg font-medium shadow-xl transition-all duration-300 hover:shadow-2xl"
+          className="w-full pl-12 pr-12 py-5 bg-surface-bright backdrop-blur-md rounded-3xl 
+                   border-2 border-outline-variant focus:border-primary 
+                   focus:ring-4 focus:ring-primary/20 focus:outline-none 
+                   text-lg font-medium shadow-xl transition-all duration-300 
+                   hover:shadow-2xl text-on-surface-variant"
         />
 
         {/* Clear Button */}
@@ -83,10 +87,10 @@ export default function SearchBar({
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-gray-100 rounded-full transition-all hover:scale-110"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-surface-variant rounded-full transition-all hover:scale-110"
             aria-label="Clear search"
           >
-            <XMarkIcon className="w-5 h-5 text-gray-500 hover:text-red-500" />
+            <XMarkIcon className="w-5 h-5 text-on-surface-variant hover:text-primary" />
           </button>
         )}
       </div>
@@ -100,11 +104,11 @@ export default function SearchBar({
 
       {/* No Results */}
       {showNoResults && (
-        <div className="mt-4 p-6 bg-amber-50 border border-amber-200 rounded-2xl text-center">
-          <p className="text-sm text-amber-800 mb-2">
+        <div className="mt-4 p-6 bg-tertiary-container border border-outline rounded-2xl text-center">
+          <p className="text-sm text-on-tertiary mb-2">
             No treatments found for "<strong>{searchValue}</strong>"
           </p>
-          <p className="text-sm text-amber-700">
+          <p className="text-sm text-on-tertiary">
             Consider booking <strong>First Consultation</strong> for
             personalized care.
           </p>
@@ -117,15 +121,14 @@ export default function SearchBar({
           <button
             type="button"
             onClick={handleClear}
-            className="flex-1 bg-white hover:bg-gray-50 border-2 border-gray-200 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all hover:shadow-md"
+            className="flex-1 bg-surface-bright hover:bg-surface-variant 
+                     border-2 border-outline-variant text-on-surface-variant 
+                     font-semibold py-3 px-6 rounded-xl transition-all hover:shadow-md"
           >
             See All Treatments
           </button>
         )}
-        <button
-          type="submit"
-          className="btn-primary"
-        >
+        <button type="submit" className="btn-primary">
           Search
         </button>
       </div>
