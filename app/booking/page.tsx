@@ -38,9 +38,9 @@ export default function BookingPage() {
 
   return (
     <FormProvider {...methods}>
-      <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-indigo-50 py-12 px-4 md:px-8">
+      <div className="min-h-screen bg-surface-variant py-12 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-black bg-gradient-to-r from-emerald-600 via-indigo-600 to-emerald-600 bg-clip-text text-transparent text-center mb-24 leading-tight">
+          <h1 className="text-5xl md:text-6xl font-black text-on-surface-variant text-center mb-24 leading-tight">
             Book Your Healing Journey
           </h1>
 
@@ -56,7 +56,7 @@ export default function BookingPage() {
               <div className="text-center pt-12">
                 <button
                   type="submit"
-                  className="inline-flex items-center gap-4 bg-gradient-to-r from-emerald-500 via-emerald-600 to-indigo-600 hover:from-emerald-600 hover:to-indigo-700 text-white font-black text-2xl px-16 py-8 rounded-3xl shadow-2xl hover:shadow-3xl hover:-translate-y-2 transition-all duration-500 transform"
+                  className="inline-flex items-center gap-4 btn-primary text-2xl px-16 py-8"
                 >
                   <span>✨ Confirm & Book ✨</span>
                 </button>
