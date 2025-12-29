@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { MagnifyingGlassIcon, XMarkIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
+import { log } from "console";
 
 interface SearchBarProps {
   filteredSymptomsFromDuplicates?: string[];
@@ -55,6 +56,11 @@ export default function SearchBar({
     router.push("/treatments");
     inputRef.current?.focus();
   };
+
+  console.log("Search Value:", searchValue);
+  console.log("🔍 Props:", { filteredSymptomsFromDuplicates });
+  console.log("🔍 URL symptom:", searchParams.get("symptom"));
+  console.log("🔍 Local state:", { searchValue, showNoResults });
 
   return (
     <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-16 px-4">

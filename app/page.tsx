@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getServerSession } from "next-auth"; // Direct import
+import { getSession } from "@/lib/auth";
 import SearchBar from "@/components/SearchBar";
 import UserTopBar from "@/components/UserTopBar";
 import TreatmentsList from "@/components/TreatmentsList";
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   // Direct server-side session
-  const session = await getServerSession();
+  const session = await getSession();
 
   // Auth redirect
   if (session?.user?.email) {
@@ -26,6 +26,7 @@ export default async function Home() {
   }
 
   const data = await fetchTreatments();
+  console.log("Data:", data);
 
   return (
     <main className="min-h-screen bg-surface text-on-surface">
