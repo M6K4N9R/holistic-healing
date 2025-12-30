@@ -13,7 +13,7 @@ import {
 export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
 
-  const isComplete = form.watch("timeSlot") && form.watch("doctorId");
+  /*   const isComplete = form.watch("timeSlot") && form.watch("doctorId");
   const handleConfirm = async (data: any) => {
     const formData = new FormData();
     formData.append("treatmentId", form.watch("treatmentId"));
@@ -25,9 +25,10 @@ export default function BookingStep3({ step }: { step: number }) {
     formData.append("phone", data.phone);
 
     await createBooking(formData);
-  };
+  }; */
   return (
-    <div className={step >= 3 && isComplete ? "block" : "hidden"}>
+    // <div className={step >= 3 && isComplete ? "block" : "hidden"}>
+    <div className={step >= 3 ? "block" : "hidden"}>
       <h3 className="text-3xl font-bold text-primary mb-12 text-center">
         Review & Confirm
       </h3>
@@ -74,31 +75,10 @@ export default function BookingStep3({ step }: { step: number }) {
           </div>
         </div>
       </div>
-
-      {/* Contact Form */}
-      <div className="space-y-6 max-w-2xl mx-auto">
-        <input
-          {...form.register("patientName")}
-          placeholder="Full name"
-          className="..."
-        />
-        <input
-          {...form.register("email")}
-          type="email"
-          placeholder="Email"
-          className="..."
-        />
-        <input
-          {...form.register("phone")}
-          type="tel"
-          placeholder="Phone"
-          className="..."
-        />
-
+      <div className="text-center pt-12">
         <button
-          type="button"
-          onClick={form.handleSubmit(handleConfirm)}
-          className="w-full btn-primary text-2xl px-16 py-8 mt-8"
+          type="submit"
+          className="inline-flex items-center gap-4 btn-primary text-2xl px-16 py-8"
         >
           ✨ Confirm & Book ✨
         </button>
