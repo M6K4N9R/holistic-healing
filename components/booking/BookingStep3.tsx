@@ -8,6 +8,7 @@ import {
   EnvelopeIcon,
   UserIcon,
 } from "@/components/ui/icons";
+import { createBooking } from "@/app/actions/booking";
 
 export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
