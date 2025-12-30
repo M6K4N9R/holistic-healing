@@ -14,7 +14,18 @@ export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
 
   const isComplete = form.watch("timeSlot") && form.watch("doctorId");
+  const handleConfirm = async (data: any) => {
+    const formData = new FormData();
+    formData.append("treatmentId", form.watch("treatmentId"));
+    formData.append("doctorId", form.watch("doctorId"));
+    formData.append("date", JSON.stringify(form.watch("date")));
+    formData.append("time", form.watch("timeSlot"));
+    formData.append("patientName", data.patientName);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
 
+    await createBooking(formData);
+  };
   return (
     <div className={step >= 3 && isComplete ? "block" : "hidden"}>
       <h3 className="text-3xl font-bold text-primary mb-12 text-center">
@@ -65,26 +76,33 @@ export default function BookingStep3({ step }: { step: number }) {
       </div>
 
       {/* Contact Form */}
-      <form action={createBooking} className="space-y-6">
-        {" "}
-        // 👈 HERE
+      <div className="space-y-6 max-w-2xl mx-auto">
         <input
-          type="hidden"
-          name="treatmentId"
-          value={form.watch("treatmentId")}
+          {...form.register("patientName")}
+          placeholder="Full name"
+          className="..."
         />
-        <input type="hidden" name="doctorId" value={form.watch("doctorId")} />
         <input
-          type="hidden"
-          name="date"
-          value={JSON.stringify(form.watch("date"))}
+          {...form.register("email")}
+          type="email"
+          placeholder="Email"
+          className="..."
         />
-        <input type="hidden" name="time" value={form.watch("timeSlot")} />
-        <input name="patientName" placeholder="Full name" />
-        <input name="email" type="email" placeholder="Email" />
-        <input name="phone" type="tel" placeholder="Phone" />
-        <button type="submit">Confirm Booking</button>
-      </form>
+        <input
+          {...form.register("phone")}
+          type="tel"
+          placeholder="Phone"
+          className="..."
+        />
+
+        <button
+          type="button"
+          onClick={form.handleSubmit(handleConfirm)}
+          className="w-full btn-primary text-2xl px-16 py-8 mt-8"
+        >
+          ✨ Confirm & Book ✨
+        </button>
+      </div>
     </div>
   );
 }
