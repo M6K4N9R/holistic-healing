@@ -1,5 +1,6 @@
 "use client";
 
+import { createBooking } from "@/app/actions/booking";
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import {
@@ -8,7 +9,6 @@ import {
   EnvelopeIcon,
   UserIcon,
 } from "@/components/ui/icons";
-import { createBooking } from "@/app/actions/booking";
 
 export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
@@ -65,51 +65,26 @@ export default function BookingStep3({ step }: { step: number }) {
       </div>
 
       {/* Contact Form */}
-      <div className="space-y-6 max-w-2xl mx-auto">
-        <h4 className="text-2xl font-bold text-primary text-center">
-          Contact Details
-        </h4>
-
-        <div className="grid md:grid-cols-3 gap-4">
-          <div className="md:col-span-1">
-            <label className="block text-sm font-semibold text-on-surface-variant mb-2 flex items-center gap-2">
-              <UserIcon className="w-5 h-5 text-primary" />
-              Full Name
-            </label>
-            <input
-              {...form.register("patientName")}
-              className="w-full p-4 rounded-2xl border-2 border-outline-variant focus:border-primary focus:ring-4 focus:ring-primary/20 bg-surface-bright backdrop-blur-xl shadow-lg text-on-surface-variant"
-              placeholder="John Doe"
-            />
-          </div>
-
-          <div className="md:col-span-1">
-            <label className="block text-sm font-semibold text-on-surface-variant mb-2 flex items-center gap-2">
-              <EnvelopeIcon className="w-5 h-5 text-primary" />
-              Email
-            </label>
-            <input
-              type="email"
-              {...form.register("email")}
-              className="w-full p-4 rounded-2xl border-2 border-outline-variant focus:border-primary focus:ring-4 focus:ring-primary/20 bg-surface-bright backdrop-blur-xl shadow-lg text-on-surface-variant"
-              placeholder="john@example.com"
-            />
-          </div>
-
-          <div className="md:col-span-1">
-            <label className="block text-sm font-semibold text-on-surface-variant mb-2 flex items-center gap-2">
-              <PhoneIcon className="w-5 h-5 text-primary" />
-              Phone
-            </label>
-            <input
-              type="tel"
-              {...form.register("phone")}
-              className="w-full p-4 rounded-2xl border-2 border-outline-variant focus:border-primary focus:ring-4 focus:ring-primary/20 bg-surface-bright backdrop-blur-xl shadow-lg text-on-surface-variant"
-              placeholder="+1 (555) 123-4567"
-            />
-          </div>
-        </div>
-      </div>
+      <form action={createBooking} className="space-y-6">
+        {" "}
+        // 👈 HERE
+        <input
+          type="hidden"
+          name="treatmentId"
+          value={form.watch("treatmentId")}
+        />
+        <input type="hidden" name="doctorId" value={form.watch("doctorId")} />
+        <input
+          type="hidden"
+          name="date"
+          value={JSON.stringify(form.watch("date"))}
+        />
+        <input type="hidden" name="time" value={form.watch("timeSlot")} />
+        <input name="patientName" placeholder="Full name" />
+        <input name="email" type="email" placeholder="Email" />
+        <input name="phone" type="tel" placeholder="Phone" />
+        <button type="submit">Confirm Booking</button>
+      </form>
     </div>
   );
 }
