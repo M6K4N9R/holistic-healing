@@ -58,17 +58,20 @@ export default function BookingPage() {
                 <div className="grid md:grid-cols-3 gap-4">
                   <input
                     {...methods.register("patientName")}
+                    name="patientName"
                     placeholder="Full name *"
                     className="p-4 rounded-2xl border-2 border-outline-variant focus:border-primary"
                   />
                   <input
                     {...methods.register("email")}
+                    name="email"
                     type="email"
                     placeholder="Email *"
                     className="p-4 rounded-2xl border-2 border-outline-variant focus:border-primary"
                   />
                   <input
                     {...methods.register("phone")}
+                    name="phone"
                     type="tel"
                     placeholder="Phone *"
                     className="p-4 rounded-2xl border-2 border-outline-variant focus:border-primary"
