@@ -24,14 +24,21 @@ interface DoctorDocument {
 // STEP 1: Treatment → Available Doctors + Locations
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
-  const treatmentDoc = await Treatment.findById(treatmentId);
+  const treatmentDoc = await Treatment.findById(treatmentId).lean();
   if (!treatmentDoc) throw new Error("Treatment not found");
 
-  // 👈 CONVERT TO PLAIN JSON (serializable + typed)
-  const treatment = treatmentDoc.toObject();
-  const doctorsRaw = await Doctor.find({ treatments: treatment._id });
+  const doctorsRaw = await Doctor.find({ treatments: treatmentDoc._id }).lean();
 
-  const doctors = doctorsRaw.map((doc) => doc.toObject());
+  const treatment = {
+    ...treatmentDoc,
+    _id: treatmentDoc._id.toString(),
+  };
+
+  const doctors = doctorsRaw.map((doc: any) => ({
+    ...doc,
+    _id: doc._id.toString(),
+    treatments: doc.treatments.map((t: any) => t.toString()),
+  }));
 
   return {
     treatment,

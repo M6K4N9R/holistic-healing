@@ -8,15 +8,15 @@ export async function GET() {
   try {
     await dbConnect();
 
-    const treatments = await Treatment.find();
+    const treatments = await Treatment.find().lean();
     const treatmentNames = await Treatment.find(
       { name: { $ne: "First Consultation" } },
       { slug: 1, _id: 0 }
-    );
+    ).lean();
     const firstConsultation = await Treatment.findOne({
       name: "First Consultation",
-    });
-    const logo = await Logo.find();
+    }).lean();
+    const logo = await Logo.find().lean();
 
     return NextResponse.json({
       treatments,
