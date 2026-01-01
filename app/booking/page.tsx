@@ -45,7 +45,7 @@ export default function BookingPage() {
             Book Your Healing Journey
           </h1>
 
-          <form action={createBooking} className="space-y-16">
+          {/* <form action={createBooking} className="space-y-16"> */}
             <BookingStep1 step={step} />
             <BookingStep2 step={step} />
 
@@ -81,7 +81,7 @@ export default function BookingPage() {
             )}
 
             <BookingStep3 step={step} />
-          </form>
+          {/* </form> */} 
         </div>
       </div>
     </FormProvider>
