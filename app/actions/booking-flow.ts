@@ -25,11 +25,13 @@ interface DoctorDocument {
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect()
   const treatment = await Treatment.findById(treatmentId)
-  if (!treatment) throw new Error('Treatment not found')
+  if (!treatment) throw new Error('Treatment not found') // Change later to more gratious way.
   
+  console.log("Check selected treatment:", treatment)
   const doctors = await Doctor.find({ 
     treatments: treatment._id 
   })
+  console.log("Doctor/s that offer selected treatment:", doctors)
   
   return { 
     treatment, 
@@ -48,7 +50,7 @@ export async function getDoctorDates(
 ) {
   await dbConnect()
   const doctor = await Doctor.findById(doctorId)
-  if (!doctor) throw new Error('Doctor not found')
+  if (!doctor) throw new Error('Doctor not found') // Change later to more gratious way.
   
   const startDate = new Date(year, month - 1, 1)
   const endDate = new Date(year, month, 0)

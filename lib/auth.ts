@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import { NextAuthConfig } from "next-auth";
 import GithubProvider from "next-auth/providers/github";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
-import  clientPromise  from "@/db/mongodb";
+import clientPromise from "@/db/mongodb";
 
 export const config = {
   providers: [
@@ -20,7 +20,7 @@ export const config = {
     }),
   ],
   adapter: MongoDBAdapter(clientPromise),
-  debug: true,
+  debug: true, // Production fix → debug: false
   callbacks: {
     async session({ session, user }) {
       if (session.user) {

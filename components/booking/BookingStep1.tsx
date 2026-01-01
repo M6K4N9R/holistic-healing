@@ -1,30 +1,35 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { cn } from "@/lib/utils";
 import useSWR from "swr";
+import { cn } from "@/lib/utils";
+import { getTreatmentAvailability } from "@/app/actions/booking-flow";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
-  const { data, isLoading } = useSWR("/api/treatments");
+  const { data: treatmentsData, isLoading } = useSWR("/api/treatments");
+  const treatments = treatmentsData?.treatments || [];
 
-  // 🔍 DEBUG: Check what API returns
-  console.log("API Data:", data);
+  const handleTreatmentSelect = async (treatmentId: string) => {
+    form.setValue("treatmentId", treatmentId);
+
+    // 👈 FETCH REAL DOCTORS + LOCATIONS
+    const availability = await getTreatmentAvailability(treatmentId);
+    console.log("👨‍⚕️ Available:", availability.doctors, availability.locations);
+
+    // 👈 Store for Step2
+    form.setValue("availableDoctors", availability.doctors);
+    form.setValue("availableLocations", availability.locations);
+  };
 
   if (isLoading) {
     return (
       <div className="text-center py-20">
-        <div className="inline-flex flex-col items-center gap-4">
-          <div className="w-16 h-16 border-4 border-primary/30 border-primary rounded-full animate-spin" />
-          <p className="text-lg text-primary font-semibold">
-            Loading treatments...
-          </p>
-        </div>
+        {/* ADD loading spinner */}
+        <div>...Loading</div>
       </div>
     );
   }
-  // ✅ Correct data access
-  const treatments = data?.treatments || [];
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
@@ -33,15 +38,11 @@ export default function BookingStep1({ step }: { step: number }) {
       </h3>
 
       {/* Treatment Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+      <div className={step >= 1 ? "block" : "hidden"}>
         {treatments.map((treatment: any) => (
           <button
             key={treatment._id}
-            type="button"
-            onClick={() => {
-              form.setValue("treatmentId", treatment._id);
-              form.setValue("treatmentName", treatment.name);
-            }}
+            onClick={() => handleTreatmentSelect(treatment._id)}
             className={cn(
               "group relative h-28 rounded-3xl p-6 font-bold text-left shadow-lg transition-all duration-300 overflow-hidden hover:shadow-2xl hover:-translate-y-2",
               form.watch("treatmentId") === treatment._id
