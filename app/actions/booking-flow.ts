@@ -4,7 +4,6 @@ import Treatment from "@/db/models/Treatment";
 import Doctor from "@/db/models/Doctor";
 import Booking from "@/db/models/Booking";
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
 
 interface DateObject {
   date: string;
@@ -117,11 +116,6 @@ export async function getAvailableTimes(
 
 // FINAL: Create Booking
 export async function createBooking(formData: FormData) {
-  const session = await getSession();
-
-  const userEmail = session?.user?.email || (formData.get("email") as string);
-  if (!userEmail) throw new Error("Email required");
-
   await dbConnect();
 
   const treatmentId = formData.get("treatmentId") as string;
@@ -131,6 +125,7 @@ export async function createBooking(formData: FormData) {
   const location = formData.get("location") as string;
   const patientName = formData.get("patientName") as string;
   const phone = formData.get("phone") as string;
+  const email = formData.get("email") as string;
 
   const date: DateObject = JSON.parse(dateStr);
 
@@ -150,7 +145,7 @@ export async function createBooking(formData: FormData) {
     doctor: doctorId,
     date,
     time,
-    patientDetails: { email: userEmail, name: patientName, phone, location },
+    patientDetails: { email: email, name: patientName, phone, location },
   });
 
   await booking.save();
