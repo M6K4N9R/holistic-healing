@@ -6,7 +6,7 @@ import { BookingFormData, BookingFormSchema } from "@/types/booking";
 import BookingStep1 from "@/components/booking/BookingStep1";
 import BookingStep2 from "@/components/booking/BookingStep2";
 import BookingStep3 from "@/components/booking/BookingStep3";
-import { createBooking } from "../actions/booking";
+import { createBooking } from "../actions/booking"; // BEFORE NEW APPROACH
 
 export default function BookingPage() {
   const methods = useForm<BookingFormData>({
