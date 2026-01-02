@@ -68,12 +68,19 @@ export default function BookingStep1({ step }: { step: number }) {
               max={
                 new Date(Date.now() + 56 * 86400000).toISOString().split("T")[0]
               }
-              value={form.watch("date")?.toISOString().split("T")[0] || ""}
-              onChange={(e) => form.setValue("date", new Date(e.target.value))}
-              className="w-full p-5 pl-14 pr-14 text-lg font-semibold bg-surface-bright backdrop-blur-xl 
-                       rounded-3xl border-2 border-outline-variant focus:border-primary 
-                       focus:ring-4 focus:ring-primary/20 shadow-2xl hover:shadow-3xl 
-                       transition-all duration-300 cursor-pointer text-on-surface-variant"
+              value={
+                form.watch("date")
+                  ? form.watch("date") instanceof Date
+                    ? form.watch("date").toISOString().split("T")[0]
+                    : typeof form.watch("date") === "string"
+                    ? JSON.parse(form.watch("date")).date
+                    : ""
+                  : ""
+              }
+              onChange={(e) => {
+                form.setValue("date", new Date(e.target.value)); // Store Date object
+              }}
+              className="..."
             />
             <svg
               className="absolute right-5 top-1/2 -translate-y-1/2 w-6 h-6 text-primary pointer-events-none"
@@ -91,6 +98,25 @@ export default function BookingStep1({ step }: { step: number }) {
           </div>
         </div>
       )}
+      {form.watch("availableLocations") &&
+        form.watch("availableLocations").length > 0 && (
+          <div className="space-y-4 max-w-sm mx-auto">
+            <label className="text-xl font-semibold text-primary block mb-4 text-center">
+              Select Location
+            </label>
+            <select
+              {...form.register("location")}
+              className="w-full p-5 text-lg font-semibold bg-surface-bright rounded-3xl border-2 border-outline-variant"
+            >
+              <option value="">Choose location</option>
+              {form.watch("availableLocations")?.map((loc: string) => (
+                <option key={loc} value={loc}>
+                  {loc}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
     </div>
   );
 }

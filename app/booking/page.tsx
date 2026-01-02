@@ -6,7 +6,7 @@ import { BookingFormData, BookingFormSchema } from "@/types/booking";
 import BookingStep1 from "@/components/booking/BookingStep1";
 import BookingStep2 from "@/components/booking/BookingStep2";
 import BookingStep3 from "@/components/booking/BookingStep3";
-import { createBooking } from "../actions/booking"; // BEFORE NEW APPROACH
+import { createBooking } from "../actions/booking-flow";
 
 export default function BookingPage() {
   const methods = useForm<BookingFormData>({
@@ -21,14 +21,40 @@ export default function BookingPage() {
       patientName: "",
       email: "",
       phone: "",
+      location: "",
     },
   });
 
-  /* const treatmentId = methods.watch("treatmentId");
-  const date = methods.watch("date");
-  const timeSlot = methods.watch("timeSlot");
-  const doctorId = methods.watch("doctorId");
- */
+  // FIX 2: Proper onSubmit handler
+  const onSubmit = async (data: BookingFormData) => {
+    const formData = new FormData();
+
+    // Convert date to backend format
+    if (data.date instanceof Date) {
+      formData.append(
+        "date",
+        JSON.stringify({
+          date: data.date.toISOString().split("T")[0],
+          day: data.date.toLocaleDateString("en-US", { weekday: "long" }),
+        })
+      );
+    }
+
+    // Add all other fields
+    formData.append("treatmentId", data.treatmentId);
+    formData.append("treatmentName", data.treatmentName);
+    formData.append("doctorId", data.doctorId);
+    formData.append("doctorName", data.doctorName);
+    formData.append("time", data.timeSlot); // Note: backend expects "time" not "timeSlot"
+    formData.append("patientName", data.patientName);
+    formData.append("email", data.email);
+    formData.append("phone", data.phone);
+    formData.append("location", data.location || "default-location");
+
+    // Call the CORRECT createBooking function
+    await createBooking(formData);
+  };
+
   const step = methods.watch("treatmentId")
     ? methods.watch("date") &&
       methods.watch("timeSlot") &&
@@ -36,7 +62,7 @@ export default function BookingPage() {
       ? 3
       : 2
     : 1;
-  console.log("Step", step);
+
   return (
     <FormProvider {...methods}>
       <div className="min-h-screen bg-surface-variant py-12 px-4 md:px-8">
@@ -45,7 +71,7 @@ export default function BookingPage() {
             Book Your Healing Journey
           </h1>
 
-          <form action={createBooking} className="space-y-16">
+          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-16">
             <BookingStep1 step={step} />
             <BookingStep2 step={step} />
 
@@ -55,6 +81,8 @@ export default function BookingPage() {
                 <h4 className="text-2xl font-bold text-primary text-center">
                   Contact Details
                 </h4>
+                
+                {/* Date will be set in onSubmit */}
                 <div className="grid md:grid-cols-3 gap-4">
                   <input
                     {...methods.register("patientName")}
@@ -81,7 +109,7 @@ export default function BookingPage() {
             )}
 
             <BookingStep3 step={step} />
-          </form> 
+          </form>
         </div>
       </div>
     </FormProvider>

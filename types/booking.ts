@@ -25,6 +25,7 @@ export const BookingFormSchema = z.object({
   patientName: z.string().min(1),
   email: z.string().email(),
   phone: z.string().min(7),
+  location: z.string().min(7),
 });
 
 export type BookingFormData = z.infer<typeof BookingFormSchema>;
