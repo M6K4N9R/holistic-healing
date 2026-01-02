@@ -21,6 +21,12 @@ export async function createBooking(formData: FormData) {
   const { treatmentId, doctorId, patientName, phone, email } =
     Object.fromEntries(formData) as any;
 
+  console.log("Email:", email);
+  console.log("treatmentId:", treatmentId);
+  console.log("doctorId:", doctorId);
+  console.log("patientName:", patientName);
+  console.log("phone:", phone);
+
   // Validate references exist ========== REMOVE for now -----TEST-----
   /*  const treatment = await Treatment.findById(treatmentId);
   const doctor = await Doctor.findById(doctorId);

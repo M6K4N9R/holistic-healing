@@ -1,6 +1,5 @@
 "use client";
 
-import { createBooking } from "@/app/actions/booking";
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import {
@@ -13,23 +12,21 @@ import {
 export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
 
-  /*   const isComplete = form.watch("timeSlot") && form.watch("doctorId");
-  const handleConfirm = async (data: any) => {
-    const formData = new FormData();
-    formData.append("treatmentId", form.watch("treatmentId"));
-    formData.append("doctorId", form.watch("doctorId"));
-    formData.append("date", JSON.stringify(form.watch("date")));
-    formData.append("time", form.watch("timeSlot"));
-    formData.append("patientName", data.patientName);
-    formData.append("email", data.email);
-    formData.append("phone", data.phone);
+  // const isComplete = form.watch("timeSlot") && form.watch("doctorId");
+  // const handleConfirm = async (data: any) => {
+  //   const formData = new FormData();
+  //   formData.append("treatmentId", form.watch("treatmentId"));
+  //   formData.append("doctorId", form.watch("doctorId"));
+  //   formData.append("date", JSON.stringify(form.watch("date")));
+  //   formData.append("time", form.watch("timeSlot"));
+  //   formData.append("patientName", data.patientName);
+  //   formData.append("email", data.email);
+  //   formData.append("phone", data.phone);
 
-    await createBooking(formData);
-  }; */
+  //   await createBooking(formData);
+  // };
   return (
-    // <div className={step >= 3 && isComplete ? "block" : "hidden"}>
     <div className={step >= 3 ? "block" : "hidden"}>
-      <form action={createBooking} className="space-y-16">
         <h3 className="text-3xl font-bold text-primary mb-12 text-center">
           Review & Confirm
         </h3>
@@ -84,7 +81,6 @@ export default function BookingStep3({ step }: { step: number }) {
             ✨ Confirm & Book ✨
           </button>
         </div>
-      </form>
     </div>
   );
 }
