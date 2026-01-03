@@ -6,13 +6,13 @@ const bookingSchema = new Schema(
   {
     treatment: { type: Schema.Types.ObjectId, ref: "Treatment" },
     doctor: { type: Schema.Types.ObjectId, ref: "Doctor" },
-    date: { type: Object, required: true },
-    time: { type: String, required: true },
+    dateObject: { type: Object, required: true },
+    timeSlot: { type: String, required: true },
+    location: { type: String, required: true },
     patientDetails: {
       name: { type: String, required: true },
       email: { type: String, required: true },
       phone: { type: String, required: false },
-      location: { type: String, required: true },
     },
   },
   {

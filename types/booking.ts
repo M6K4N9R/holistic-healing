@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface Treatment {
   _id: string;
   name: string;
@@ -13,19 +15,24 @@ export interface Doctor {
   treatments: string[]; // treatment IDs
 }
 
-import { z } from "zod";
+export const PatientDetailsSchema = z.object({
+  name: z.string().min(1),
+  phone: z.string().optional(),
+  email: z.email({ message: "Invalid email" }),
+});
+
+export const dateObjectSchema = z.object({
+  date: z.string().min(1),
+  day: z.string().min(1),
+});
 
 export const BookingFormSchema = z.object({
   treatmentId: z.string().min(1),
-  treatmentName: z.string().min(1),
   doctorId: z.string().min(1),
-  doctorName: z.string().min(1),
-  date: z.date(),
+  dateObject: dateObjectSchema,
   timeSlot: z.string().min(1),
-  patientName: z.string().min(1),
-  email: z.string().email(),
-  phone: z.string().min(7),
-  location: z.string().min(7),
+  location: z.string().min(7, "Location required"),
+  patientDetails: PatientDetailsSchema,
 });
 
 export type BookingFormData = z.infer<typeof BookingFormSchema>;
