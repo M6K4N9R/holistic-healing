@@ -13,15 +13,18 @@ export default function BookingPage() {
     resolver: zodResolver(BookingFormSchema),
     defaultValues: {
       treatmentId: "",
-      treatmentName: "",
       doctorId: "",
-      doctorName: "",
-      date: undefined,
+      dateObject: {
+        date: "",
+        day: "",
+      },
       timeSlot: "",
-      patientName: "",
-      email: "",
-      phone: "",
       location: "",
+      patientDetails: {
+        name: "",
+        phone: "",
+        email: "",
+      },
     },
   });
 
@@ -29,34 +32,26 @@ export default function BookingPage() {
   const onSubmit = async (data: BookingFormData) => {
     const formData = new FormData();
 
-    // Convert date to backend format
-    if (data.date instanceof Date) {
-      formData.append(
-        "date",
-        JSON.stringify({
-          date: data.date.toISOString().split("T")[0],
-          day: data.date.toLocaleDateString("en-US", { weekday: "long" }),
-        })
-      );
-    }
-
     // Add all other fields
     formData.append("treatmentId", data.treatmentId);
-    formData.append("treatmentName", data.treatmentName);
     formData.append("doctorId", data.doctorId);
-    formData.append("doctorName", data.doctorName);
-    formData.append("time", data.timeSlot); // Note: backend expects "time" not "timeSlot"
-    formData.append("patientName", data.patientName);
-    formData.append("email", data.email);
-    formData.append("phone", data.phone);
-    formData.append("location", data.location || "default-location");
+    formData.append("date", JSON.stringify(data.dateObject));
+    formData.append("time", data.timeSlot);
+    formData.append("location", data.location);
+
+    // FLATTEN patient Details
+    formData.append("patientName", data.patientDetails.name);
+    formData.append("patientPhone", data.patientDetails.phone || "");
+    formData.append("patientEmail", data.patientDetails.email);
+
+    console.log("📤 Submitting:", Object.fromEntries(formData));
 
     // Call the CORRECT createBooking function
     await createBooking(formData);
   };
 
   const step = methods.watch("treatmentId")
-    ? methods.watch("date") &&
+    ? methods.watch("dateObject") &&
       methods.watch("timeSlot") &&
       methods.watch("doctorId")
       ? 3
@@ -71,7 +66,10 @@ export default function BookingPage() {
             Book Your Healing Journey
           </h1>
 
-          <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-16">
+          <form
+            onSubmit={methods.handleSubmit(onSubmit)}
+            className="space-y-16"
+          >
             <BookingStep1 step={step} />
             <BookingStep2 step={step} />
 
@@ -81,24 +79,30 @@ export default function BookingPage() {
                 <h4 className="text-2xl font-bold text-primary text-center">
                   Contact Details
                 </h4>
-                
+
                 {/* Date will be set in onSubmit */}
                 <div className="grid md:grid-cols-3 gap-4">
                   <input
-                    {...methods.register("patientName")}
+                    {...methods.register("location")}
+                    name="lacation"
+                    placeholder="Location"
+                    className="p-4 rounded-2xl border-2 border-outline-variant focus:border-primary"
+                  />
+                  <input
+                    {...methods.register("patientDetails.name")}
                     name="patientName"
                     placeholder="Full name *"
                     className="p-4 rounded-2xl border-2 border-outline-variant focus:border-primary"
                   />
                   <input
-                    {...methods.register("email")}
+                    {...methods.register("patientDetails.email")}
                     name="email"
                     type="email"
                     placeholder="Email *"
                     className="p-4 rounded-2xl border-2 border-outline-variant focus:border-primary"
                   />
                   <input
-                    {...methods.register("phone")}
+                    {...methods.register("patientDetails.phone")}
                     name="phone"
                     type="tel"
                     placeholder="Phone *"
