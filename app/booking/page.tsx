@@ -7,6 +7,7 @@ import BookingStep1 from "@/components/booking/BookingStep1";
 import BookingStep2 from "@/components/booking/BookingStep2";
 import BookingStep3 from "@/components/booking/BookingStep3";
 import { createBooking } from "../actions/booking-flow";
+import { log } from "console";
 
 export default function BookingPage() {
   const methods = useForm<BookingFormData>({
@@ -49,6 +50,13 @@ export default function BookingPage() {
     // Call the CORRECT createBooking function
     await createBooking(formData);
   };
+
+  // - LIVE LOGGING ============== DELETE LATER
+
+  const treatment = methods.watch("treatmentId");
+  console.log("Selected Treatment: ", treatment);
+
+  // ============================= END LIVE LOGGING
 
   const step = methods.watch("treatmentId")
     ? methods.watch("dateObject") &&

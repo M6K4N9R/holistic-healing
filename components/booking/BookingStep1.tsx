@@ -10,6 +10,8 @@ export default function BookingStep1({ step }: { step: number }) {
   const { data: treatmentsData, isLoading } = useSWR("/api/treatments");
   const treatments = treatmentsData?.treatments || [];
 
+  console.log("Data on Step1:", treatments);
+
   const handleTreatmentSelect = async (treatmentId: string) => {
     form.setValue("treatmentId", treatmentId);
 
