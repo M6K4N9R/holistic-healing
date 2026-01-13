@@ -54,7 +54,18 @@ export default function BookingPage() {
   // - LIVE LOGGING ============== DELETE LATER
 
   const treatment = methods.watch("treatmentId");
-  console.log("Selected Treatment: ", treatment);
+  const location = methods.watch("location");
+  const availableDoctors = methods.watch("doctorId");
+  const date = methods.watch("dateObject");
+  const timeSlot = methods.watch("timeSlot");
+
+  console.log("🎯 LIVE FORM STATE:", {
+    treatment,
+    location,
+    doctors: availableDoctors,
+    date,
+    timeSlot,
+  });
 
   // ============================= END LIVE LOGGING
 
