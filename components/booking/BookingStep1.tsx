@@ -70,17 +70,27 @@ export default function BookingStep1({ step }: { step: number }) {
               max={
                 new Date(Date.now() + 56 * 86400000).toISOString().split("T")[0]
               }
-              value={
-                form.watch("date")
-                  ? form.watch("date") instanceof Date
-                    ? form.watch("date").toISOString().split("T")[0]
-                    : typeof form.watch("date") === "string"
-                    ? JSON.parse(form.watch("date")).date
-                    : ""
-                  : ""
-              }
+              value={form.watch("dateObject")?.date || ""}
               onChange={(e) => {
-                form.setValue("date", new Date(e.target.value)); // Store Date object
+                const selectedDate = new Date(e.target.value);
+                const dateStr = e.target.value; // "2026-01-20"
+                const dayName = [
+                  "Sun",
+                  "Mon",
+                  "Tue",
+                  "Wed",
+                  "Thu",
+                  "Fri",
+                  "Sat",
+                ][selectedDate.getDay()];
+                console.log("📅 DATE SELECTED:", {
+                  dateStr,
+                  dayName,
+                });
+                form.setValue("dateObject", {
+                  date: dateStr,
+                  day: dayName,
+                });
               }}
               className="..."
             />

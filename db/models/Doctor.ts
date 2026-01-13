@@ -8,7 +8,7 @@ const doctorSchema = new Schema({
   treatments: [{ type: Schema.Types.ObjectId, ref: "Treatment" }],
 
   availability: { type: Array, required: true },
-  days: { type: Array, required: true },
+  days: { type: Array, required: true }, // format = ["Mon", "Tue", "Wed",....]
   email: { type: String, required: true },
 });
 
