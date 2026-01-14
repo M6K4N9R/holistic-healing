@@ -15,8 +15,7 @@ interface DateObject {
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
 
-  const treatmentObjectId = new mongoose.Types.ObjectId(treatmentId);
-  const treatmentDoc = await Treatment.findById(treatmentObjectId).lean();
+  const treatmentDoc = await Treatment.findById(treatmentId).lean();
 
   if (!treatmentDoc) throw new Error("Treatment not found");
 
@@ -25,9 +24,14 @@ export async function getTreatmentAvailability(treatmentId: string) {
     _id: treatmentDoc._id.toString(),
   };
 
-  const doctorsRaw = await Doctor.find({
-    treatments: treatmentObjectId,
-  }).lean();
+  const doctorsRaw = await Doctor.collection.find({
+    treatments: {
+      $in: [
+        treatmentId,                            // "6666e9e72b3e2575ea22dc09"
+        `ObjectId('${treatmentId}')`            // "ObjectId('6666e9e72b3e2575ea22dc09')"
+      ]
+    }
+  }).toArray();
 
   const doctors = doctorsRaw.map((doc: any) => ({
     ...doc,
