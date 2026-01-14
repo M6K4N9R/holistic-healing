@@ -3,21 +3,24 @@
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { cn } from "@/lib/utils";
-import { getTreatmentAvailability } from "@/app/actions/booking-flow";
+import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
   const { data: treatmentsData, isLoading } = useSWR("/api/treatments");
   const treatments = treatmentsData?.treatments || [];
 
-  console.log("Data on Step1:", treatments);
-
   const handleTreatmentSelect = async (treatmentId: string) => {
     form.setValue("treatmentId", treatmentId);
 
     // 👈 FETCH REAL DOCTORS + LOCATIONS
     const availability = await getTreatmentAvailability(treatmentId);
-    console.log("👨‍⚕️ Available:", availability.doctors, availability.locations);
+    console.log(
+      "Data on Step1:👨‍⚕️ Available:",
+      availability.treatment,
+      availability.doctors,
+      availability.locations
+    );
 
     // 👈 Store for Step2
     form.setValue("availableDoctors", availability.doctors);

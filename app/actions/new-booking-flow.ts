@@ -1,4 +1,5 @@
 "use server";
+import mongoose from "mongoose";
 import dbConnect from "@/db/dbConnect";
 import Treatment from "@/db/models/Treatment";
 import Doctor from "@/db/models/Doctor";
@@ -13,15 +14,20 @@ interface DateObject {
 // STEP 1: Treatment → Available Doctors + Locations
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
-  const treatmentDoc = await Treatment.findById(treatmentId).lean();
-  if (!treatmentDoc) throw new Error("Treatment not found");
 
-  const doctorsRaw = await Doctor.find({ treatments: treatmentDoc._id }).lean();
+  const treatmentObjectId = new mongoose.Types.ObjectId(treatmentId);
+  const treatmentDoc = await Treatment.findById(treatmentObjectId).lean();
+
+  if (!treatmentDoc) throw new Error("Treatment not found");
 
   const treatment = {
     ...treatmentDoc,
     _id: treatmentDoc._id.toString(),
   };
+
+  const doctorsRaw = await Doctor.find({
+    treatments: treatmentObjectId,
+  }).lean();
 
   const doctors = doctorsRaw.map((doc: any) => ({
     ...doc,
@@ -32,7 +38,7 @@ export async function getTreatmentAvailability(treatmentId: string) {
   return {
     treatment,
     doctors,
-    locations: treatment.location,  // Array from treatment
+    locations: treatment.location, // Array from treatment
   };
 }
 
@@ -49,13 +55,21 @@ export async function getFilteredAvailability({
   await dbConnect();
 
   // 1. Get doctors for this treatment
-  const doctorsRaw = await Doctor.find({ 
-    treatments: treatmentId 
+  const doctorsRaw = await Doctor.find({
+    treatments: treatmentId,
   }).lean();
 
   const date = new Date(dateObj.date);
-  const dayOfWeek = date.getDay();  // 0=Sunday, 6=Saturday
-  const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  const dayOfWeek = date.getDay(); // 0=Sunday, 6=Saturday
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
 
   // 2. Filter doctors by: works at location + works this day + has availability
   const filteredDoctors = doctorsRaw
@@ -75,7 +89,7 @@ export async function getFilteredAvailability({
   const bookings = await Booking.find({
     treatment: treatmentId,
     date: dateObj,
-    location,  // Filter by location if stored
+    location, // Filter by location if stored
   }).lean();
 
   const bookedTimes = bookings.map((b: any) => b.time);
@@ -136,7 +150,12 @@ export async function createBooking(formData: FormData) {
   const date: DateObject = JSON.parse(dateStr);
 
   // Final availability check
-  const { availableTimes } = await getAvailableTimes(doctorId, treatmentId, date, location);
+  const { availableTimes } = await getAvailableTimes(
+    doctorId,
+    treatmentId,
+    date,
+    location
+  );
   if (!availableTimes.includes(time)) {
     throw new Error("Time slot no longer available");
   }
