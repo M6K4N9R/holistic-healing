@@ -78,8 +78,87 @@ export default Doctor;
 
  */
 
+// ================================================ OLD Serene Heelingtouch Document in Compass
+/* 
+{
+  "_id": {
+    "$oid": "666b4cd3edd79781ae9a95ce"
+  },
+  "firstName": "Serena",
+  "lastName": "Healingtouch",
+  "treatments": [
+    {
+      "$oid": "6661de8d5014882f16496a88"
+    },
+    {
+      "$oid": "6661de8d5014882f16496a89"
+    },
+    {
+      "$oid": "6666cdb82b3e2575ea22dc08"
+    },
+    {
+      "$oid": "6666e9e72b3e2575ea22dc09"
+    },
+    {
+      "$oid": "6666ec012b3e2575ea22dc0a"
+    },
+    {
+      "$oid": "6666eca72b3e2575ea22dc0b"
+    },
+    {
+      "$oid": "6666ed482b3e2575ea22dc0c"
+    }
+  ],
+  "availability": [
+    "09:00 - 10:00",
+    "10:00 - 11:00",
+    "11:00 - 12:00",
+    "13:00 - 14:00",
+    "15:00 - 16:00"
+  ],
+  "days": [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thu",
+    "Fri"
+  ],
+  "email": "zubchevskiy@gmail.com"
+}
+ */
 
-// =============================== DOCTORS SCHEDULES
+// ====================================== OLD Liam Bloodlover Document in Compass
+
+/* {
+  "_id": {
+    "$oid": "666b4cf8edd79781ae9a95d0"
+  },
+  "firstName": "Liam",
+  "lastName": "Bloodlover",
+  "treatments": [
+    {
+      "$oid": "6666ec012b3e2575ea22dc0a"
+    },
+    {
+      "$oid": "6666eca72b3e2575ea22dc0b"
+    }
+  ],
+  "availability": [
+    "10:00 - 11:00",
+    "11:00 - 12:00",
+    "12:00 - 13:00",
+    "16:00 - 17:00",
+    "17:00 - 18:00",
+    "18:00 - 19:00"
+  ],
+  "days": [
+    "Tue",
+    "Thu"
+  ],
+  "email": "cozmosproject@gmail.com"
+} */
+
+// =============================== NEW DOCTOR SCHEDULES STRUCTURE
 
 // ----- Serene Heelingtouch
 
