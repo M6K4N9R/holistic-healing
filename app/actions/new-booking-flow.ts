@@ -24,14 +24,9 @@ export async function getTreatmentAvailability(treatmentId: string) {
     _id: treatmentDoc._id.toString(),
   };
 
-  const doctorsRaw = await Doctor.collection.find({
-    treatments: {
-      $in: [
-        treatmentId,                            // "6666e9e72b3e2575ea22dc09"
-        `ObjectId('${treatmentId}')`            // "ObjectId('6666e9e72b3e2575ea22dc09')"
-      ]
-    }
-  }).toArray();
+  const doctorsRaw = await Doctor.find({
+    treatments: new mongoose.Types.ObjectId(treatmentId),
+  }).lean();
 
   const doctors = doctorsRaw.map((doc: any) => ({
     ...doc,
