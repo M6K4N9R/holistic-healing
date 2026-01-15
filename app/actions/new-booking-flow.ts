@@ -7,6 +7,8 @@ import Booking from "@/db/models/Booking";
 import { redirect } from "next/navigation";
 import { DateObject } from "@/types/booking";
 
+// =========================================== BEFORE ADJUSTMENTS
+
 // STEP 1: Treatment → Available Doctors + Locations
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
