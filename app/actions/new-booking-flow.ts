@@ -5,11 +5,7 @@ import Treatment from "@/db/models/Treatment";
 import Doctor from "@/db/models/Doctor";
 import Booking from "@/db/models/Booking";
 import { redirect } from "next/navigation";
-
-interface DateObject {
-  date: string;
-  day: string;
-}
+import { DateObject } from "@/types/booking";
 
 // STEP 1: Treatment → Available Doctors + Locations
 export async function getTreatmentAvailability(treatmentId: string) {
@@ -59,24 +55,27 @@ export async function getFilteredAvailability({
   }).lean();
 
   const date = new Date(dateObj.date);
-  const dayOfWeek = date.getDay(); // 0=Sunday, 6=Saturday
-  const dayNames = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const dayOfWeek = dateObj.day;
 
   // 2. Filter doctors by: works at location + works this day + has availability
   const filteredDoctors = doctorsRaw
     .filter((doc: any) => {
-      // Check if doctor works at this location (assuming location in doctor model or infer)
-      const worksAtLocation = doc.locations?.includes(location) || true; // Adjust if needed
-      const worksThisDay = doc.days.includes(dayNames[dayOfWeek]);
-      return worksAtLocation && worksThisDay;
+      // filter 1. Doctor works at this location?
+      const scheduleAtLocation = doc.schedule?.find(
+        (entry: any) => entry.location === location
+      );
+
+      if (!scheduleAtLocation) return false; 
+
+      // filter 2. Doctor works THIS SPECIFIC DAY at this location?
+      const dayEntry = scheduleAtLocation.availability?.find(
+        (entry: any) => entry.day === dayOfWeek 
+      );
+
+      if (!dayEntry) return false; 
+
+      // filter 3. Has available time slots?
+      return dayEntry.timeSlots && dayEntry.timeSlots.length > 0;
     })
     .map((doc: any) => ({
       ...doc,

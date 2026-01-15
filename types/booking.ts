@@ -15,6 +15,11 @@ export interface Doctor {
   treatments: string[]; // treatment IDs
 }
 
+export interface DateObject {
+  date: string;
+  day: string;
+}
+
 export const PatientDetailsSchema = z.object({
   name: z.string().min(1),
   phone: z.string().optional(),
