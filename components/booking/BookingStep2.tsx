@@ -108,7 +108,10 @@ export default function BookingStep2({ step }: { step: number }) {
                   type="button"
                   onClick={() => {
                     form.setValue("doctorId", doctor._id);
-                    form.setValue("doctorName", `${doctor.firstName} ${doctor.lastName}`);
+                    form.setValue(
+                      "doctorName",
+                      `${doctor.firstName} ${doctor.lastName}`
+                    );
                   }}
                   className={cn(
                     "w-full group relative h-28 rounded-3xl p-6 font-bold shadow-lg transition-all duration-300 overflow-hidden hover:shadow-2xl hover:-translate-y-1 flex items-center gap-4",
@@ -134,7 +137,9 @@ export default function BookingStep2({ step }: { step: number }) {
           </div>
         </div>
       ) : (
-        treatmentId && dateObj && location && (
+        treatmentId &&
+        dateObj &&
+        location && (
           <div className="text-center py-20">
             <p className="text-xl text-on-surface mb-4">
               No availability found for {location} on {dateObj.date}

@@ -114,7 +114,8 @@ export default function BookingStep1({ step }: { step: number }) {
         </div>
       )}
       {form.watch("availableLocations") &&
-        form.watch("availableLocations").length > 0 && (
+        form.watch("availableLocations").length > 0 &&
+        form.watch("dateObject") && (
           <div className="space-y-4 max-w-sm mx-auto">
             <label className="text-xl font-semibold text-primary block mb-4 text-center">
               Select Location
