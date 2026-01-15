@@ -11,7 +11,10 @@ import { DateObject } from "@/types/booking";
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
 
-  const treatmentDoc = await Treatment.findById(treatmentId).lean();
+  const treatmentDoc = await Treatment.findById(
+    treatmentId,
+    "name price duration location"
+  ).lean();
 
   if (!treatmentDoc) throw new Error("Treatment not found");
 
@@ -20,9 +23,9 @@ export async function getTreatmentAvailability(treatmentId: string) {
     _id: treatmentDoc._id.toString(),
   };
 
-  const doctorsRaw = await Doctor.find({
-    treatments: new mongoose.Types.ObjectId(treatmentId),
-  }).lean();
+  const doctorsRaw = await Doctor.find({ treatments: new mongoose.Types.ObjectId(treatmentId) })
+  .select('firstName lastName email schedule')  // No treatments, no timestamps
+  .lean();
 
   const doctors = doctorsRaw.map((doc: any) => ({
     ...doc,
@@ -50,9 +53,10 @@ export async function getFilteredAvailability({
   await dbConnect();
 
   // 1. Get doctors for this treatment
-  const doctorsRaw = await Doctor.find({
-    treatments: treatmentId,
-  }).lean();
+  const doctorsRaw = await Doctor.find({ treatments: new mongoose.Types.ObjectId(treatmentId) })
+  .select('firstName lastName email schedule') 
+  .lean();
+
 
   const date = new Date(dateObj.date);
   const dayOfWeek = dateObj.day;
@@ -65,14 +69,14 @@ export async function getFilteredAvailability({
         (entry: any) => entry.location === location
       );
 
-      if (!scheduleAtLocation) return false; 
+      if (!scheduleAtLocation) return false;
 
       // filter 2. Doctor works THIS SPECIFIC DAY at this location?
       const dayEntry = scheduleAtLocation.availability?.find(
-        (entry: any) => entry.day === dayOfWeek 
+        (entry: any) => entry.day === dayOfWeek
       );
 
-      if (!dayEntry) return false; 
+      if (!dayEntry) return false;
 
       // filter 3. Has available time slots?
       return dayEntry.timeSlots && dayEntry.timeSlots.length > 0;
@@ -82,13 +86,16 @@ export async function getFilteredAvailability({
       _id: doc._id.toString(),
       treatments: doc.treatments.map((t: any) => t.toString()),
     }));
+  console.log("FILTERED DOCTORS: ", filteredDoctors);
 
   // 3. Get existing bookings for this date/treatment/location
   const bookings = await Booking.find({
     treatment: treatmentId,
     date: dateObj,
-    location, // Filter by location if stored
+    location: location,
   }).lean();
+
+  console.log("BOOKINGS AT CHOOSEN TREATMENT, DAY, and LOCATION: ", bookings);
 
   const bookedTimes = bookings.map((b: any) => b.time);
 
