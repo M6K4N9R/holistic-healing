@@ -23,14 +23,15 @@ export async function getTreatmentAvailability(treatmentId: string) {
     _id: treatmentDoc._id.toString(),
   };
 
-  const doctorsRaw = await Doctor.find({ treatments: new mongoose.Types.ObjectId(treatmentId) })
-  .select('firstName lastName email schedule')  // No treatments, no timestamps
-  .lean();
+  const doctorsRaw = await Doctor.find({
+    treatments: new mongoose.Types.ObjectId(treatmentId),
+  })
+    .select("firstName lastName email schedule") // No treatments, no timestamps
+    .lean();
 
   const doctors = doctorsRaw.map((doc: any) => ({
     ...doc,
     _id: doc._id.toString(),
-    treatments: doc.treatments.map((t: any) => t.toString()),
   }));
 
   return {
@@ -53,10 +54,11 @@ export async function getFilteredAvailability({
   await dbConnect();
 
   // 1. Get doctors for this treatment
-  const doctorsRaw = await Doctor.find({ treatments: new mongoose.Types.ObjectId(treatmentId) })
-  .select('firstName lastName email schedule') 
-  .lean();
-
+  const doctorsRaw = await Doctor.find({
+    treatments: new mongoose.Types.ObjectId(treatmentId),
+  })
+    .select("firstName lastName email schedule")
+    .lean();
 
   const date = new Date(dateObj.date);
   const dayOfWeek = dateObj.day;
@@ -84,7 +86,6 @@ export async function getFilteredAvailability({
     .map((doc: any) => ({
       ...doc,
       _id: doc._id.toString(),
-      treatments: doc.treatments.map((t: any) => t.toString()),
     }));
   console.log("FILTERED DOCTORS: ", filteredDoctors);
 
