@@ -62,8 +62,7 @@ export async function getFilteredAvailability({
     .select("firstName lastName email schedule")
     .lean();
 
-  const date = new Date(dateObj.date);
-  const dayOfWeek = dateObj.day;
+  const dayName = dateObj.day;
 
   // 2. Filter doctors by: works at location + works this day + has availability
   const filteredDoctors = doctorsRaw
@@ -77,7 +76,7 @@ export async function getFilteredAvailability({
 
       // filter 2. Doctor works THIS SPECIFIC DAY at this location?
       const dayEntry = scheduleAtLocation.availability?.find(
-        (entry: any) => entry.day === dayOfWeek
+        (entry: any) => entry.day === dayName
       );
 
       if (!dayEntry) return false;
@@ -89,7 +88,6 @@ export async function getFilteredAvailability({
       ...doc,
       _id: doc._id.toString(),
     }));
-  console.log("FILTERED DOCTORS: ", filteredDoctors);
 
   // 3. Get existing bookings for this date/treatment/location
   const bookings = await Booking.find({
@@ -98,22 +96,35 @@ export async function getFilteredAvailability({
     location: location,
   }).lean();
 
-  console.log("BOOKINGS AT CHOOSEN TREATMENT, DAY, and LOCATION: ", bookings);
-
-  const bookedTimes = bookings.map((b: any) => b.time);
+  const bookedTimes = bookings.map((b: any) => b.timeSlot);
 
   // 4. Find common available times across filtered doctors
-  const allAvailTimes = filteredDoctors.flatMap((doc: any) => doc.availability);
-  const availableTimes = [...new Set(allAvailTimes)].filter(
+  const allAvailTimes: string[] = filteredDoctors
+    .flatMap((doc: any) => {
+      const scheduleEntry = doc.schedule.find(
+        (s: any) => s.location === location
+      );
+      const dayEntry = scheduleEntry?.availability.find(
+        (s: any) => s.day === dayName
+      );
+
+      return dayEntry.timeSlots || [];
+    })
+    .filter((time): time is string => Boolean(time));
+
+  const uniqueTimes: string[] = Array.from(new Set(allAvailTimes)); // In each location there is only one room for treatments so Schedules of the doctors don't cross. IT IS JUST IN CASE FOR THE FUTURE
+  const availableTimes = uniqueTimes.filter(
     (time) => !bookedTimes.includes(time)
   );
 
+  console.log("FILTERED DOCTORS: ", filteredDoctors);
+  console.log("BOOKINGS AT CHOOSEN TREATMENT, DAY, and LOCATION: ", bookings);
   return {
     doctors: filteredDoctors,
     availableTimes,
     dateObj,
     location,
-    dayOfWeek: dayNames[dayOfWeek],
+    dayName,
   };
 }
 
@@ -125,21 +136,38 @@ export async function getAvailableTimes(
   location: string
 ) {
   await dbConnect();
-  const doctor = (await Doctor.findById(doctorId).lean()) as any;
-  if (!doctor) throw new Error("Doctor not found");
+  const doctorRaw = await Doctor.findOne({
+    _id: new mongoose.Types.ObjectId(doctorId), // check if this is not STRING ALREADY
+  })
+    .select("firstName lastName email schedule")
+    .lean();
+  if (!doctorRaw) throw new Error("Doctor not found");
 
   const bookings = await Booking.find({
     doctor: doctorId,
     treatment: treatmentId,
     date: dateObj,
-  });
+  }).lean();
 
-  const bookedTimes = bookings.map((b: any) => b.time);
-  const availableTimes = doctor.availability.filter(
+  const bookedTimes = bookings.map((b: any) => b.timeSlot);
+
+  // Extract from schedule[location][day]
+
+  const scheduleEntry = doctorRaw.schedule?.find(
+    (s: any) => s.location === location
+  );
+  const dayEntry = scheduleEntry?.availability?.find(
+    (a: any) => a.day === dateObj.day
+  );
+  const baseTimeSlots = dayEntry?.timeSlots || [];
+
+  const availableTimes = baseTimeSlots.filter(
     (time: string) => !bookedTimes.includes(time)
   );
 
-  return { doctor, date: dateObj, availableTimes };
+  return { doctorRaw, date: dateObj, availableTimes };
+
+  console.log("Fetsched Doctor in GETAVAILABLETIMES(): ", doctor);
 }
 
 // FINAL: Create Booking (updated)
@@ -149,7 +177,7 @@ export async function createBooking(formData: FormData) {
   const treatmentId = formData.get("treatmentId") as string;
   const doctorId = formData.get("doctorId") as string;
   const dateStr = formData.get("date") as string;
-  const time = formData.get("time") as string;
+  const timeSlot = formData.get("time") as string;
   const location = formData.get("location") as string;
   const patientName = formData.get("patientName") as string;
   const phone = formData.get("phone") as string;
@@ -164,7 +192,7 @@ export async function createBooking(formData: FormData) {
     date,
     location
   );
-  if (!availableTimes.includes(time)) {
+  if (!availableTimes.includes(timeSlot)) {
     throw new Error("Time slot no longer available");
   }
 
@@ -172,7 +200,7 @@ export async function createBooking(formData: FormData) {
     treatment: treatmentId,
     doctor: doctorId,
     date,
-    time,
+    timeSlot,
     patientDetails: { email, name: patientName, phone, location },
   });
 
