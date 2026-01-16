@@ -51,6 +51,8 @@ export default function CustomCalendar({
   };
 
   const selectedDate = form.watch("dateObject.date");
+  const maxOffset = Math.floor((60 - 1) / 14); 
+  const isMaxOffset = weekOffset >= maxOffset;
 
   return (
     <div className={cn("space-y-4 w-full", className)}>
@@ -68,18 +70,19 @@ export default function CustomCalendar({
           <div className="text-sm text-on-surface-variant font-semibold">
             {startDate.toLocaleDateString("en-US", { month: "long" })}
           </div>
-          <div className="text-lg font-black text-on-surface">
-            Week {weekOffset + 1}
-          </div>
+        
         </div>
 
         <button
-          onClick={handleNextWeeks}
-          disabled={false} // No max limit, or add if needed
-          className="p-2 rounded-xl bg-surface-bright hover:bg-primary-container hover:text-on-primary-container transition-all"
-        >
-          <ChevronRightIcon className="w-5 h-5" />
-        </button>
+    onClick={handleNextWeeks}
+    disabled={isMaxOffset}
+    className={cn(
+      "p-2 rounded-xl bg-surface-bright hover:bg-primary-container hover:text-on-primary-container transition-all",
+      isMaxOffset && "opacity-50 cursor-not-allowed"
+    )}
+  >
+    <ChevronRightIcon className="w-5 h-5" />
+  </button>
       </div>
 
       {/* 7x2 Grid */}
