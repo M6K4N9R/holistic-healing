@@ -4,6 +4,7 @@ import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { cn } from "@/lib/utils";
 import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
+import CustomCalendar from "./Calendar";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
@@ -63,7 +64,11 @@ export default function BookingStep1({ step }: { step: number }) {
       {/* Calendar - only show after treatment selected */}
       {form.watch("treatmentId") && (
         <div className="space-y-4 max-w-sm mx-auto">
-          <label className="text-xl font-semibold text-primary block mb-4 text-center">
+          <CustomCalendar
+            treatmentId={form.watch("treatmentId")}
+            location={form.watch("location")}
+          />
+          {/* <label className="text-xl font-semibold text-primary block mb-4 text-center">
             Select Date
           </label>
           <div className="relative">
@@ -110,7 +115,7 @@ export default function BookingStep1({ step }: { step: number }) {
                 d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
               />
             </svg>
-          </div>
+          </div> */}
         </div>
       )}
       {form.watch("availableLocations") &&

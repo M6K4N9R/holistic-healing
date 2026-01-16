@@ -30,14 +30,16 @@ export default function CustomCalendar({
   const days = Array.from({ length: 14 }, (_, i) => {
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + i);
+
+    const localDateStr = date.toLocaleDateString("sv"); // 👈 FIX: Local YYYY-MM-DD
     return {
       dateObj: {
-        date: date.toISOString().split("T")[0],
+        date: localDateStr, // "2026-01-25"
         day: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][date.getDay()],
       } as DateObject,
       dayNum: date.getDate(),
       dayName: date.toLocaleDateString("en-US", { weekday: "short" }),
-      isToday: date.toDateString() === today.toDateString(),
+      isToday: date.toDateString() === new Date().toDateString(),
     };
   });
 
