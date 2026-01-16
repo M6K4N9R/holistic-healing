@@ -42,7 +42,7 @@ export default function BookingPage() {
   const step = (() => {
     const hasTreatment = !!methods.watch("treatmentId");
     const hasDateLocation =
-      !!methods.watch("dateObject")?.date && !!methods.watch("location");
+      !!methods.watch("dateObject.date") && !!methods.watch("location");
     const hasDoctorTime =
       !!methods.watch("doctorId") && !!methods.watch("timeSlot");
 

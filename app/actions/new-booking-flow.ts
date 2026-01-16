@@ -62,10 +62,15 @@ export async function getFilteredAvailability({
     .select("firstName lastName email schedule")
     .lean();
 
+  const doctors = doctorsRaw.map((doc: any) => ({
+    ...doc,
+    _id: doc._id?.toString(),
+  }));
+
   const dayName = dateObj.day;
 
   // 2. Filter doctors by: works at location + works this day + has availability
-  const filteredDoctors = doctorsRaw
+  const filteredDoctors = doctors
     .filter((doc: any) => {
       // filter 1. Doctor works at this location?
       const scheduleAtLocation = doc.schedule?.find(
@@ -128,7 +133,7 @@ export async function getFilteredAvailability({
   };
 }
 
-// STEP 3: Final time check (unchanged)
+// STEP 3: Final time check
 export async function getAvailableTimes(
   doctorId: string,
   treatmentId: string,
@@ -137,11 +142,16 @@ export async function getAvailableTimes(
 ) {
   await dbConnect();
   const doctorRaw = await Doctor.findOne({
-    _id: new mongoose.Types.ObjectId(doctorId), // check if this is not STRING ALREADY
+    _id: new mongoose.Types.ObjectId(doctorId),
   })
     .select("firstName lastName email schedule")
     .lean();
   if (!doctorRaw) throw new Error("Doctor not found");
+
+  const doctor = doctorRaw.map((doc: any) => ({
+    ...doc,
+    _id: doc._id?.toString(),
+  }));
 
   const bookings = await Booking.find({
     doctor: doctorId,
@@ -153,7 +163,7 @@ export async function getAvailableTimes(
 
   // Extract from schedule[location][day]
 
-  const scheduleEntry = doctorRaw.schedule?.find(
+  const scheduleEntry = doctor.schedule?.find(
     (s: any) => s.location === location
   );
   const dayEntry = scheduleEntry?.availability?.find(
