@@ -12,6 +12,8 @@ export default function BookingStep2({ step }: { step: number }) {
   const dateObj = form.watch("dateObject");
   const location = form.watch("location");
 
+/*   console.log("IN STEP 2 TREATMENTID: ", treatmentId, "dateObj: ", dateObj, "location: ", location ) */
+
   const [isPending, startTransition] = useTransition();
 
   // 👈 Call server action when treatment + date + location ready

@@ -20,7 +20,7 @@ const BottomNavBar = () => {
   const isTreatmentsActive = aboutPathnames.includes(pathname);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50 shadow-2xl">
+    <nav className="fixed bottom-0 left-0 right-0 mt-10 bg-white border-t border-gray-200 px-4 py-3 z-50 shadow-2xl">
       <div className="flex justify-around items-center text-sm">
         <Link href="/" className={cn(
           'flex flex-col items-center p-2 rounded-lg transition-all',

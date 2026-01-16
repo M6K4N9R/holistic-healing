@@ -67,55 +67,9 @@ export default function BookingStep1({ step }: { step: number }) {
           <CustomCalendar
             treatmentId={form.watch("treatmentId")}
             location={form.watch("location")}
+            className="max-w-4xl mx-auto my-8"
           />
-          {/* <label className="text-xl font-semibold text-primary block mb-4 text-center">
-            Select Date
-          </label>
-          <div className="relative">
-            <input
-              type="date"
-              min={new Date().toISOString().split("T")[0]}
-              max={
-                new Date(Date.now() + 56 * 86400000).toISOString().split("T")[0]
-              }
-              value={form.watch("dateObject")?.date || ""}
-              onChange={(e) => {
-                const selectedDate = new Date(e.target.value);
-                const dateStr = e.target.value; // "2026-01-20"
-                const dayName = [
-                  "Sun",
-                  "Mon",
-                  "Tue",
-                  "Wed",
-                  "Thu",
-                  "Fri",
-                  "Sat",
-                ][selectedDate.getDay()];
-                console.log("📅 DATE SELECTED:", {
-                  dateStr,
-                  dayName,
-                });
-                form.setValue("dateObject", {
-                  date: dateStr,
-                  day: dayName,
-                });
-              }}
-              className="..."
-            />
-            <svg
-              className="absolute right-5 top-1/2 -translate-y-1/2 w-6 h-6 text-primary pointer-events-none"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-          </div> */}
+          
         </div>
       )}
       {form.watch("availableLocations") &&
