@@ -76,16 +76,16 @@ export async function getFilteredAvailability({
       const scheduleAtLocation = doc.schedule?.find(
         (entry: any) => entry.location === location
       );
-
       if (!scheduleAtLocation) return false;
 
       // filter 2. Doctor works THIS SPECIFIC DAY at this location?
       const dayEntry = scheduleAtLocation.availability?.find(
         (entry: any) => entry.day === dayName
       );
+      console.log("dayName: ", dayName);
+      console.log("scheduleAtLocation: ", scheduleAtLocation);
 
       if (!dayEntry) return false;
-
       // filter 3. Has available time slots?
       return dayEntry.timeSlots && dayEntry.timeSlots.length > 0;
     })
@@ -122,7 +122,7 @@ export async function getFilteredAvailability({
     (time) => !bookedTimes.includes(time)
   );
 
-  console.log("FILTERED DOCTORS: ", filteredDoctors);
+  console.log(" DOCTORS: ", doctors);
   console.log("BOOKINGS AT CHOOSEN TREATMENT, DAY, and LOCATION: ", bookings);
   return {
     doctors: filteredDoctors,

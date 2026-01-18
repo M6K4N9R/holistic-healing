@@ -12,7 +12,7 @@ export default function BookingStep2({ step }: { step: number }) {
   const dateObj = form.watch("dateObject");
   const location = form.watch("location");
 
-/*   console.log("IN STEP 2 TREATMENTID: ", treatmentId, "dateObj: ", dateObj, "location: ", location ) */
+  /*   console.log("IN STEP 2 TREATMENTID: ", treatmentId, "dateObj: ", dateObj, "location: ", location ) */
 
   const [isPending, startTransition] = useTransition();
 
@@ -55,7 +55,7 @@ export default function BookingStep2({ step }: { step: number }) {
       </h3>
 
       {/* 👈 TRIGGER Step2 data load */}
-      {treatmentId && dateObj && location && !doctors.length && (
+      {treatmentId && dateObj && location && (
         <div className="text-center mb-8">
           <button
             onClick={handleDateLocationConfirm}
