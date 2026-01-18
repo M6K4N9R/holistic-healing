@@ -8,18 +8,21 @@ import { cn } from "@/lib/utils";
 import { DateObject } from "@/types/booking";
 
 interface CustomCalendarProps {
-  treatmentId?: string;
-  location?: string;
+  availableDays?: string[];
+  allLocations?: string[];
   className?: string;
 }
 
 export default function CustomCalendar({
-  treatmentId,
-  location,
+  availableDays,
+  allLocations,
   className,
 }: CustomCalendarProps) {
   const form = useFormContext();
+  const treatmentId = form.watch("treatmentId");
+  const location = form.watch("location");
   const [weekOffset, setWeekOffset] = useState(0); // 0=first 2 weeks, 1=next 2 weeks
+  const availableDaysSet = new Set(availableDays || []);
 
   // Generate 14 days starting from today + offset*14
   const today = new Date();
@@ -48,11 +51,11 @@ export default function CustomCalendar({
 
   const handleDayClick = (dateObj: DateObject) => {
     form.setValue("dateObject", dateObj);
-    console.log("IN CALENDAR dateObj: ", dateObj)
+    console.log("IN CALENDAR dateObj: ", dateObj);
   };
 
   const selectedDate = form.watch("dateObject.date");
-  const maxOffset = Math.floor((60 - 1) / 14); 
+  const maxOffset = Math.floor((60 - 1) / 14);
   const isMaxOffset = weekOffset >= maxOffset;
 
   return (
@@ -71,19 +74,18 @@ export default function CustomCalendar({
           <div className="text-sm text-on-surface-variant font-semibold">
             {startDate.toLocaleDateString("en-US", { month: "long" })}
           </div>
-        
         </div>
 
         <button
-    onClick={handleNextWeeks}
-    disabled={isMaxOffset}
-    className={cn(
-      "p-2 rounded-xl bg-surface-bright hover:bg-primary-container hover:text-on-primary-container transition-all",
-      isMaxOffset && "opacity-50 cursor-not-allowed"
-    )}
-  >
-    <ChevronRightIcon className="w-5 h-5" />
-  </button>
+          onClick={handleNextWeeks}
+          disabled={isMaxOffset}
+          className={cn(
+            "p-2 rounded-xl bg-surface-bright hover:bg-primary-container hover:text-on-primary-container transition-all",
+            isMaxOffset && "opacity-50 cursor-not-allowed",
+          )}
+        >
+          <ChevronRightIcon className="w-5 h-5" />
+        </button>
       </div>
 
       {/* 7x2 Grid */}
@@ -91,18 +93,22 @@ export default function CustomCalendar({
         {days.map(({ dateObj, dayNum, dayName, isToday }) => {
           const dateStr = dateObj.date;
           const isSelected = selectedDate === dateStr;
+          const isAvailable = availableDaysSet.has(dateObj.day);
 
           return (
             <button
               key={dateStr}
               type="button"
-              onClick={() => handleDayClick(dateObj)}
+              onClick={() => isAvailable && handleDayClick(dateObj)}
+              disabled={!isAvailable}
               className={cn(
                 "group p-3 rounded-xl border-2 transition-all duration-200 text-center h-20 flex flex-col justify-center",
                 isSelected
                   ? "border-primary bg-primary text-on-primary shadow-xl scale-[1.02]"
                   : "border-outline-variant bg-surface-bright hover:border-primary hover:bg-primary-container hover:shadow-md hover:-translate-y-0.5",
-                isToday && !isSelected && "ring-2 ring-primary/30 bg-primary/5"
+                isToday && !isSelected && "ring-2 ring-primary/30 bg-primary/5",
+                !isAvailable &&
+                  "bg-outline-variant text-on-surface-variant opacity-50 cursor-not-allowed",
               )}
             >
               <div className="font-semibold text-xs text-on-surface-variant uppercase tracking-wide group-hover:text-primary">
@@ -118,10 +124,10 @@ export default function CustomCalendar({
       {treatmentId && location && (
         <div className="text-xs text-center text-on-surface-variant p-3 bg-surface-dim rounded-xl">
           {selectedDate
-            ? `Selected: ${new Date(
-                selectedDate
-              ).toLocaleDateString()} (${form.watch("dateObject.day")})`
-            : "Pick a date to see available times"}
+            ? `Selected: ${new Date(selectedDate).toLocaleDateString()} (${form.watch("dateObject.day")})`
+            : availableDays?.length
+              ? `${availableDays.length} working days available`
+              : "Pick treatment first"}
         </div>
       )}
     </div>

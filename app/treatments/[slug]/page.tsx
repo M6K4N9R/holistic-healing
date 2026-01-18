@@ -170,8 +170,9 @@ export default function DetailedTreatment() {
               <ChevronLeftIcon className="w-6 h-6 icon-surface group-hover:-translate-x-1 transition-transform" />
               Go Back
             </Link>
+
             <Link
-              href="/booking"
+              href={`/booking?treatmentId=${currentTreatment._id}`}
               className="btn-primary flex-1 flex items-center justify-center gap-3"
             >
               Book {currentTreatment.name}

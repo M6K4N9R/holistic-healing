@@ -66,7 +66,7 @@ export async function getTreatmentAvailability(treatmentId: string) {
   return {
     treatment,
     doctors,
-    allLocations, // ["Praxis Kollektiv", "Akasha"]
+    allLocations,
     allDays, // ["Mon", "Thu", "Sat"]
   };
 }
@@ -125,7 +125,7 @@ export async function getFilteredAvailability({
   // 3. Get existing bookings for this date/treatment/location
   const bookings = await Booking.find({
     treatment: treatmentId,
-    date: dateObj,
+    dateObject: dateObj,
     location: location,
   }).lean();
 
@@ -176,15 +176,15 @@ export async function getAvailableTimes(
     .lean();
   if (!doctorRaw) throw new Error("Doctor not found");
 
-  const doctor = doctorRaw.map((doc: any) => ({
-    ...doc,
-    _id: doc._id?.toString(),
-  }));
+  const doctor = {
+    ...doctorRaw,
+    _id: doctorRaw._id?.toString(),
+  };
 
   const bookings = await Booking.find({
     doctor: doctorId,
     treatment: treatmentId,
-    date: dateObj,
+    dateObject: dateObj,
   }).lean();
 
   const bookedTimes = bookings.map((b: any) => b.timeSlot);
@@ -203,9 +203,8 @@ export async function getAvailableTimes(
     (time: string) => !bookedTimes.includes(time),
   );
 
-  return { doctorRaw, date: dateObj, availableTimes };
-
   console.log("Fetsched Doctor in GETAVAILABLETIMES(): ", doctor);
+  return { doctor: doctor, date: dateObj, availableTimes };
 }
 
 // FINAL: Create Booking (updated)
@@ -237,7 +236,7 @@ export async function createBooking(formData: FormData) {
   const booking = new Booking({
     treatment: treatmentId,
     doctor: doctorId,
-    date,
+    dateObject: date,
     timeSlot,
     patientDetails: { email, name: patientName, phone, location },
   });

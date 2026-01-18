@@ -1,41 +1,41 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
+import { useEffect } from "react";
 import useSWR from "swr";
+import { useSearchParams } from "next/navigation"; // 👈 NEW
 import { cn } from "@/lib/utils";
-import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
 import CustomCalendar from "./Calendar";
+import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
-  const { data: treatmentsData, isLoading } = useSWR("/api/treatments");
+  const searchParams = useSearchParams(); // 👈 Read ?treatmentId=123
+
+  // Auto-select from URL on mount
+  useEffect(() => {
+    const preselectedId = searchParams.get("treatmentId");
+    if (preselectedId && !form.watch("treatmentId")) {
+      form.setValue("treatmentId", preselectedId);
+    }
+  }, [searchParams, form]);
+
+  // Fetch treatment data
+  const { data: treatmentsData } = useSWR("/api/treatments");
   const treatments = treatmentsData?.treatments || [];
 
-  const handleTreatmentSelect = async (treatmentId: string) => {
-    form.setValue("treatmentId", treatmentId);
+  const treatmentId = form.watch("treatmentId");
+  const { data: availabilityData, isLoading: availabilityLoading } = useSWR(
+    treatmentId ? `treatment-${treatmentId}` : null,
+    () => getTreatmentAvailability(treatmentId!),
+  );
 
-    // 👈 FETCH REAL DOCTORS + LOCATIONS
-    const availability = await getTreatmentAvailability(treatmentId);
-    console.log(
-      "Data on Step1:👨‍⚕️ Available:",
-      availability.treatment,
-      availability.doctors,
-      availability.locations
-    );
-
-    // 👈 Store for Step2
-    form.setValue("availableDoctors", availability.doctors);
-    form.setValue("availableLocations", availability.locations);
+  const handleTreatmentSelect = (id: string) => {
+    form.setValue("treatmentId", id);
+    // Clear downstream fields
+    form.setValue("location", "");
+    form.setValue("dateObject", { date: "", day: "" });
   };
-
-  if (isLoading) {
-    return (
-      <div className="text-center py-20">
-        {/* ADD loading spinner */}
-        <div>...Loading</div>
-      </div>
-    );
-  }
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
@@ -44,54 +44,53 @@ export default function BookingStep1({ step }: { step: number }) {
       </h3>
 
       {/* Treatment Buttons */}
-      <div className={step >= 1 ? "block" : "hidden"}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
         {treatments.map((treatment: any) => (
           <button
             key={treatment._id}
             onClick={() => handleTreatmentSelect(treatment._id)}
             className={cn(
-              "group relative h-28 rounded-3xl p-6 font-bold text-left shadow-lg transition-all duration-300 overflow-hidden hover:shadow-2xl hover:-translate-y-2",
               form.watch("treatmentId") === treatment._id
                 ? "bg-primary text-on-primary shadow-2xl scale-[1.02]"
-                : "bg-surface-bright backdrop-blur-xl border-2 border-outline-variant hover:border-primary hover:bg-primary-container"
+                : "bg-surface-bright border-2 border-outline-variant hover:border-primary",
             )}
           >
-            <span className="relative z-10">{treatment.name}</span>
+            {treatment.name}
           </button>
         ))}
       </div>
 
-      {/* Calendar - only show after treatment selected */}
-      {form.watch("treatmentId") && (
-        <div className="space-y-4 max-w-sm mx-auto">
+      {/* Calendar + Locations - only after treatment selected */}
+      {availabilityData && !availabilityLoading && (
+        <div className="space-y-12">
+          {/* Custom Calendar */}
           <CustomCalendar
-            treatmentId={form.watch("treatmentId")}
-            location={form.watch("location")}
-            className="max-w-4xl mx-auto my-8"
+            availableDays={availabilityData.allDays}
+            allLocations={availabilityData.allLocations}
+            className="max-w-4xl mx-auto"
           />
-          
+
+          {/* TEMP: Use allLocations from availabilityData */}
+          {availabilityData.allLocations?.length > 0 && (
+            <div className="space-y-4 max-w-sm mx-auto">
+              <label className="text-xl font-semibold text-primary block mb-4 text-center">
+                Select Location
+              </label>
+              <select
+                {...form.register("location")}
+                className="w-full p-5 text-lg font-semibold bg-surface-bright rounded-3xl border-2 border-outline-variant"
+              >
+                <option value="">Choose location</option>
+                {availabilityData.allLocations.map((loc: string) => (
+                  <option key={loc} value={loc}>
+                    {loc}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       )}
-      {form.watch("availableLocations") &&
-        form.watch("availableLocations").length > 0 &&
-        form.watch("dateObject") && (
-          <div className="space-y-4 max-w-sm mx-auto">
-            <label className="text-xl font-semibold text-primary block mb-4 text-center">
-              Select Location
-            </label>
-            <select
-              {...form.register("location")}
-              className="w-full p-5 text-lg font-semibold bg-surface-bright rounded-3xl border-2 border-outline-variant"
-            >
-              <option value="">Choose location</option>
-              {form.watch("availableLocations")?.map((loc: string) => (
-                <option key={loc} value={loc}>
-                  {loc}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
     </div>
   );
 }
