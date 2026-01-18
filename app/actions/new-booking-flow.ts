@@ -15,7 +15,7 @@ export async function getTreatmentAvailability(treatmentId: string) {
 
   const treatmentDoc = await Treatment.findById(
     treatmentId,
-    "name price duration location"
+    "name price duration location",
   ).lean();
 
   if (!treatmentDoc) throw new Error("Treatment not found");
@@ -28,7 +28,7 @@ export async function getTreatmentAvailability(treatmentId: string) {
   const doctorsRaw = await Doctor.find({
     treatments: new mongoose.Types.ObjectId(treatmentId),
   })
-    .select("firstName lastName email schedule") // No treatments, no timestamps
+    .select("firstName lastName schedule") // No treatments, no timestamps
     .lean();
 
   const doctors = doctorsRaw.map((doc: any) => ({
@@ -36,10 +36,38 @@ export async function getTreatmentAvailability(treatmentId: string) {
     _id: doc._id.toString(),
   }));
 
+  // Extract UNIQUE locations and days across all doctors
+  const allLocations = Array.from(
+    new Set(
+      doctors.flatMap(
+        (doc: any) =>
+          doc.schedule?.map((s: any) => s.location).filter(Boolean) || [],
+      ),
+    ),
+  );
+  const allDays = Array.from(
+    new Set(
+      doctors.flatMap(
+        (doc: any) =>
+          doc.schedule
+            ?.flatMap((s: any) => s.availability?.map((a: any) => a.day) || [])
+            .filter(Boolean) || [],
+      ),
+    ),
+  );
+
+  console.log("TREATMENT FULL AVAIL:", {
+    treatment,
+    doctorsCount: doctors.length,
+    allLocations,
+    allDays,
+  });
+
   return {
     treatment,
     doctors,
-    locations: treatment.location, // Array from treatment
+    allLocations, // ["Praxis Kollektiv", "Akasha"]
+    allDays, // ["Mon", "Thu", "Sat"]
   };
 }
 
@@ -74,13 +102,13 @@ export async function getFilteredAvailability({
     .filter((doc: any) => {
       // filter 1. Doctor works at this location?
       const scheduleAtLocation = doc.schedule?.find(
-        (entry: any) => entry.location === location
+        (entry: any) => entry.location === location,
       );
       if (!scheduleAtLocation) return false;
 
       // filter 2. Doctor works THIS SPECIFIC DAY at this location?
       const dayEntry = scheduleAtLocation.availability?.find(
-        (entry: any) => entry.day === dayName
+        (entry: any) => entry.day === dayName,
       );
       console.log("dayName: ", dayName);
       console.log("scheduleAtLocation: ", scheduleAtLocation);
@@ -107,10 +135,10 @@ export async function getFilteredAvailability({
   const allAvailTimes: string[] = filteredDoctors
     .flatMap((doc: any) => {
       const scheduleEntry = doc.schedule.find(
-        (s: any) => s.location === location
+        (s: any) => s.location === location,
       );
       const dayEntry = scheduleEntry?.availability.find(
-        (s: any) => s.day === dayName
+        (s: any) => s.day === dayName,
       );
 
       return dayEntry.timeSlots || [];
@@ -119,7 +147,7 @@ export async function getFilteredAvailability({
 
   const uniqueTimes: string[] = Array.from(new Set(allAvailTimes)); // In each location there is only one room for treatments so Schedules of the doctors don't cross. IT IS JUST IN CASE FOR THE FUTURE
   const availableTimes = uniqueTimes.filter(
-    (time) => !bookedTimes.includes(time)
+    (time) => !bookedTimes.includes(time),
   );
 
   console.log(" DOCTORS: ", doctors);
@@ -138,7 +166,7 @@ export async function getAvailableTimes(
   doctorId: string,
   treatmentId: string,
   dateObj: DateObject,
-  location: string
+  location: string,
 ) {
   await dbConnect();
   const doctorRaw = await Doctor.findOne({
@@ -164,15 +192,15 @@ export async function getAvailableTimes(
   // Extract from schedule[location][day]
 
   const scheduleEntry = doctor.schedule?.find(
-    (s: any) => s.location === location
+    (s: any) => s.location === location,
   );
   const dayEntry = scheduleEntry?.availability?.find(
-    (a: any) => a.day === dateObj.day
+    (a: any) => a.day === dateObj.day,
   );
   const baseTimeSlots = dayEntry?.timeSlots || [];
 
   const availableTimes = baseTimeSlots.filter(
-    (time: string) => !bookedTimes.includes(time)
+    (time: string) => !bookedTimes.includes(time),
   );
 
   return { doctorRaw, date: dateObj, availableTimes };
@@ -200,7 +228,7 @@ export async function createBooking(formData: FormData) {
     doctorId,
     treatmentId,
     date,
-    location
+    location,
   );
   if (!availableTimes.includes(timeSlot)) {
     throw new Error("Time slot no longer available");
