@@ -3,6 +3,8 @@
 
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
+import { useEffect } from "react";
+
 
 interface LocationPickerProps {
   allLocations: string[];        
@@ -18,7 +20,26 @@ export default function LocationPicker({
   const form = useFormContext();
 
   const selectedLocation = form.watch("location");
-  const selectedDateObj = form.watch("dateObject"); // { date, day }
+  const selectedDateObj = form.watch("dateObject");
+const treatmentId = form.watch("treatmentId");
+
+useEffect(() => {
+  if (selectedLocation && selectedDateObj?.day) {
+    // Check if location works on selected day (via API or cached data)
+    const locationWorksOnDay = checkLocationDayAvailability(treatmentId, selectedLocation, selectedDateObj.day);
+    
+    if (!locationWorksOnDay) {
+      // 👈 INDUSTRY STANDARD: Reset + notify
+      form.setValue("dateObject", { date: "", day: "" });
+      form.trigger("location"); // Re-validate
+      toast.error(`"${selectedLocation}" doesn't offer this treatment on ${selectedDateObj.day}. Please pick another date or location.`);
+      
+      // Optional: Auto-pick first available date for this location
+      // const firstAvailableDate = getFirstAvailableDate(selectedLocation);
+      // form.setValue("dateObject", firstAvailableDate);
+    }
+  }
+}, [selectedLocation, selectedDateObj?.day, treatmentId]);
 
   // In future maybe filter by dateObj.day if needed:
   // const dayName = selectedDateObj?.day;

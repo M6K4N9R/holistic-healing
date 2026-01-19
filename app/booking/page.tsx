@@ -54,7 +54,7 @@ export default function BookingPage() {
 
   return (
     <FormProvider {...methods}>
-      <div className="min-h-screen bg-surface-variant py-12 px-4 md:px-8">
+      <div className="min-h-screen bg-surface-variant mb-20 py-12 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
           <h1 className="text-5xl md:text-6xl font-black text-on-surface-variant text-center mb-24 leading-tight">
             Book Your Healing Journey

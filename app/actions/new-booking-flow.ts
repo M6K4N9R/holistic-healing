@@ -71,7 +71,26 @@ export async function getTreatmentAvailability(treatmentId: string) {
   };
 }
 
-// 👈 NEW STEP 2: Treatment + Date + Location → Filtered Doctors + Times
+// Date validation for selected location
+
+export async function getLocationDayAvailability(
+  treatmentId: string,
+  location: string,
+  day: string,
+) {
+  const doctors = await getTreatmentAvailability(treatmentId);
+  return doctors.doctors.some((doc: any) =>
+    doc.schedule.some(
+      (s: any) =>
+        s.location === location &&
+        s.availability.some(
+          (a: any) => a.day === day && a.timeSlots.length > 0,
+        ),
+    ),
+  );
+}
+
+//  NEW STEP 2: Treatment + Date + Location → Filtered Doctors + Times
 export async function getFilteredAvailability({
   treatmentId,
   dateObj,
