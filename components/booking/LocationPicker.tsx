@@ -1,14 +1,13 @@
-// components/booking/LocationPicker.tsx
 "use client";
 
 import { useFormContext } from "react-hook-form";
+import { useEffect, useTransition } from "react";
+import { toast } from "sonner";  // or your notification lib
 import { cn } from "@/lib/utils";
-import { useEffect } from "react";
-import {checkLoc}
-
+import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
 
 interface LocationPickerProps {
-  allLocations: string[];        
+  allLocations: string[];
   className?: string;
   label?: string;
 }
@@ -19,74 +18,67 @@ export default function LocationPicker({
   label = "Select Location",
 }: LocationPickerProps) {
   const form = useFormContext();
+  const [isValidating, startTransition] = useTransition();
 
   const selectedLocation = form.watch("location");
   const selectedDateObj = form.watch("dateObject");
-const treatmentId = form.watch("treatmentId");
+  const treatmentId = form.watch("treatmentId");
 
-useEffect(() => {
-  if (selectedLocation && selectedDateObj?.day) {
-    // Check if location works on selected day (via API or cached data)
-    const locationWorksOnDay = checkLocationDayAvailability(treatmentId, selectedLocation, selectedDateObj.day);
-    
-    if (!locationWorksOnDay) {
-      // 👈 INDUSTRY STANDARD: Reset + notify
-      form.setValue("dateObject", { date: "", day: "" });
-      form.trigger("location"); // Re-validate
-      toast.error(`"${selectedLocation}" doesn't offer this treatment on ${selectedDateObj.day}. Please pick another date or location.`);
-      
-      // Optional: Auto-pick first available date for this location
-      // const firstAvailableDate = getFirstAvailableDate(selectedLocation);
-      // form.setValue("dateObject", firstAvailableDate);
+  // 👈 CORE VALIDATION LOGIC
+  useEffect(() => {
+    if (selectedLocation && selectedDateObj?.day && treatmentId) {
+      startTransition(async () => {
+        const isAvailable = await checkLocationDayAvailability(
+          treatmentId,
+          selectedLocation,
+          selectedDateObj.day
+        );
+
+        if (!isAvailable) {
+          // 👈 Reset date + notify (industry standard)
+          form.setValue("dateObject", { date: "", day: "" });
+          toast.error(
+            `"${selectedLocation}" doesn't offer this treatment on ${selectedDateObj.day}. Pick another date or location.`,
+            { duration: 5000 }
+          );
+        }
+      });
     }
-  }
-}, [selectedLocation, selectedDateObj?.day, treatmentId]);
-
-  // In future maybe filter by dateObj.day if needed:
-  // const dayName = selectedDateObj?.day;
+  }, [selectedLocation, selectedDateObj?.day, treatmentId]);
 
   const handleLocationSelect = (loc: string) => {
-    // Toggle or simply set
     form.setValue("location", loc);
-    // Reset downstream selections if needed
-    form.setValue("doctorId", "");
-    form.setValue("timeSlot", "");
   };
 
-  if (!allLocations || allLocations.length === 0) {
-    return null;
-  }
-
   return (
-    <div className={cn("space-y-4 max-w-4xl mx-auto", className)}>
+    <div className={cn("space-y-4", className)}>
       <label className="text-xl font-semibold text-primary block mb-2 text-center">
         {label}
+        {isValidating && (
+          <span className="ml-2 text-sm text-on-surface-variant">
+            Checking availability...
+          </span>
+        )}
       </label>
 
-      {selectedDateObj?.date && (
-        <p className="text-sm text-on-surface-variant text-center mb-2">
-          For{" "}
-          {new Date(selectedDateObj.date).toLocaleDateString()} (
-          {selectedDateObj.day}), pick a practice location.
-        </p>
-      )}
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
         {allLocations.map((loc) => (
           <button
             key={loc}
             type="button"
             onClick={() => handleLocationSelect(loc)}
+            disabled={isValidating}
             className={cn(
-              "group h-28 rounded-3xl p-5 font-semibold shadow-lg transition-all duration-200 text-left flex flex-col justify-between border-2",
+              "group h-28 rounded-3xl p-5 font-semibold shadow-lg transition-all border-2 text-left flex flex-col justify-between",
               selectedLocation === loc
                 ? "bg-primary text-on-primary border-primary shadow-2xl scale-[1.02]"
-                : "bg-surface-bright border-outline-variant hover:border-primary hover:bg-primary-container hover:-translate-y-1 hover:shadow-2xl"
+                : "bg-surface-bright border-outline-variant hover:border-primary hover:bg-primary-container hover:shadow-2xl hover:-translate-y-1",
+              isValidating && "opacity-75 cursor-not-allowed"
             )}
           >
             <span className="text-lg">{loc}</span>
-            <span className="text-xs text-on-surface-variant group-hover:text-on-primary/80">
-              Click to choose this location
+            <span className="text-xs text-on-surface-variant">
+              {selectedDateObj?.day ? `${selectedDateObj.day} sessions available` : "Any day"}
             </span>
           </button>
         ))}
