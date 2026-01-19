@@ -10,17 +10,21 @@ import { DateObject } from "@/types/booking";
 interface CustomCalendarProps {
   availableDays?: string[];
   allLocations?: string[];
+  selectedLocation?: string;
   className?: string;
 }
 
 export default function CustomCalendar({
   availableDays,
   allLocations,
+  selectedLocation,
   className,
 }: CustomCalendarProps) {
+
   const form = useFormContext();
   const treatmentId = form.watch("treatmentId");
   const location = form.watch("location");
+  
   const [weekOffset, setWeekOffset] = useState(0); // 0=first 2 weeks, 1=next 2 weeks
   const availableDaysSet = new Set(availableDays || []);
 
