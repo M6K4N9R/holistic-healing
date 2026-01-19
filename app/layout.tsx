@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import { Grechen_Fuemen } from "next/font/google";
 import Providers from "@/components/Providers";
+import { Toaster } from "sonner";
 
 const grechen = Grechen_Fuemen({
   weight: "400",
@@ -16,7 +17,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={grechen.variable}>
       <body className="antialiased font-sans">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Toaster richColors position="top-right" />
+          {children}
+        </Providers>
       </body>
     </html>
   );

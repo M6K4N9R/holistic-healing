@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 import { useEffect, useTransition } from "react";
-import { toast } from "sonner";  // or your notification lib
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
 
@@ -31,7 +31,7 @@ export default function LocationPicker({
         const isAvailable = await checkLocationDayAvailability(
           treatmentId,
           selectedLocation,
-          selectedDateObj.day
+          selectedDateObj.day,
         );
 
         if (!isAvailable) {
@@ -39,7 +39,7 @@ export default function LocationPicker({
           form.setValue("dateObject", { date: "", day: "" });
           toast.error(
             `"${selectedLocation}" doesn't offer this treatment on ${selectedDateObj.day}. Pick another date or location.`,
-            { duration: 5000 }
+            { duration: 5000 },
           );
         }
       });
@@ -73,12 +73,14 @@ export default function LocationPicker({
               selectedLocation === loc
                 ? "bg-primary text-on-primary border-primary shadow-2xl scale-[1.02]"
                 : "bg-surface-bright border-outline-variant hover:border-primary hover:bg-primary-container hover:shadow-2xl hover:-translate-y-1",
-              isValidating && "opacity-75 cursor-not-allowed"
+              isValidating && "opacity-75 cursor-not-allowed",
             )}
           >
             <span className="text-lg">{loc}</span>
             <span className="text-xs text-on-surface-variant">
-              {selectedDateObj?.day ? `${selectedDateObj.day} sessions available` : "Any day"}
+              {selectedDateObj?.day
+                ? `${selectedDateObj.day} sessions available`
+                : "Any day"}
             </span>
           </button>
         ))}
