@@ -71,7 +71,42 @@ export async function getTreatmentAvailability(treatmentId: string) {
   };
 }
 
-// Date validation for selected location
+// Check if ANY doctor offers treatment at location on specific day
+export async function checkLocationDayAvailability(
+  treatmentId: string,
+  location: string,
+  day: string,
+) {
+  await dbConnect();
+
+  const doctorsRaw = await Doctor.find({
+    treatments: new mongoose.Types.ObjectId(treatmentId),
+  })
+    .select("schedule")
+    .lean();
+
+  const hasAvailability = doctorsRaw.some((docRaw: any) => {
+    const doc = { ...docRaw, _id: docRaw._id?.toString() };
+    const scheduleAtLocation = doc.schedule?.find(
+      (s: any) => s.location === location,
+    );
+
+    if (!scheduleAtLocation) return false;
+
+    const dayEntry = scheduleAtLocation.availability?.find(
+      (a: any) => a.day === day,
+    );
+    return !!(dayEntry?.timeSlots && dayEntry.timeSlots.length > 0);
+  });
+
+  console.log(
+    `Location "${location}" on ${day}:`,
+    hasAvailability ? "✅ Available" : "❌ No doctors",
+  );
+  return hasAvailability;
+}
+
+// Get First available day at the selected location
 
 export async function getLocationDayAvailability(
   treatmentId: string,

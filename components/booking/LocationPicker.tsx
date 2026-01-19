@@ -4,6 +4,7 @@
 import { useFormContext } from "react-hook-form";
 import { cn } from "@/lib/utils";
 import { useEffect } from "react";
+import {checkLoc}
 
 
 interface LocationPickerProps {
