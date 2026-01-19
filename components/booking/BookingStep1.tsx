@@ -3,14 +3,15 @@
 import { useFormContext } from "react-hook-form";
 import { useEffect } from "react";
 import useSWR from "swr";
-import { useSearchParams } from "next/navigation"; // 👈 NEW
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import CustomCalendar from "./Calendar";
 import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
+import LocationPicker from "./LocationPicker";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
-  const searchParams = useSearchParams(); 
+  const searchParams = useSearchParams();
 
   // Auto-select from URL on mount
   useEffect(() => {
@@ -36,7 +37,6 @@ export default function BookingStep1({ step }: { step: number }) {
     form.setValue("location", "");
     form.setValue("dateObject", { date: "", day: "" });
   };
-
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
@@ -70,26 +70,10 @@ export default function BookingStep1({ step }: { step: number }) {
             allLocations={availabilityData.allLocations}
             className="max-w-4xl mx-auto"
           />
-
-          {/* TEMP: Use allLocations from availabilityData */}
-          {availabilityData.allLocations?.length > 0 && (
-            <div className="space-y-4 max-w-sm mx-auto">
-              <label className="text-xl font-semibold text-primary block mb-4 text-center">
-                Select Location
-              </label>
-              <select
-                {...form.register("location")}
-                className="w-full p-5 text-lg font-semibold bg-surface-bright rounded-3xl border-2 border-outline-variant"
-              >
-                <option value="">Choose location</option>
-                {availabilityData.allLocations.map((loc: string) => (
-                  <option key={loc} value={loc}>
-                    {loc}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <LocationPicker
+            allLocations={availabilityData.allLocations}
+            className="mt-4"
+          />
         </div>
       )}
     </div>
