@@ -10,7 +10,7 @@ import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
-  const searchParams = useSearchParams(); // 👈 Read ?treatmentId=123
+  const searchParams = useSearchParams(); 
 
   // Auto-select from URL on mount
   useEffect(() => {
@@ -36,6 +36,7 @@ export default function BookingStep1({ step }: { step: number }) {
     form.setValue("location", "");
     form.setValue("dateObject", { date: "", day: "" });
   };
+
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
