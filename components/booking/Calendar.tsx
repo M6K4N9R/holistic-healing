@@ -6,27 +6,46 @@ import { useState, useCallback } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 import { DateObject } from "@/types/booking";
+import { getLocationDays } from "@/app/actions/new-booking-flow";
+import { useEffect } from "react";
 
 interface CustomCalendarProps {
   availableDays?: string[];
-  allLocations?: string[];
-  selectedLocation?: string;
   className?: string;
 }
 
 export default function CustomCalendar({
   availableDays,
-  allLocations,
-  selectedLocation,
   className,
 }: CustomCalendarProps) {
-
   const form = useFormContext();
   const treatmentId = form.watch("treatmentId");
   const location = form.watch("location");
-  
+
   const [weekOffset, setWeekOffset] = useState(0); // 0=first 2 weeks, 1=next 2 weeks
-  const availableDaysSet = new Set(availableDays || []);
+  const [effectiveAvailableDays, setEffectiveAvailableDays] = useState<
+    string[] | undefined
+  >(availableDays);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadDays() {
+      if (location && treatmentId) {
+        const days = await getLocationDays(treatmentId, location);
+        if (!cancelled) setEffectiveAvailableDays(days);
+      } else {
+        setEffectiveAvailableDays(availableDays);
+      }
+    }
+
+    loadDays();
+    return () => {
+      cancelled = true;
+    };
+  }, [location, treatmentId, availableDays]);
+
+  const availableDaysSet = new Set(effectiveAvailableDays || []);
 
   // Generate 14 days starting from today + offset*14
   const today = new Date();
@@ -39,6 +58,7 @@ export default function CustomCalendar({
     date.setDate(startDate.getDate() + i);
 
     const localDateStr = date.toLocaleDateString("sv"); // 👈 FIX: Local YYYY-MM-DD
+
     return {
       dateObj: {
         date: localDateStr, // "2026-01-25"
@@ -124,14 +144,21 @@ export default function CustomCalendar({
         })}
       </div>
 
-      {/* Availability Status */}
-      {treatmentId && location && (
+      {/* Status blocks */}
+      {treatmentId && (
         <div className="text-xs text-center text-on-surface-variant p-3 bg-surface-dim rounded-xl">
           {selectedDate
             ? `Selected: ${new Date(selectedDate).toLocaleDateString()} (${form.watch("dateObject.day")})`
-            : availableDays?.length
-              ? `${availableDays.length} working days available`
+            : effectiveAvailableDays?.length
+              ? `${effectiveAvailableDays.length} working days available`
               : "Pick treatment first"}
+        </div>
+      )}
+      {treatmentId && location && (
+        <div className="text-xs text-center p-3 bg-surface-dim rounded-xl">
+          {location
+            ? `Days at ${location}: ${effectiveAvailableDays?.join(", ") || "None"}`
+            : `${availableDays?.length || 0} working days across all locations`}
         </div>
       )}
     </div>

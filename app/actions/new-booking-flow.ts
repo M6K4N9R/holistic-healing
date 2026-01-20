@@ -7,8 +7,6 @@ import Booking from "@/db/models/Booking";
 import { redirect } from "next/navigation";
 import { DateObject } from "@/types/booking";
 
-// =========================================== BEFORE ADJUSTMENTS
-
 // STEP 1: Treatment → Available Doctors + Locations
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
@@ -69,6 +67,28 @@ export async function getTreatmentAvailability(treatmentId: string) {
     allLocations,
     allDays, // ["Mon", "Thu", "Sat"]
   };
+}
+
+export async function getLocationDays(treatmentId: string, location: string) {
+  await dbConnect();
+
+  const doctorsRaw = await Doctor.find({
+    treatments: new mongoose.Types.ObjectId(treatmentId),
+  })
+    .select("schedule")
+    .lean();
+
+  const daysAtLocation = doctorsRaw.flatMap((docRaw: any) => {
+    const doc = { ...docRaw, _id: docRaw._id?.toString() };
+    const schedule = doc.schedule?.find((s: any) => s.location === location);
+    return (
+      schedule?.availability
+        ?.filter((a: any) => a.timeSlots.length > 0)
+        ?.map((a: any) => a.day) || []
+    );
+  });
+
+  return Array.from(new Set(daysAtLocation));
 }
 
 // Check if ANY doctor offers treatment at location on specific day

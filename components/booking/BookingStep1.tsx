@@ -67,7 +67,6 @@ export default function BookingStep1({ step }: { step: number }) {
           {/* Custom Calendar */}
           <CustomCalendar
             availableDays={availabilityData.allDays}
-            allLocations={availabilityData.allLocations}
             className="max-w-4xl mx-auto"
           />
           <LocationPicker
