@@ -290,8 +290,8 @@ export async function createBooking(formData: FormData) {
   const timeSlot = formData.get("time") as string;
   const location = formData.get("location") as string;
   const patientName = formData.get("patientName") as string;
-  const phone = formData.get("phone") as string;
-  const email = formData.get("email") as string;
+  const phone = formData.get("patientPhone") as string;
+  const email = formData.get("patientEmail") as string;
 
   const date: DateObject = JSON.parse(dateStr);
 
@@ -305,7 +305,6 @@ export async function createBooking(formData: FormData) {
   if (!availableTimes.includes(timeSlot)) {
     throw new Error("Time slot no longer available");
   }
-
   const booking = new Booking({
     treatment: treatmentId,
     doctor: doctorId,
