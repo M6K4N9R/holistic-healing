@@ -24,9 +24,10 @@ export default function LocationPicker({
   const selectedDateObj = form.watch("dateObject");
   const treatmentId = form.watch("treatmentId");
 
-  // 👈 CORE VALIDATION LOGIC
+  // CORE VALIDATION LOGIC
   useEffect(() => {
     if (selectedLocation && selectedDateObj?.day && treatmentId) {
+      console.log("LockationPicker selectedLocation: ", selectedLocation);
       startTransition(async () => {
         const isAvailable = await checkLocationDayAvailability(
           treatmentId,

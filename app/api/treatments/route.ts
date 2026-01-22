@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/db/dbConnect";
 import Logo from "@/db/models/Logo";
 import Treatment from "@/db/models/Treatment";
-import { revalidatePath } from "next/cache";
 
 export async function GET() {
   try {

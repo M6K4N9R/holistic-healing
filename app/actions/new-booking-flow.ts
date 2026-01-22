@@ -87,7 +87,7 @@ export async function getLocationDays(treatmentId: string, location: string) {
         ?.map((a: any) => a.day) || []
     );
   });
-
+  
   return Array.from(new Set(daysAtLocation));
 }
 
