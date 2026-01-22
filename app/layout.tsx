@@ -2,12 +2,9 @@ import "@/styles/globals.css";
 import { Grechen_Fuemen } from "next/font/google";
 import Providers from "@/components/Providers";
 import { Toaster } from "sonner";
+import UserTopBar from "@/components/UserTopBar";
+import BottomNavBar from "@/components/BottomNavBar";
 
-const grechen = Grechen_Fuemen({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-grechen",
-});
 
 export default function RootLayout({
   children,
@@ -15,11 +12,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={grechen.variable}>
+    <html lang="en">
       <body className="antialiased font-sans">
         <Providers>
+          <UserTopBar />
           <Toaster richColors position="top-right" />
           {children}
+          <BottomNavBar />
         </Providers>
       </body>
     </html>

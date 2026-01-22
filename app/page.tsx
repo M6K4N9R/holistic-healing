@@ -30,8 +30,6 @@ export default async function Home() {
 
   return (
     <main className="min-h-screen bg-surface text-on-surface">
-      <UserTopBar />
-
       <section className="text-center py-16 px-4">
         <h1 className="text-5xl md:text-6xl font-light mb-4">
           Holistic Healing
@@ -45,7 +43,6 @@ export default async function Home() {
         <SearchBar />
         <TreatmentsList treatments={data.treatments as any[]} />
         {/* <FirstConsultation firstConsultation={data.firstConsultation as any} /> */}
-        <BottomNavBar />
       </Suspense>
     </main>
   );

@@ -34,7 +34,7 @@ const BottomNavBar = () => {
     <nav
       className={cn(
         "md:hidden fixed bottom-0 left-0 right-0 z-40",
-        "bg-surface-variant", // solid, no blur
+        "bg-surface-variant",
         "border-t border-outline-variant",
         "shadow-[0_-10px_30px_rgba(0,0,0,0.12)]",
       )}
@@ -47,7 +47,7 @@ const BottomNavBar = () => {
           className={cn(
             "flex flex-col items-center justify-center gap-0.5 flex-1 py-1.5 px-2",
             "text-[11px] font-medium tracking-wide",
-            "transition-all duration-200",
+            "transition-all duration-100",
             pathname === "/"
               ? "bg-primary text-on-primary shadow-md scale-105"
               : "text-on-surface-variant hover:bg-surface hover:text-primary",
@@ -67,7 +67,7 @@ const BottomNavBar = () => {
           className={cn(
             "flex flex-col items-center justify-center gap-0.5 flex-1 py-1.5 px-2",
             "text-[11px] font-medium tracking-wide",
-            "transition-all duration-200",
+            "transition-all duration-100",
             isTreatmentsActive
               ? "bg-primary text-on-primary shadow-md scale-105"
               : "text-on-surface-variant hover:bg-surface hover:text-primary",
@@ -87,7 +87,7 @@ const BottomNavBar = () => {
           className={cn(
             "flex flex-col items-center justify-center gap-0.5 flex-1 py-1.5 px-2",
             "text-[11px] font-medium tracking-wide",
-            "transition-all duration-200",
+            "transition-all duration-100",
             pathname === "/booking"
               ? "bg-primary text-on-primary shadow-md scale-105"
               : "text-on-surface-variant hover:bg-surface hover:text-primary",
