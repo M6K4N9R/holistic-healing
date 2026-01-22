@@ -12,7 +12,14 @@ export default function BookingStep2({ step }: { step: number }) {
   const dateObj = form.watch("dateObject");
   const location = form.watch("location");
 
-  /*   console.log("IN STEP 2 TREATMENTID: ", treatmentId, "dateObj: ", dateObj, "location: ", location ) */
+  console.log(
+    "IN STEP 2 TREATMENTID: ",
+    treatmentId,
+    "dateObj: ",
+    dateObj,
+    "location: ",
+    location,
+  );
 
   const [isPending, startTransition] = useTransition();
 
@@ -86,7 +93,7 @@ export default function BookingStep2({ step }: { step: number }) {
                     "group relative h-20 rounded-2xl p-6 font-bold shadow-lg transition-all duration-300 overflow-hidden hover:shadow-xl hover:-translate-y-1",
                     form.watch("timeSlot") === slot
                       ? "bg-primary text-on-primary shadow-2xl border-2 border-primary"
-                      : "bg-surface-bright backdrop-blur-xl border-2 border-outline-variant hover:border-primary hover:bg-primary-container"
+                      : "bg-surface-bright backdrop-blur-xl border-2 border-outline-variant hover:border-primary hover:bg-primary-container",
                   )}
                 >
                   <span className="relative z-10">{slot}</span>
@@ -112,14 +119,14 @@ export default function BookingStep2({ step }: { step: number }) {
                     form.setValue("doctorId", doctor._id);
                     form.setValue(
                       "doctorName",
-                      `${doctor.firstName} ${doctor.lastName}`
+                      `${doctor.firstName} ${doctor.lastName}`,
                     );
                   }}
                   className={cn(
                     "w-full group relative h-28 rounded-3xl p-6 font-bold shadow-lg transition-all duration-300 overflow-hidden hover:shadow-2xl hover:-translate-y-1 flex items-center gap-4",
                     form.watch("doctorId") === doctor._id
                       ? "bg-primary text-on-primary shadow-2xl border-2 border-primary"
-                      : "bg-surface-bright backdrop-blur-xl border-2 border-outline-variant hover:border-primary hover:bg-primary-container"
+                      : "bg-surface-bright backdrop-blur-xl border-2 border-outline-variant hover:border-primary hover:bg-primary-container",
                   )}
                 >
                   <div className="w-16 h-16 bg-secondary rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">

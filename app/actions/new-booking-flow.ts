@@ -87,7 +87,7 @@ export async function getLocationDays(treatmentId: string, location: string) {
         ?.map((a: any) => a.day) || []
     );
   });
-  
+
   return Array.from(new Set(daysAtLocation));
 }
 
@@ -184,11 +184,10 @@ export async function getFilteredAvailability({
       const dayEntry = scheduleAtLocation.availability?.find(
         (entry: any) => entry.day === dayName,
       );
-      console.log("dayName: ", dayName);
-      console.log("scheduleAtLocation: ", scheduleAtLocation);
 
       if (!dayEntry) return false;
       // filter 3. Has available time slots?
+
       return dayEntry.timeSlots && dayEntry.timeSlots.length > 0;
     })
     .map((doc: any) => ({
@@ -312,7 +311,8 @@ export async function createBooking(formData: FormData) {
     doctor: doctorId,
     dateObject: date,
     timeSlot,
-    patientDetails: { email, name: patientName, phone, location },
+    location: location,
+    patientDetails: { email, name: patientName, phone },
   });
 
   await booking.save();
