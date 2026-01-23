@@ -12,18 +12,11 @@ export default function BookingStep2({ step }: { step: number }) {
   const dateObj = form.watch("dateObject");
   const location = form.watch("location");
 
-  console.log(
-    "IN STEP 2 TREATMENTID: ",
-    treatmentId,
-    "dateObj: ",
-    dateObj,
-    "location: ",
-    location,
-  );
+  
 
   const [isPending, startTransition] = useTransition();
 
-  // 👈 Call server action when treatment + date + location ready
+  // Call server action when treatment + date + location ready
   const handleDateLocationConfirm = () => {
     if (treatmentId && dateObj && location) {
       startTransition(async () => {
@@ -34,7 +27,6 @@ export default function BookingStep2({ step }: { step: number }) {
         });
         form.setValue("availableDoctors", availability.doctors);
         form.setValue("availableTimes", availability.availableTimes);
-        console.log("✅ Step2 loaded:", availability);
       });
     }
   };

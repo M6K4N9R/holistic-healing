@@ -75,7 +75,6 @@ export default function CustomCalendar({
 
   const handleDayClick = (dateObj: DateObject) => {
     form.setValue("dateObject", dateObj);
-    console.log("IN CALENDAR dateObj: ", dateObj);
   };
 
   const selectedDate = form.watch("dateObject.date");

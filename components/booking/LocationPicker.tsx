@@ -27,7 +27,6 @@ export default function LocationPicker({
   // CORE VALIDATION LOGIC
   useEffect(() => {
     if (selectedLocation && selectedDateObj?.day && treatmentId) {
-      console.log("LockationPicker selectedLocation: ", selectedLocation);
       startTransition(async () => {
         const isAvailable = await checkLocationDayAvailability(
           treatmentId,

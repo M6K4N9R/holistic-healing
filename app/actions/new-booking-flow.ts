@@ -54,12 +54,7 @@ export async function getTreatmentAvailability(treatmentId: string) {
     ),
   );
 
-  console.log("TREATMENT FULL AVAIL:", {
-    treatment,
-    doctorsCount: doctors.length,
-    allLocations,
-    allDays,
-  });
+  
 
   return {
     treatment,
@@ -119,10 +114,7 @@ export async function checkLocationDayAvailability(
     return !!(dayEntry?.timeSlots && dayEntry.timeSlots.length > 0);
   });
 
-  console.log(
-    `Location "${location}" on ${day}:`,
-    hasAvailability ? "✅ Available" : "❌ No doctors",
-  );
+  
   return hasAvailability;
 }
 
@@ -223,8 +215,7 @@ export async function getFilteredAvailability({
     (time) => !bookedTimes.includes(time),
   );
 
-  console.log(" DOCTORS: ", doctors);
-  console.log("BOOKINGS AT CHOOSEN TREATMENT, DAY, and LOCATION: ", bookings);
+  
   return {
     doctors: filteredDoctors,
     availableTimes,
@@ -276,7 +267,6 @@ export async function getAvailableTimes(
     (time: string) => !bookedTimes.includes(time),
   );
 
-  console.log("Fetsched Doctor in GETAVAILABLETIMES(): ", doctor);
   return { doctor: doctor, date: dateObj, availableTimes };
 }
 
@@ -295,7 +285,7 @@ export async function createBooking(formData: FormData) {
 
   const date: DateObject = JSON.parse(dateStr);
 
-  // Final availability check
+  
   const { availableTimes } = await getAvailableTimes(
     doctorId,
     treatmentId,
