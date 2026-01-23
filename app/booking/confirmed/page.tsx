@@ -1,20 +1,30 @@
-export default function BookingConfirmedPage({
+import Link from "next/link";
+
+export default async function BookingConfirmedPage({
   searchParams,
 }: {
-  searchParams: { bookingId?: string };
+  searchParams: Promise<{ bookingId?: string }>;
 }) {
-  const bookingId = searchParams.bookingId;
+  const params = await searchParams;
+  const bookingId = params.bookingId;
 
   return (
     <div className="min-h-screen bg-surface py-20 px-4">
-      <div className="max-w-2xl mx-auto text-center glass rounded-3xl p-10">
-        <h2 className="text-3xl font-bold text-primary mb-4">
-          Booking Confirmed
-        </h2>
-        <p className="text-on-surface-variant">
-          Thank you for your booking{bookingId ? ` (ID: ${bookingId})` : ""}.
-          You will receive a confirmation email shortly.
+      <div className="max-w-2xl mx-auto text-center glass rounded-3xl p-10 shadow-2xl">
+        <h1 className="text-4xl font-black text-primary mb-6">
+          Booking Confirmed!
+        </h1>
+        <p className="text-xl text-on-surface mb-8">
+          Your healing session is booked successfully.
         </p>
+        {bookingId && (
+          <div className="bg-primary-container text-on-primary-container p-6 rounded-2xl mb-8 font-mono text-sm">
+            Booking ID: <strong>{bookingId}</strong>
+          </div>
+        )}
+        <Link href="/treatments" className="btn-primary inline-flex gap-3">
+          Book Another Session
+        </Link>
       </div>
     </div>
   );
