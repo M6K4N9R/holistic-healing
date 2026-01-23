@@ -1,13 +1,7 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { cn } from "@/lib/utils";
-import {
-  PhoneIcon,
-  ClockIcon,
-  EnvelopeIcon,
-  UserIcon,
-} from "@/components/ui/icons";
+import { ClockIcon, UserIcon } from "@/components/ui/icons";
 
 export default function BookingStep3({ step }: { step: number }) {
   const form = useFormContext();
@@ -65,7 +59,7 @@ export default function BookingStep3({ step }: { step: number }) {
           type="submit"
           className="inline-flex items-center gap-4 btn-primary text-2xl px-16 py-8"
         >
-          ✨ Confirm & Book ✨
+          Confirm & Book
         </button>
       </div>
     </div>

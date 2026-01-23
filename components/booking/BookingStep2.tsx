@@ -12,8 +12,6 @@ export default function BookingStep2({ step }: { step: number }) {
   const dateObj = form.watch("dateObject");
   const location = form.watch("location");
 
-  
-
   const [isPending, startTransition] = useTransition();
 
   // Call server action when treatment + date + location ready
@@ -40,7 +38,7 @@ export default function BookingStep2({ step }: { step: number }) {
         <div className="text-center py-20">
           <div className="w-16 h-16 border-4 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
           <p className="text-lg text-primary font-semibold">
-            Loading doctors & times...
+            Looking for available doctors & times...
           </p>
         </div>
       </div>
@@ -53,14 +51,14 @@ export default function BookingStep2({ step }: { step: number }) {
         Choose Time & Doctor
       </h3>
 
-      {/* 👈 TRIGGER Step2 data load */}
+      {/* TRIGGER Step2 data load */}
       {treatmentId && dateObj && location && (
         <div className="text-center mb-8">
           <button
             onClick={handleDateLocationConfirm}
             className="btn-primary px-12 py-4 text-lg"
           >
-            Load Availability
+            See availability
           </button>
         </div>
       )}
@@ -99,7 +97,7 @@ export default function BookingStep2({ step }: { step: number }) {
             <div className="flex items-center gap-3 mb-6">
               <UserIcon className="w-8 h-8 text-primary" />
               <h4 className="text-2xl font-bold text-on-surface">
-                Select Doctor
+                Available {doctors.length === 1 ? "Doctor" : "Doctors"}
               </h4>
             </div>
             <div className="space-y-4">

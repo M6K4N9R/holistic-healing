@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-import { Grechen_Fuemen } from "next/font/google";
 import Providers from "@/components/Providers";
 import { Toaster } from "sonner";
 import UserTopBar from "@/components/UserTopBar";
@@ -16,7 +15,7 @@ export default function RootLayout({
       <body className="antialiased font-sans">
         <Providers>
           <UserTopBar />
-          <Toaster richColors position="top-right" />
+          <Toaster richColors position="bottom-center" />
           {children}
           <BottomNavBar />
         </Providers>

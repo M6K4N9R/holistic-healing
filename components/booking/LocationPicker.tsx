@@ -35,7 +35,7 @@ export default function LocationPicker({
         );
 
         if (!isAvailable) {
-          // 👈 Reset date + notify (industry standard)
+          // Reset date + notify 
           form.setValue("dateObject", { date: "", day: "" });
           toast.error(
             `"${selectedLocation}" doesn't offer this treatment on ${selectedDateObj.day}. Pick another date or location.`,
