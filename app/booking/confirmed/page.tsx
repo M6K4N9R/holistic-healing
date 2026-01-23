@@ -22,7 +22,10 @@ export default async function BookingConfirmedPage({
             Booking ID: <strong>{bookingId}</strong>
           </div>
         )}
-        <Link href="/treatments" className="btn-primary inline-flex gap-3">
+        <Link href="/booking" className="btn-primary inline-flex gap-3">
+          Book Another Session
+        </Link>
+        <Link href="/" className="btn-secondary inline-flex gap-3">
           Book Another Session
         </Link>
       </div>
