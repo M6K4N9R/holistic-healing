@@ -54,8 +54,6 @@ export async function getTreatmentAvailability(treatmentId: string) {
     ),
   );
 
-  
-
   return {
     treatment,
     doctors,
@@ -114,11 +112,10 @@ export async function checkLocationDayAvailability(
     return !!(dayEntry?.timeSlots && dayEntry.timeSlots.length > 0);
   });
 
-  
   return hasAvailability;
 }
 
-// Get First available day at the selected location
+// Get First available day at the selected location ============= BEFORE REFACTURE 1/24/26
 
 export async function getLocationDayAvailability(
   treatmentId: string,
@@ -215,7 +212,6 @@ export async function getFilteredAvailability({
     (time) => !bookedTimes.includes(time),
   );
 
-  
   return {
     doctors: filteredDoctors,
     availableTimes,
@@ -285,7 +281,6 @@ export async function createBooking(formData: FormData) {
 
   const date: DateObject = JSON.parse(dateStr);
 
-  
   const { availableTimes } = await getAvailableTimes(
     doctorId,
     treatmentId,

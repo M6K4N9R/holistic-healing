@@ -38,6 +38,8 @@ export default function BookingStep1({ step }: { step: number }) {
     form.setValue("dateObject", { date: "", day: "" });
   };
 
+  console.log("Availability data", availabilityData)
+
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
       <h3 className="text-3xl font-bold text-primary mb-8 text-center">
