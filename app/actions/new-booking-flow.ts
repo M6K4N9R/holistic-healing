@@ -6,6 +6,7 @@ import Doctor from "@/db/models/Doctor";
 import Booking from "@/db/models/Booking";
 import { redirect } from "next/navigation";
 import { DateObject } from "@/types/booking";
+import { log } from "console";
 
 // STEP 1: Treatment → Available Doctors + Locations
 export async function getTreatmentAvailability(treatmentId: string) {
@@ -22,6 +23,9 @@ export async function getTreatmentAvailability(treatmentId: string) {
     ...treatmentDoc,
     _id: treatmentDoc._id.toString(),
   };
+  // Extract locations at which selected treatment is offered
+
+  const treatmentLocations = Array.from(treatment.location);
 
   const doctorsRaw = await Doctor.find({
     treatments: new mongoose.Types.ObjectId(treatmentId),
@@ -59,6 +63,7 @@ export async function getTreatmentAvailability(treatmentId: string) {
     doctors,
     allLocations,
     allDays, // ["Mon", "Thu", "Sat"]
+    treatmentLocations,
   };
 }
 

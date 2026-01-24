@@ -38,7 +38,7 @@ export default function BookingStep1({ step }: { step: number }) {
     form.setValue("dateObject", { date: "", day: "" });
   };
 
-  console.log("Availability data", availabilityData)
+  console.log("Availability data", availabilityData);
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
@@ -73,6 +73,8 @@ export default function BookingStep1({ step }: { step: number }) {
           />
           <LocationPicker
             allLocations={availabilityData.allLocations}
+            treatmentLocations={availabilityData.treatmentLocations}
+            treatmentName={availabilityData.treatment.name}
             className="mt-4"
           />
         </div>
