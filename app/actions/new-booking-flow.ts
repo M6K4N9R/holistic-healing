@@ -9,6 +9,9 @@ import { DateObject } from "@/types/booking";
 import { log } from "console";
 
 // STEP 1: Treatment → Available Doctors + Locations
+/**
+ * @returns {Promise<import('@/types/booking').TreatmentAvailability>}
+ */
 export async function getTreatmentAvailability(treatmentId: string) {
   await dbConnect();
 

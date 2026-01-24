@@ -20,6 +20,27 @@ export interface DateObject {
   day: string;
 }
 
+export interface TreatmentAvailability {
+  treatment: {
+    _id: string;
+    name: string;
+    price: number;
+    duration: number;
+    location: string[];
+  };
+  doctors: Array<{
+    _id: string;
+    firstName: string;
+    lastName: string;
+    email?: string;
+    schedule: any[];
+  }>;
+  allLocations: string[];
+  treatmentLocations: string[];
+  allDays: string[];
+}
+
+
 export const PatientDetailsSchema = z.object({
   name: z.string().min(1),
   phone: z.string().optional(),

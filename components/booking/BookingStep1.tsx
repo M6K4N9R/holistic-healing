@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import CustomCalendar from "./Calendar";
 import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
 import LocationPicker from "./LocationPicker";
+import { TreatmentAvailability } from "@/types/booking";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
@@ -26,10 +27,18 @@ export default function BookingStep1({ step }: { step: number }) {
   const treatments = treatmentsData?.treatments || [];
 
   const treatmentId = form.watch("treatmentId");
-  const { data: availabilityData, isLoading: availabilityLoading } = useSWR(
-    treatmentId ? `treatment-${treatmentId}` : null,
-    () => getTreatmentAvailability(treatmentId!),
-  );
+
+  // Typed FETCHER
+  const fetchTreatmentAvailability = async (
+    treatmentId: string,
+  ): Promise<TreatmentAvailability> => {
+    return getTreatmentAvailability(treatmentId);
+  };
+  const { data: availabilityData, isLoading: availabilityLoading } =
+    useSWR<TreatmentAvailability>(
+      treatmentId ? `treatment-${treatmentId}` : null,
+      () => fetchTreatmentAvailability(treatmentId!),
+    );
 
   const handleTreatmentSelect = (id: string) => {
     form.setValue("treatmentId", id);
