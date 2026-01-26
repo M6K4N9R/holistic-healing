@@ -25,10 +25,10 @@ export async function getTreatmentAvailability(treatmentId: string) {
   const treatment = {
     ...treatmentDoc,
     _id: treatmentDoc._id.toString(),
+    location: treatmentDoc.location?.map((loc: any) => loc.toString()) || [],
   };
-  // Extract locations at which selected treatment is offered
 
-  const treatmentLocations = Array.from(treatment.location);
+  // Extract locations at which selected treatment is offered
 
   const doctorsRaw = await Doctor.find({
     treatments: new mongoose.Types.ObjectId(treatmentId),
@@ -66,7 +66,6 @@ export async function getTreatmentAvailability(treatmentId: string) {
     doctors,
     allLocations,
     allDays, // ["Mon", "Thu", "Sat"]
-    treatmentLocations,
   };
 }
 

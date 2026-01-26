@@ -48,6 +48,7 @@ export default function BookingStep1({ step }: { step: number }) {
   };
 
   console.log("Availability data", availabilityData);
+  console.log("Location", typeof availabilityData?.treatment.location);
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
@@ -82,7 +83,7 @@ export default function BookingStep1({ step }: { step: number }) {
           />
           <LocationPicker
             allLocations={availabilityData.allLocations}
-            treatmentLocations={availabilityData.treatmentLocations}
+            treatmentLocations={availabilityData.treatment.location}
             treatmentName={availabilityData.treatment.name}
             className="mt-4"
           />
