@@ -27,6 +27,7 @@ export interface TreatmentAvailability {
     price: number;
     duration: number;
     location: string[];
+    availableDays: string[];
   };
   doctors: Array<{
     _id: string;
@@ -39,7 +40,6 @@ export interface TreatmentAvailability {
   treatmentLocations: string[];
   allDays: string[];
 }
-
 
 export const PatientDetailsSchema = z.object({
   name: z.string().min(1),

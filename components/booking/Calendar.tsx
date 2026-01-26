@@ -24,8 +24,12 @@ export default function CustomCalendar({
 
   const [weekOffset, setWeekOffset] = useState(0); // 0=first 2 weeks, 1=next 2 weeks
   const [effectiveAvailableDays, setEffectiveAvailableDays] = useState<
-    string[] | undefined
-  >(availableDays);
+    string[]
+  >(availableDays || []);
+
+  useEffect(() => {
+    setEffectiveAvailableDays(availableDays || []);
+  }, [availableDays]);
 
   useEffect(() => {
     let cancelled = false;

@@ -50,22 +50,27 @@ export async function getTreatmentAvailability(treatmentId: string) {
       ),
     ),
   );
-  const allDays = Array.from(
+  const treatmentLocations = treatment.location; 
+
+  const availableDays = Array.from(
     new Set(
-      doctors.flatMap(
-        (doc: any) =>
-          doc.schedule
-            ?.flatMap((s: any) => s.availability?.map((a: any) => a.day) || [])
-            .filter(Boolean) || [],
-      ),
-    ),
+      doctors.flatMap((doc: any) =>
+        doc.schedule
+          ?.filter((s: any) => treatmentLocations.includes(s.location))
+          .flatMap((s: any) =>
+            s.availability
+              ?.filter((a: any) => Array.isArray(a.timeSlots) && a.timeSlots.length > 0)
+              .map((a: any) => a.day) || []
+          ) || []
+      )
+    )
   );
 
   return {
     treatment,
     doctors,
     allLocations,
-    allDays, // ["Mon", "Thu", "Sat"]
+    availableDays, // ["Mon", "Thu", "Sat"]
   };
 }
 
