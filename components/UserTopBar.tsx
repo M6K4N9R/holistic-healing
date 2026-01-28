@@ -67,7 +67,7 @@ export default function UserTopBar() {
 
       {/* Center: Desktop Navigation (md+) */}
       <nav className="hidden md:flex items-center mx-auto gap-1 px-4">
-        <div className="flex items-center gap-0.5 bg-surface-bright/50 backdrop-blur-sm rounded-2xl p-1 shadow-md">
+        <div className="nav-container">
           {MAIN_NAV.map((item) => {
             const active =
               pathname === item.href ||
@@ -78,10 +78,8 @@ export default function UserTopBar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 whitespace-nowrap",
-                  active
-                    ? "bg-primary text-on-primary shadow-md"
-                    : "text-on-surface-variant hover:bg-surface hover:text-primary",
+                  "nav-link",
+                  active ? "nav-link-active" : "nav-link-inactive",
                 )}
               >
                 {item.label}

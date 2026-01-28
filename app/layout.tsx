@@ -1,9 +1,8 @@
-import "@/styles/globals.css";
+import "./globals.css";
 import Providers from "@/components/Providers";
 import { Toaster } from "sonner";
 import UserTopBar from "@/components/UserTopBar";
 import BottomNavBar from "@/components/BottomNavBar";
-
 
 export default function RootLayout({
   children,

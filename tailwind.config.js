@@ -13,6 +13,8 @@ module.exports = {
         "on-surface": "var(--on-surface)",
         "surface-variant": "var(--surface-variant)",
         "on-surface-variant": "var(--on-surface-variant)",
+        bright: "rgb(var(--surface-bright) / <alpha-value>)",
+        variant: "rgb(var(--surface-variant) / <alpha-value>)",
 
         // Primary
         primary: "var(--primary)",

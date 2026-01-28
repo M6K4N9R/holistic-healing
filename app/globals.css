@@ -96,18 +96,18 @@
 
   /* ==================== BUTTONS (Material 3) ==================== */
   .btn-primary {
-    @apply inline-flex items-center gap-3 
+    @apply inline-flex items-center gap-2 
            bg-primary 
-           text-on-primary font-black px-8 py-4 rounded-2xl 
+           text-on-primary px-4 py-2 rounded-2xl 
            shadow-sm hover:shadow-md 
            hover:-translate-y-0.5 transition-all duration-200;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center gap-3 
+    @apply inline-flex items-center gap-2 
            bg-secondary border-b border-outline-variant 
            text-on-secondary hover:bg-secondary-container hover:text-on-secondary
-           hover:border-secondary font-semibold px-8 py-4 rounded-2xl 
+           hover:border-secondary font-semibold px-4 py-2 rounded-2xl 
            shadow-md hover:shadow-lg 
            hover:-translate-y-0.5 transition-all duration-200;
   }
@@ -115,7 +115,7 @@
   /* ==================== AUTH BUTTONS ==================== */
   .btn-login {
     @apply inline-flex items-center gap-2 
-         bg-primary text-on-primary font-semibold px-6 py-3 rounded-xl 
+         bg-primary text-on-primary font-semibold px-2 py-2 rounded-xl 
          shadow-md hover:shadow-lg hover:-translate-y-0.5 
          hover:bg-primary-container hover:text-on-primary
          transition-all duration-200 border border-primary;
@@ -123,20 +123,60 @@
 
   .btn-logout {
     @apply inline-flex items-center gap-2 
-         bg-surface-variant text-on-surface-variant font-semibold px-6 py-3 rounded-xl 
+         bg-surface-variant text-on-surface-variant font-semibold px-4 py-2 rounded-xl 
          border-2 border-outline-variant hover:border-secondary
          hover:bg-secondary-container hover:text-on-secondary
          shadow-sm hover:shadow-md hover:-translate-y-0.5 
          transition-all duration-200;
   }
 
+  /* ==================== DESKTOP NAVIGATION ==================== */
+  .nav-container {
+    @apply flex items-center gap-0.5 bg-surface-bright/50 backdrop-blur-sm 
+         rounded-3xl p-1 shadow-md;
+  }
+
+  .nav-link {
+    @apply flex items-center px-4 py-2 text-sm font-semibold 
+         whitespace-nowrap transition-all duration-200 relative;
+    /* Traps border within link bounds */
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nav-link::before {
+    content: "";
+    @apply absolute inset-0 -bottom-px left-0 right-0 h-px bg-transparent 
+         transition-all duration-200;
+  }
+
+  .nav-link:hover::before {
+    @apply bg-primary; /* Bottom border on hover */
+  }
+
+  .nav-link-inactive {
+    @apply text-on-surface-variant;
+  }
+
+  .nav-link-inactive:hover {
+    @apply bg-surface text-primary;
+  }
+
+  .nav-link-active {
+    @apply text-primary font-bold;
+  }
+
+  .nav-link-active::before {
+    @apply bg-primary h-px; /* Bottom border stays on active */
+  }
+
   /* ==================== ICONS ==================== */
   .icon-primary {
-    @apply stroke-primary stroke-2;
+    @apply stroke-primary stroke-1;
   }
 
   .icon-surface {
-    @apply stroke-on-surface-variant stroke-2;
+    @apply stroke-on-surface-variant stroke-1;
   }
 }
 
