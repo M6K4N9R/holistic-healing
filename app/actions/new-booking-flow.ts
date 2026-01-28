@@ -36,6 +36,8 @@ export async function getTreatmentAvailability(treatmentId: string) {
     .select("firstName lastName schedule") // No treatments, no timestamps
     .lean();
 
+  const doctorsIds = doctorsRaw.map((doc: any) => doc._id); // Extract ObjectIds BEFORE toString conversion for fetching existingBookings
+
   const doctors = doctorsRaw.map((doc: any) => ({
     ...doc,
     _id: doc._id.toString(),
@@ -52,26 +54,71 @@ export async function getTreatmentAvailability(treatmentId: string) {
   );
   const treatmentLocations = treatment.location;
 
+  // Fetch EXISTING bookings for these doctors (next 60 days)
+  const next60Days = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
+  const todayStr = new Date().toISOString().split("T")[0]; // "2026-01-28"
+  const next60DaysStr = next60Days.toISOString().split("T")[0]; // "2026-03-29"
+
+  const existingBookings = await Booking.find({
+    doctor: { $in: doctorsIds },
+    "dateObject.date": {
+      $gte: todayStr,
+      $lte: next60DaysStr,
+    },
+  })
+    .select("doctor dateObject timeSlot location")
+    .lean();
+
+  // Group bookings by doctor + day
+  const bookingsByDoctorDay = new Map();
+  existingBookings.forEach((booking: any) => {
+    const key = `${booking.doctor}_${booking.dateObject.day}`;
+    if (!bookingsByDoctorDay.has(key)) bookingsByDoctorDay.set(key, []);
+    bookingsByDoctorDay.get(key)?.push(booking);
+    console.log("existingBookings: ", existingBookings);
+  });
+
+  // availableDays: schedule days MINUS booked days
   const availableDays = Array.from(
     new Set(
-      doctors.flatMap(
-        (doc: any) =>
-          doc.schedule
-            ?.filter((s: any) => treatmentLocations.includes(s.location))
-            .flatMap(
-              (s: any) => s.availability?.map((a: any) => a.day) || [],
-            ) || [],
-      ),
+      doctors
+        .flatMap((doc: any) =>
+          (doc.schedule || [])
+            .filter((s: any) => treatment.location.includes(s.location))
+            .flatMap((s: any) =>
+              (s.availability || [])
+                .filter((a: any) => a.timeSlots?.length > 0)
+                .map((a: any) => a.day),
+            ),
+        )
+        .filter((day: string) => {
+          // Skip day if ALL doctors are fully booked that day
+          const doctorDaysBooked = new Set(
+            Array.from(bookingsByDoctorDay.keys())
+              .filter((key: string) => key.endsWith(`_${day}`))
+              .map((key: string) => key.split("_")[0]),
+          );
+
+          // Day available if at least 1 doctor has schedule + not fully booked
+          return doctors.some((doc: any) => !doctorDaysBooked.has(doc._id));
+        }),
     ),
   );
 
   console.log("AvailableDays: ", availableDays);
+  console.log("bookingsByDoctorDay: ", bookingsByDoctorDay);
+
+  console.log("doctorsIds:", doctorsIds);
+  console.log("next60Days:", next60Days);
+  console.log("existingBookings count ", existingBookings.length);
+  console.log("existingBookings", existingBookings);
 
   return {
     treatment,
     doctors,
     allLocations,
     availableDays, // ["Mon", "Thu", "Sat"]
+    totalBookings: existingBookings.length, // Debug
   };
 }
 
