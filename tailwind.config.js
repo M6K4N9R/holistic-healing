@@ -9,27 +9,27 @@ module.exports = {
     extend: {
       colors: {
         // Neutrals
-        surface: "var(--surface)",
+        surface: {
+          DEFAULT: "var(--surface)",
+          bright: "rgb(var(--surface-bright) / <alpha-value>)",
+          variant: "rgb(var(--surface-variant) / <alpha-value>)",
+          dim: "rgb(var(--surface-dim) / <alpha-value>)",
+        },
         "on-surface": "var(--on-surface)",
-        "surface-variant": "var(--surface-variant)",
         "on-surface-variant": "var(--on-surface-variant)",
-        bright: "rgb(var(--surface-bright) / <alpha-value>)",
-        variant: "rgb(var(--surface-variant) / <alpha-value>)",
 
-        // Primary
-        primary: "var(--primary)",
+        primary: "rgb(var(--primary) / <alpha-value>)",
         "on-primary": "var(--on-primary)",
-        "primary-container": "var(--primary-container)",
+        "primary-container": "rgb(var(--primary-container) / <alpha-value>)",
 
-        // Secondary
-        secondary: "var(--secondary)",
+        secondary: "rgb(var(--secondary) / <alpha-value>)",
         "on-secondary": "var(--on-secondary)",
-        "secondary-container": "var(--secondary-container)",
+        "secondary-container":
+          "rgb(var(--secondary-container) / <alpha-value>)",
 
-        // Tertiary + Outlines
-        tertiary: "var(--tertiary)",
-        outline: "var(--outline)",
-        "outline-variant": "var(--outline-variant)",
+        tertiary: "rgb(var(--tertiary) / <alpha-value>)",
+        outline: "rgb(var(--outline) / <alpha-value>)",
+        "outline-variant": "rgb(var(--outline-variant) / <alpha-value>)",
       },
     },
   },
