@@ -50,21 +50,22 @@ export async function getTreatmentAvailability(treatmentId: string) {
       ),
     ),
   );
-  const treatmentLocations = treatment.location; 
+  const treatmentLocations = treatment.location;
 
   const availableDays = Array.from(
     new Set(
-      doctors.flatMap((doc: any) =>
-        doc.schedule
-          ?.filter((s: any) => treatmentLocations.includes(s.location))
-          .flatMap((s: any) =>
-            s.availability
-              ?.filter((a: any) => Array.isArray(a.timeSlots) && a.timeSlots.length > 0)
-              .map((a: any) => a.day) || []
-          ) || []
-      )
-    )
+      doctors.flatMap(
+        (doc: any) =>
+          doc.schedule
+            ?.filter((s: any) => treatmentLocations.includes(s.location))
+            .flatMap(
+              (s: any) => s.availability?.map((a: any) => a.day) || [],
+            ) || [],
+      ),
+    ),
   );
+
+  console.log("AvailableDays: ", availableDays);
 
   return {
     treatment,
