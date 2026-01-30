@@ -113,6 +113,39 @@ export async function getTreatmentAvailability(treatmentId: string) {
   console.log("existingBookings count ", existingBookings.length);
   console.log("existingBookings", existingBookings);
 
+  console.log("=== DEBUG ===");
+  console.log(
+    "doctors:",
+    doctors.map((d) => d._id),
+  );
+  console.log(
+    "bookingsByDoctorDay keys:",
+    Array.from(bookingsByDoctorDay.keys()),
+  );
+
+  // Log for each schedule day whether it's "blocked"
+  const scheduleDays = Array.from(
+    new Set(
+      doctors.flatMap((doc: any) =>
+        (doc.schedule || [])
+          .filter((s: any) => treatment.location.includes(s.location))
+          .flatMap((s: any) =>
+            (s.availability || [])
+              .filter((a: any) => a.timeSlots?.length > 0)
+              .map((a: any) => a.day),
+          ),
+      ),
+    ),
+  );
+
+  scheduleDays.forEach((day) => {
+    const bookedDoctorsThisDay = Array.from(bookingsByDoctorDay.keys())
+      .filter((key: string) => key.endsWith(`_${day}`))
+      .map((key: string) => key.split("_")[0]);
+
+    console.log(`Day "${day}": booked by doctors`, bookedDoctorsThisDay);
+  });
+
   return {
     treatment,
     doctors,
