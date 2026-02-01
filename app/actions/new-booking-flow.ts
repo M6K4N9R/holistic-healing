@@ -8,6 +8,8 @@ import { redirect } from "next/navigation";
 import { DateObject } from "@/types/booking";
 import { log } from "console";
 
+// START REFACTURE AT feture branch new-booking-ui
+
 // STEP 1: Treatment → Available Doctors + Locations
 /**
  * @returns {Promise<import('@/types/booking').TreatmentAvailability>}
