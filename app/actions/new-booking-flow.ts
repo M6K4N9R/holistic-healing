@@ -78,95 +78,73 @@ export async function getTreatmentAvailability(treatmentId: string) {
     console.log("existingBookings: ", existingBookings);
   });
 
-  /* // availableDays: schedule days MINUS booked days ======== REMOVE IF DEBUG
+  // ======================== NEW LOGIC==================
+
+  // For each doctor, compute their available time slots per day (schedule - bookings)
+  const doctorAvailabilityByDay = doctors.map((doc: any) => {
+    const docIdStr = doc._id;
+
+    // Find all schedule entries for this doctor
+    const docSchedules = (doc.schedule || []).filter((s: any) =>
+      treatment.location.includes(s.location),
+    );
+
+    // Group bookings for this doctor by day
+    const docBookingsByDay = new Map<string, string[]>();
+    Array.from(bookingsByDoctorDay.entries())
+      .filter(([key]) => key.startsWith(docIdStr))
+      .forEach(([key, bookings]) => {
+        const day = key.split("_")[1];
+        docBookingsByDay.set(
+          day,
+          bookings.map((b: any) => b.timeSlot),
+        );
+      });
+
+    // Compute available days for this doctor
+    const availableDaysForDoctor = docSchedules
+      .flatMap((s: any) =>
+        (s.availability || [])
+          .filter((a: any) => a.timeSlots?.length > 0)
+          .map((a: any) => ({
+            day: a.day,
+            availableSlots: a.timeSlots.filter(
+              (slot: string) => !docBookingsByDay.get(a.day)?.includes(slot),
+            ),
+          })),
+      )
+      .filter((entry: any) => entry.availableSlots.length > 0)
+      .map((entry: any) => entry.day);
+
+    console.log("docBookingsByDay: ", docBookingsByDay);
+    console.log("availableDaysForDoctor: ", availableDaysForDoctor);
+
+    return {
+      doctorId: docIdStr,
+      availableDays: Array.from(new Set(availableDaysForDoctor)),
+    };
+  });
+
+  console.log(
+    "doctorAvailabilityByDay:",
+    JSON.stringify(doctorAvailabilityByDay, null, 2),
+  );
+
+  // Union across all doctors
   const availableDays = Array.from(
     new Set(
-      doctors
-        .flatMap((doc: any) =>
-          (doc.schedule || [])
-            .filter((s: any) => treatment.location.includes(s.location))
-            .flatMap((s: any) =>
-              (s.availability || [])
-                .filter((a: any) => a.timeSlots?.length > 0)
-                .map((a: any) => a.day),
-            ),
-        )
-        .filter((day: string) => {
-          // Skip day if ALL doctors are fully booked that day
-          const doctorDaysBooked = new Set(
-            Array.from(bookingsByDoctorDay.keys())
-              .filter((key: string) => key.endsWith(`_${day}`))
-              .map((key: string) => key.split("_")[0]),
-          );
-
-          // Day available if at least 1 doctor has schedule + not fully booked
-          return doctors.some((doc: any) => !doctorDaysBooked.has(doc._id));
-        }),
+      doctorAvailabilityByDay.flatMap(
+        (docAvail: any) => docAvail.availableDays,
+      ),
     ),
-  ); */
-
-  // ======================== NEW LOGIC==================
- 
-  // For each doctor, compute their available time slots per day (schedule - bookings)
-const doctorAvailabilityByDay = doctors.map((doc: any) => {
-  const docIdStr = doc._id;
-  
-  // Find all schedule entries for this doctor
-  const docSchedules = (doc.schedule || []).filter((s: any) => 
-    treatment.location.includes(s.location)
   );
-  
-  // Group bookings for this doctor by day
-  const docBookingsByDay = new Map<string, string[]>();
-  Array.from(bookingsByDoctorDay.entries())
-    .filter(([key]) => key.startsWith(docIdStr))
-    .forEach(([key, bookings]) => {
-      const day = key.split("_")[1];
-      docBookingsByDay.set(day, bookings.map((b: any) => b.timeSlot));
-    });
-  
-  // Compute available days for this doctor
-  const availableDaysForDoctor = docSchedules
-    .flatMap((s: any) =>
-      (s.availability || [])
-        .filter((a: any) => a.timeSlots?.length > 0)
-        .map((a: any) => ({
-          day: a.day,
-          availableSlots: a.timeSlots.filter((slot: string) => 
-            !docBookingsByDay.get(a.day)?.includes(slot)
-          ),
-        }))
-    )
-    .filter((entry: any) => entry.availableSlots.length > 0)
-    .map((entry: any) => entry.day);
-  
-  return {
-    doctorId: docIdStr,
-    availableDays: Array.from(new Set(availableDaysForDoctor)),
-  };
-});
 
-console.log("doctorAvailabilityByDay:", JSON.stringify(doctorAvailabilityByDay, null, 2));
-
-// Union across all doctors
-const availableDays = Array.from(
-  new Set(
-    doctorAvailabilityByDay.flatMap((docAvail: any) => docAvail.availableDays)
-  )
-);
-
-console.log("Final availableDays:", availableDays);
-
+  // console.log("Final availableDays:", availableDays);
 
   // ====================================================
 
   console.log("AvailableDays: ", availableDays);
   console.log("bookingsByDoctorDay: ", bookingsByDoctorDay);
-
-  console.log("doctorsIds:", doctorsIds);
-  console.log("next60Days:", next60Days);
-  console.log("existingBookings count ", existingBookings.length);
-  console.log("existingBookings", existingBookings);
 
   return {
     treatment,
