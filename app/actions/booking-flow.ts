@@ -1,10 +1,13 @@
-import type { AvailabilityFilters } from "@/types/booking";
-import type { AvailabilityResponse } from "@/types/booking";
+import type {
+  AvailabilityFilters,
+  AvailabilityResponse,
+} from "@/types/booking";
+import type { LeanTreatment, LeanDoctors, LeanDoctor } from "@/types/booking";
+import Doctor from "@/db/models/Doctor";
+import Booking from "@/db/models/Booking";
 import mongoose from "mongoose";
 import dbConnect from "@/db/dbConnect";
 import Treatment from "@/db/models/Treatment";
-import Doctor from "@/db/models/Doctor";
-import type { LeanTreatment, LeanDoctors, LeanDoctor } from "@/types/booking";
 
 export async function getAvailability(
   treatmentId: string,
@@ -12,7 +15,7 @@ export async function getAvailability(
 ): Promise<AvailabilityResponse> {
   await dbConnect();
 
-  // 1. Load treatment (your existing code)
+  // Load treatment
   const treatmentDoc = await Treatment.findById(
     treatmentId,
     "name price duration location",
@@ -27,7 +30,7 @@ export async function getAvailability(
     locations: treatmentDoc.location?.map((loc: any) => loc.toString()) || [],
   };
 
-  // 2. Load doctors 
+  // Load doctors
   const doctorsRaw = await Doctor.find({
     treatments: new mongoose.Types.ObjectId(treatmentId),
   })
@@ -44,7 +47,7 @@ export async function getAvailability(
     }),
   );
 
-  // 3. All locations 
+  // All locations
   const allLocations: string[] = Array.from(
     new Set(
       doctors.flatMap(
@@ -54,7 +57,7 @@ export async function getAvailability(
     ),
   );
 
-  // 4. availableDates: concrete dates from schedules (NEW but simple)
+  // availableDates: concrete dates from schedules (NEW but simple)
   const today = new Date();
   const next60Days = new Date(today);
   next60Days.setDate(today.getDate() + 60);
@@ -66,21 +69,58 @@ export async function getAvailability(
     next60Days,
   );
 
-  // 5. Empty capacities (populated in Step 3)
-  const locationsCapacity: AvailabilityResponse["locationsCapacity"] = {};
-  allLocations.forEach((loc) => {
-    locationsCapacity[loc] = { slotsLeft: 999 }; // "infinite" for now
+  // ========================== ADD BOOKING SUBTRACTION =============
+
+  // Fetch bookings for available dates only
+  const todayStr = new Date().toISOString().split("T")[0];
+  const bookings = (await Booking.find({
+    doctor: { $in: doctorsRaw.map((d: any) => d._id) },
+    "dateObject.date": { $gte: todayStr, $in: availableDates },
+  })
+    .select("doctor dateObject.date timeSlot location")
+    .lean()) as any[];
+
+  console.log("Bookings found:", bookings.length);
+
+  // Compute capacity per location per date
+  const locationsCapacity: Record<string, { slotsLeft: number }> = {};
+  const dateDetails: AvailabilityResponse["dateDetails"] = {};
+
+  // For each location
+  allLocations.forEach((loc) => (locationsCapacity[loc] = { slotsLeft: 999 }));
+
+  // For each available date
+  availableDates.forEach((dateStr) => {
+    dateDetails[dateStr] = { locationsCapacity: {} };
+
+    allLocations.forEach((loc) => {
+      dateDetails[dateStr].locationsCapacity![loc] = {
+        slotsLeft: 999,
+        doctors: [],
+      };
+    });
   });
 
-  const dateDetails: AvailabilityResponse["dateDetails"] = {};
+  // Subtract bookings from capacities
+  bookings.forEach((booking: any) => {
+    const loc = booking.location;
+    const dateStr = booking.dateObject.date;
+
+    if (locationsCapacity[loc]) locationsCapacity[loc].slotsLeft -= 1;
+    if (dateDetails[dateStr]?.locationsCapacity[loc]) {
+      dateDetails[dateStr].locationsCapacity[loc].slotsLeft -= 1;
+    }
+  });
+
+  // ================================================================
 
   return {
     treatment,
     doctors,
     allLocations,
     availableDates,
-    locationsCapacity,
-    dateDetails,
+    locationsCapacity, // 👈 overall capacity
+    dateDetails, // 👈 per‑date capacity
   };
 }
 
