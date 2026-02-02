@@ -15,12 +15,12 @@ export interface Doctor {
   treatments: string[]; // treatment IDs
 }
 // NEW Booking Flow ==========================
-interface AvailabilityFilters {
+export interface AvailabilityFilters {
   date?: string;
   location?: string;
 }
 
-interface AvailabilityResponse {
+export interface AvailabilityResponse {
   treatment: {
     _id: string;
     name: string;

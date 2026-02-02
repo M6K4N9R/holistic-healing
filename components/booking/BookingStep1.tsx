@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import CustomCalendar from "./Calendar";
 import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
+import {getAvailability} from "@/app/actions/booking-flow"
 import LocationPicker from "./LocationPicker";
 import { TreatmentAvailability } from "@/types/booking";
 
@@ -15,6 +16,8 @@ export default function BookingStep1({ step }: { step: number }) {
   const searchParams = useSearchParams();
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
+
+  const fetcher = (url: string) => fetch(url).then(res => res.json());
 
   // Auto-select from URL on mount
   useEffect(() => {
@@ -31,10 +34,12 @@ export default function BookingStep1({ step }: { step: number }) {
   const treatmentId = form.watch("treatmentId");
 
   const { data: availabilityData } = useSWR(
-    treatmentId
-      ? `/api/availability/${treatmentId}?date=${selectedDate}&location=${selectedLocation}`
-      : null,
-  );
+  treatmentId
+    ? `/api/availability/${treatmentId}?date=${selectedDate}&location=${selectedLocation}`
+    : null,
+  fetcher,
+);
+console.log("availabilityData:", availabilityData);
   // Typed FETCHER
   // Remove after TESTING OF NEW availabillityData
   /* const fetchTreatmentAvailability = async (
@@ -55,8 +60,7 @@ export default function BookingStep1({ step }: { step: number }) {
     form.setValue("dateObject", { date: "", day: "" });
   };
 
-  console.log("Availability data", availabilityData);
-  console.log("Location", typeof availabilityData?.treatment.location);
+
 
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
