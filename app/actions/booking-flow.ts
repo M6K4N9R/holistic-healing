@@ -11,7 +11,7 @@ export async function getAvailability(
       name: "Mock Treatment",
       price: 100,
       duration: 60,
-      locations: ["Akasha", "Praxis"],
+      locations: ["Akasha", "Praxis Kollektive"],
     },
     doctors: [
       {

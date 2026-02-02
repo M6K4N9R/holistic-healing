@@ -44,8 +44,8 @@ export default function LocationPicker({
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {allLocations.map((loc) => {
-          const isTreatmentOfferedHere = treatmentLocations.includes(loc);
+        {locations.map((loc) => {
+          const isTreatmentOfferedHere = locations.includes(loc);
           const isSelected = selectedLocation === loc;
 
           return (
