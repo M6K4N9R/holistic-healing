@@ -64,6 +64,11 @@ export default function BookingStep1({ step }: { step: number }) {
     form.setValue("dateObject", { date: "", day: "" });
   };
 
+  console.log(
+    "Selected date capacity:",
+    availabilityData?.dateDetails?.["2026-02-05"],
+  );
+
   return (
     <div className={step >= 1 ? "block" : "hidden"}>
       <h3 className="text-3xl font-bold text-primary mb-8 text-center">
@@ -95,6 +100,12 @@ export default function BookingStep1({ step }: { step: number }) {
             availableDates={availabilityData?.availableDates || []}
             className="max-w-4xl mx-auto"
           />
+          <button
+            onClick={() => setSelectedDate("2026-02-05")}
+            className="p-2 bg-blue-500 text-white rounded"
+          >
+            Test: Select Feb 5
+          </button>
           <LocationPicker
             locations={availabilityData?.allLocations || []}
             locationsCapacity={availabilityData?.locationsCapacity || {}}
