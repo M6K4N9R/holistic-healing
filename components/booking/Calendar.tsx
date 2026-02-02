@@ -85,6 +85,7 @@ export default function CustomCalendar({
   const maxOffset = Math.floor((60 - 1) / 14);
   const isMaxOffset = weekOffset >= maxOffset;
 
+  console.log("NEW AvailableDates in Calendar: ", availableDates);
   return (
     <div className={cn("space-y-4 w-full", className)}>
       {/* Nav Header */}

@@ -39,7 +39,11 @@ export default function BookingStep1({ step }: { step: number }) {
       : null,
     fetcher,
   );
-  console.log("NEW availabilityData:", availabilityData);
+  console.log("NEW availabilityData in BookingStep1:", availabilityData);
+  console.log(
+    "NEW availabilityDates in BookingStep1:",
+    availabilityData.availableDates,
+  );
   // Typed FETCHER
   // Remove after TESTING OF NEW availabillityData
   /* const fetchTreatmentAvailability = async (

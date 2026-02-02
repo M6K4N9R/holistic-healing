@@ -27,7 +27,7 @@ export async function getAvailability(
     locations: treatmentDoc.location?.map((loc: any) => loc.toString()) || [],
   };
 
-  // 2. Load doctors (your existing code)
+  // 2. Load doctors 
   const doctorsRaw = await Doctor.find({
     treatments: new mongoose.Types.ObjectId(treatmentId),
   })
@@ -44,7 +44,7 @@ export async function getAvailability(
     }),
   );
 
-  // 3. All locations (your existing code)
+  // 3. All locations 
   const allLocations: string[] = Array.from(
     new Set(
       doctors.flatMap(
