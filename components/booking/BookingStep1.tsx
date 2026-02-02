@@ -1,7 +1,7 @@
 "use client";
 
 import { useFormContext } from "react-hook-form";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -13,6 +13,8 @@ import { TreatmentAvailability } from "@/types/booking";
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
   const searchParams = useSearchParams();
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
 
   // Auto-select from URL on mount
   useEffect(() => {
@@ -28,8 +30,14 @@ export default function BookingStep1({ step }: { step: number }) {
 
   const treatmentId = form.watch("treatmentId");
 
+  const { data: availabilityData } = useSWR(
+    treatmentId
+      ? `/api/availability/${treatmentId}?date=${selectedDate}&location=${selectedLocation}`
+      : null,
+  );
   // Typed FETCHER
-  const fetchTreatmentAvailability = async (
+  // Remove after TESTING OF NEW availabillityData
+  /* const fetchTreatmentAvailability = async (
     treatmentId: string,
   ): Promise<TreatmentAvailability> => {
     return getTreatmentAvailability(treatmentId);
@@ -38,7 +46,7 @@ export default function BookingStep1({ step }: { step: number }) {
     useSWR<TreatmentAvailability>(
       treatmentId ? `treatment-${treatmentId}` : null,
       () => fetchTreatmentAvailability(treatmentId!),
-    );
+    ); */
 
   const handleTreatmentSelect = (id: string) => {
     form.setValue("treatmentId", id);
@@ -78,13 +86,12 @@ export default function BookingStep1({ step }: { step: number }) {
         <div className="space-y-12">
           {/* Custom Calendar */}
           <CustomCalendar
-            availableDays={availabilityData?.availableDays || []}
+            availableDates={availabilityData?.availableDates || []}
             className="max-w-4xl mx-auto"
           />
           <LocationPicker
-            allLocations={availabilityData.allLocations}
-            treatmentLocations={availabilityData.treatment.location}
-            treatmentName={availabilityData.treatment.name}
+            locations={availabilityData?.allLocations || []}
+            locationsCapacity={availabilityData?.locationsCapacity || {}}
             className="mt-4"
           />
         </div>

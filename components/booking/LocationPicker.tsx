@@ -7,17 +7,15 @@ import { cn } from "@/lib/utils";
 import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
 
 interface LocationPickerProps {
-  allLocations: string[];
-  treatmentLocations: string[];
-  treatmentName?: string;
+  locations: string[];
+  locationsCapacity: string[];
   className?: string;
   label?: string;
 }
 
 export default function LocationPicker({
-  allLocations,
-  treatmentLocations,
-  treatmentName,
+  locations,
+  locationsCapacity,
   className,
   label = "Select Location",
 }: LocationPickerProps) {

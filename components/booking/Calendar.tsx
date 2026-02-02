@@ -10,12 +10,12 @@ import { getLocationDays } from "@/app/actions/new-booking-flow";
 import { useEffect } from "react";
 
 interface CustomCalendarProps {
-  availableDays?: string[];
+  availableDates?: string[];
   className?: string;
 }
 
 export default function CustomCalendar({
-  availableDays,
+  availableDates,
   className,
 }: CustomCalendarProps) {
   const form = useFormContext();
@@ -25,11 +25,11 @@ export default function CustomCalendar({
   const [weekOffset, setWeekOffset] = useState(0); // 0=first 2 weeks, 1=next 2 weeks
   const [effectiveAvailableDays, setEffectiveAvailableDays] = useState<
     string[]
-  >(availableDays || []);
+  >(availableDates || []);
 
   useEffect(() => {
-    setEffectiveAvailableDays(availableDays || []);
-  }, [availableDays]);
+    setEffectiveAvailableDays(availableDates || []);
+  }, [availableDates]);
 
   useEffect(() => {
     let cancelled = false;
@@ -39,7 +39,7 @@ export default function CustomCalendar({
         const days = await getLocationDays(treatmentId, location);
         if (!cancelled) setEffectiveAvailableDays(days);
       } else {
-        setEffectiveAvailableDays(availableDays);
+        setEffectiveAvailableDays(availableDates);
       }
     }
 
@@ -47,7 +47,7 @@ export default function CustomCalendar({
     return () => {
       cancelled = true;
     };
-  }, [location, treatmentId, availableDays]);
+  }, [location, treatmentId, availableDates]);
 
   const availableDaysSet = new Set(effectiveAvailableDays || []);
 
@@ -161,7 +161,7 @@ export default function CustomCalendar({
         <div className="text-xs text-center p-3 bg-surface-dim rounded-xl">
           {location
             ? `Days at ${location}: ${effectiveAvailableDays?.join(", ") || "None"}`
-            : `${availableDays?.length || 0} working days across all locations`}
+            : `${availableDates?.length || 0} working days across all locations`}
         </div>
       )}
     </div>
