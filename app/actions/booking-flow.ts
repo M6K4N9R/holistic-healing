@@ -69,30 +69,31 @@ export async function getAvailability(
     next60Days,
   );
 
-  // ========================== ADD BOOKING SUBTRACTION =============
-
-  // Fetch bookings for available dates only
+  // Fetch bookings for these doctors on available dates
+  const doctorsIds = doctorsRaw.map((doc: any) => doc._id); // ObjectIds
   const todayStr = new Date().toISOString().split("T")[0];
+
   const bookings = (await Booking.find({
-    doctor: { $in: doctorsRaw.map((d: any) => d._id) },
-    "dateObject.date": { $gte: todayStr, $in: availableDates },
+    doctor: { $in: doctorsIds },
+    "dateObject.date": {
+      $gte: todayStr,
+      $in: availableDates, // Only computed dates
+    },
   })
     .select("doctor dateObject.date timeSlot location")
     .lean()) as any[];
 
-  console.log("Bookings found:", bookings.length);
+  console.log("Step 3 - Bookings found:", bookings.length);
 
-  // Compute capacity per location per date
+  // ========================== ADD BOOKING SUBTRACTION =============
+
+  // Initialize capacities
   const locationsCapacity: Record<string, { slotsLeft: number }> = {};
-  const dateDetails: AvailabilityResponse["dateDetails"] = {};
-
-  // For each location
   allLocations.forEach((loc) => (locationsCapacity[loc] = { slotsLeft: 999 }));
 
-  // For each available date
+  const dateDetails: AvailabilityResponse["dateDetails"] = {};
   availableDates.forEach((dateStr) => {
     dateDetails[dateStr] = { locationsCapacity: {} };
-
     allLocations.forEach((loc) => {
       dateDetails[dateStr].locationsCapacity![loc] = {
         slotsLeft: 999,
@@ -101,16 +102,34 @@ export async function getAvailability(
     });
   });
 
-  // Subtract bookings from capacities
+  // 👈 Subtract each booking from capacities
   bookings.forEach((booking: any) => {
     const loc = booking.location;
     const dateStr = booking.dateObject.date;
 
-    if (locationsCapacity[loc]) locationsCapacity[loc].slotsLeft -= 1;
+    // Overall capacity
+    if (locationsCapacity[loc]) {
+      locationsCapacity[loc].slotsLeft = Math.max(
+        0,
+        locationsCapacity[loc].slotsLeft - 1,
+      );
+    }
+
+    // Per-date capacity
     if (dateDetails[dateStr]?.locationsCapacity[loc]) {
-      dateDetails[dateStr].locationsCapacity[loc].slotsLeft -= 1;
+      dateDetails[dateStr].locationsCapacity[loc].slotsLeft = Math.max(
+        0,
+        dateDetails[dateStr].locationsCapacity[loc].slotsLeft - 1,
+      );
     }
   });
+
+  // 👈 Filter availableDates to only dates with remaining capacity
+  const trulyAvailableDates = availableDates.filter((dateStr) =>
+    Object.values(dateDetails[dateStr].locationsCapacity!).some(
+      (locCap: any) => locCap.slotsLeft > 0,
+    ),
+  );
 
   // ================================================================
 
@@ -118,9 +137,9 @@ export async function getAvailability(
     treatment,
     doctors,
     allLocations,
-    availableDates,
-    locationsCapacity, // 👈 overall capacity
-    dateDetails, // 👈 per‑date capacity
+    availableDates: trulyAvailableDates, //  bookings-aware!
+    locationsCapacity, //  Overall
+    dateDetails, //  Per date
   };
 }
 
