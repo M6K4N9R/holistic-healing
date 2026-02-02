@@ -1,4 +1,5 @@
 import { z } from "zod";
+import mongoose from "mongoose";
 
 export interface Treatment {
   _id: string;
@@ -8,12 +9,31 @@ export interface Treatment {
   duration: number;
 }
 
+export interface LeanTreatment {
+  _id: mongoose.Types.ObjectId;
+  name: string;
+  price: number;
+  duration: number;
+  location: mongoose.Types.ObjectId[]; // or string[]
+}
+
 export interface Doctor {
-  _id: string;
+  _id: mongoose.Types.ObjectId;
   firstName: string;
   lastName: string;
-  treatments: string[]; // treatment IDs
+  treatments: mongoose.Types.ObjectId[];
+  schedule: any[];
 }
+
+export interface LeanDoctor {
+  _id: mongoose.Types.ObjectId;
+  firstName: string;
+  lastName: string;
+  schedule: any[];
+}
+
+export type LeanDoctors = LeanDoctor[];
+
 // NEW Booking Flow ==========================
 export interface AvailabilityFilters {
   date?: string;
@@ -48,7 +68,7 @@ export interface AvailabilityResponse {
     }
   >;
 }
-// ======================================================= 
+// =======================================================
 
 export interface DateObject {
   date: string;
