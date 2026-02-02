@@ -6,18 +6,13 @@ import useSWR from "swr";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import CustomCalendar from "./Calendar";
-import { getTreatmentAvailability } from "@/app/actions/new-booking-flow";
-import { getAvailability } from "@/app/actions/booking-flow";
 import LocationPicker from "./LocationPicker";
-import { TreatmentAvailability } from "@/types/booking";
 
 export default function BookingStep1({ step }: { step: number }) {
   const form = useFormContext();
   const searchParams = useSearchParams();
   const [selectedDate, setSelectedDate] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
-
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   // Auto-select from URL on mount
   useEffect(() => {
@@ -33,17 +28,23 @@ export default function BookingStep1({ step }: { step: number }) {
 
   const treatmentId = form.watch("treatmentId");
 
-  const { data: availabilityData, isLoading: availabilityLoading } = useSWR(
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data: availabilityData, isLoading } = useSWR(
     treatmentId
       ? `/api/availability/${treatmentId}?date=${selectedDate}&location=${selectedLocation}`
       : null,
     fetcher,
   );
+
+  if (isLoading) {
+    return <div>Loading availability...</div>;
+  }
   console.log("NEW availabilityData in BookingStep1:", availabilityData);
   console.log(
-    "NEW availabilityDates in BookingStep1:",
-    availabilityData.availableDates,
+    "NEW availabilityDates:",
+    availabilityData?.availableDates?.slice(0, 5),
   );
+
   // Typed FETCHER
   // Remove after TESTING OF NEW availabillityData
   /* const fetchTreatmentAvailability = async (
@@ -93,7 +94,7 @@ export default function BookingStep1({ step }: { step: number }) {
       </div>
 
       {/* Calendar + Locations - only after treatment selected */}
-      {availabilityData && !availabilityLoading && (
+      {availabilityData && !isLoading && (
         <div className="space-y-12">
           {/* Custom Calendar */}
           <CustomCalendar
