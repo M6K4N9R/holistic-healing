@@ -121,7 +121,7 @@ export default function CustomCalendar({
         {days.map(({ dateObj, dayNum, dayName, isToday }) => {
           const dateStr = dateObj.date;
           const isSelected = selectedDate === dateStr;
-          const isAvailable = availableDaysSet.has(dateObj.day);
+          const isAvailable = availableDaysSet.has(dateStr);
 
           return (
             <button

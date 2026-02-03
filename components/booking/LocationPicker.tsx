@@ -8,7 +8,7 @@ import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
 
 interface LocationPickerProps {
   locations: string[];
-  locationsCapacity: string[];
+  locationsCapacity: Record<string, { slotsLeft: number }>;
   className?: string;
   label?: string;
 }
@@ -35,14 +35,13 @@ export default function LocationPicker({
       <label className="text-xl font-semibold text-primary block mb-2 text-center">
         {label}
       </label>
-
       {selectedDateObj?.date && (
         <p className="text-sm text-on-surface-variant text-center mb-2">
           For {new Date(selectedDateObj.date).toLocaleDateString()} (
           {selectedDateObj.day}), choose a practice location.
         </p>
       )}
-
+      d
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {locations.map((loc) => {
           const isTreatmentOfferedHere = locations.includes(loc);

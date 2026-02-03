@@ -108,7 +108,7 @@ export default function BookingStep1({ step }: { step: number }) {
             Test: Select Feb 5
           </button>
           <LocationPicker
-            locations={availabilityData?.allLocations || []}
+            locations={availabilityData?.treatment.locations || []}
             locationsCapacity={availabilityData?.locationsCapacity || {}}
             className="mt-4"
           />
