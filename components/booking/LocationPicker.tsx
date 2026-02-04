@@ -48,7 +48,7 @@ export default function LocationPicker({
       d
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {locations.map((loc) => {
-          const isTreatmentOfferedHere = treatmentLocations.includes(loc);
+          const isTreatmentOfferedHere = treatmentLocations.includes(loc); // DOUBLE CHECK!!!
           const isSelected = selectedLocation === loc;
           const locCapacity = locationsCapacity[loc];
           const hasCapacity = locCapacity ? locCapacity.slotsLeft > 0 : true;
