@@ -22,14 +22,6 @@ export async function getAvailability(
   ).lean<LeanTreatment>();
   if (!treatmentDoc) throw new Error("Treatment not found");
 
-  const treatment: AvailabilityResponse["treatment"] = {
-    _id: treatmentDoc._id.toString(),
-    name: treatmentDoc.name,
-    price: treatmentDoc.price,
-    duration: treatmentDoc.duration,
-    locations: treatmentDoc.location?.map((loc: any) => loc.toString()) || [],
-  };
-
   // Load doctors
   const doctorsRaw = await Doctor.find({
     treatments: new mongoose.Types.ObjectId(treatmentId),
@@ -46,6 +38,23 @@ export async function getAvailability(
       schedule: doc.schedule || [],
     }),
   );
+  // Compute locations where this treatment is actually possible
+
+  const treatmentLocationsFromDoctors = Array.from(
+    new Set(
+      doctorsRaw.flatMap((doc) =>
+        (doc.schedule || []).map((s) => s.location).filter(Boolean),
+      ),
+    ),
+  );
+
+  const treatment: AvailabilityResponse["treatment"] = {
+    _id: treatmentDoc._id.toString(),
+    name: treatmentDoc.name,
+    price: treatmentDoc.price,
+    duration: treatmentDoc.duration,
+    locations: treatmentLocationsFromDoctors,
+  };
 
   // All locations
   const allLocations: string[] = Array.from(
@@ -57,7 +66,7 @@ export async function getAvailability(
     ),
   );
 
-  // availableDates: concrete dates from schedules (NEW but simple)
+  // availableDates: concrete dates from schedules
   const today = new Date();
   const next60Days = new Date(today);
   next60Days.setDate(today.getDate() + 60);
