@@ -8,7 +8,8 @@ import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
 
 interface LocationPickerProps {
   locations: string[];
-  treatmentLocations: string [];
+  treatmentName?: string;
+  treatmentLocations: string[];
   locationsCapacity: Record<string, { slotsLeft: number }>;
   className?: string;
   label?: string;
@@ -24,6 +25,7 @@ export default function LocationPicker({
   const form = useFormContext();
   const selectedLocation = form.watch("location");
   const selectedDateObj = form.watch("dateObject");
+  const treatmentName = form.watch("treatmentId");
 
   const handleLocationSelect = (loc: string, isAvailableHere: boolean) => {
     if (!isAvailableHere) return; // hard block
@@ -46,29 +48,40 @@ export default function LocationPicker({
       d
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {locations.map((loc) => {
-          const isTreatmentOfferedHere = locations.includes(loc);
+          const isTreatmentOfferedHere = treatmentLocations.includes(loc);
           const isSelected = selectedLocation === loc;
+          const locCapacity = locationsCapacity[loc];
+          const hasCapacity = locCapacity ? locCapacity.slotsLeft > 0 : true;
+          const isAvailable = isTreatmentOfferedHere && hasCapacity;
 
           return (
             <button
               key={loc}
               type="button"
-              onClick={() => handleLocationSelect(loc, isTreatmentOfferedHere)}
-              disabled={!isTreatmentOfferedHere}
+              onClick={() => handleLocationSelect(loc, isAvailable)}
+              disabled={!isAvailable}
               className={cn(
                 "group h-28 rounded-3xl p-5 font-semibold shadow-lg transition-all border-2 text-left flex flex-col justify-between",
                 isSelected && isTreatmentOfferedHere
                   ? "bg-primary text-on-primary border-primary shadow-2xl scale-[1.02]"
                   : "bg-surface-bright border-outline-variant hover:border-primary hover:bg-primary-container hover:shadow-2xl hover:-translate-y-1",
+                hasCapacity
+                  ? "hover:bg-primary-container"
+                  : "bg-warning-container text-warning opacity-80 cursor-not-allowed hover:translate-y-0",
+
                 !isTreatmentOfferedHere &&
-                  "bg-outline-variant text-on-surface-variant opacity-60 cursor-not-allowed hover:translate-y-0 hover:shadow-none",
+                  "bg-outline-variant opacity-60 cursor-not-allowed",
               )}
             >
               <span className="text-lg">{loc}</span>
               <span className="text-xs text-on-surface-variant group-hover:text-on-primary/80">
-                {isTreatmentOfferedHere
-                  ? "Available for this treatment"
-                  : `${treatmentName} is not available at this location`}
+                {isTreatmentOfferedHere ? (
+    hasCapacity 
+      ? `Available (${locCapacity?.slotsLeft || 0} slots)` 
+      : "Fully booked"
+  ) : (
+    "Treatment not offered here"
+  )}
               </span>
             </button>
           );
