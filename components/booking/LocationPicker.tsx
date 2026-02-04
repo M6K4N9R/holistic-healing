@@ -8,6 +8,7 @@ import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
 
 interface LocationPickerProps {
   locations: string[];
+  treatmentLocations: string [];
   locationsCapacity: Record<string, { slotsLeft: number }>;
   className?: string;
   label?: string;
@@ -15,6 +16,7 @@ interface LocationPickerProps {
 
 export default function LocationPicker({
   locations,
+  treatmentLocations,
   locationsCapacity,
   className,
   label = "Select Location",

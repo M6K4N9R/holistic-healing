@@ -73,7 +73,7 @@ export async function getAvailability(
 
   const availableDates = generateDatesWithSchedule(
     doctors,
-    treatment.locations,
+    treatmentLocationsFromDoctors,
     today,
     next60Days,
   );
