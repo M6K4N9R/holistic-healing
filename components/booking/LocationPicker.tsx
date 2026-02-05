@@ -25,7 +25,7 @@ export default function LocationPicker({
   const form = useFormContext();
   const selectedLocation = form.watch("location");
   const selectedDateObj = form.watch("dateObject");
-  const treatmentName = form.watch("treatmentId");
+  const treatmentId = form.watch("treatmentId");
 
   const handleLocationSelect = (loc: string, isAvailableHere: boolean) => {
     if (!isAvailableHere) return; // hard block
@@ -75,13 +75,11 @@ export default function LocationPicker({
             >
               <span className="text-lg">{loc}</span>
               <span className="text-xs text-on-surface-variant group-hover:text-on-primary/80">
-                {isTreatmentOfferedHere ? (
-    hasCapacity 
-      ? `Available (${locCapacity?.slotsLeft || 0} slots)` 
-      : "Fully booked"
-  ) : (
-    "Treatment not offered here"
-  )}
+                {isTreatmentOfferedHere
+                  ? hasCapacity
+                    ? `Available (${locCapacity?.slotsLeft || 0} slots)`
+                    : "Fully booked"
+                  : "Treatment not offered here"}
               </span>
             </button>
           );
