@@ -34,7 +34,7 @@ export interface LeanDoctor {
 
 export type LeanDoctors = LeanDoctor[];
 
-// NEW Booking Flow ==========================
+// NEW Booking Flow with Response and Filters ==========================
 export interface AvailabilityFilters {
   date?: string;
   location?: string;
@@ -54,10 +54,10 @@ export interface AvailabilityResponse {
     lastName: string;
     schedule: any[];
   }>;
-  allLocations: string[]; // unique across doctors
-  availableDates: string[]; // ["2026-02-05", "2026-02-07"]
+  allLocations: string[];
+  availableDates: string[];
   locationsCapacity: Record<string, { slotsLeft: number }>;
-  // 👇 drill‑down (populated when date/location provided)
+  // drill‑down (populated when date/location provided)
   dateDetails: Record<
     string, // "2026-02-05"
     {
@@ -67,6 +67,15 @@ export interface AvailabilityResponse {
       >;
     }
   >;
+}
+
+export interface LocationCapacity {
+  slotsLeft: number;
+  doctors?: string[]; // Optional: available doctor IDs
+}
+
+export interface DateDetails {
+  locationsCapacity: Record<string, LocationCapacity>;
 }
 // =======================================================
 

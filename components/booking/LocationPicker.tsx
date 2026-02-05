@@ -45,7 +45,6 @@ export default function LocationPicker({
           {selectedDateObj.day}), choose a practice location.
         </p>
       )}
-      d
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {locations.map((loc) => {
           const isTreatmentOfferedHere = treatmentLocations.includes(loc); // DOUBLE CHECK!!!

@@ -87,29 +87,87 @@ export async function getAvailability(
 
   console.log("Step 3 - Bookings found:", bookings.length);
 
-  // ========================== ADD BOOKING SUBTRACTION =============
+  // Compute MAX slots per location (from doctor schedules)
+  const computeMaxSlotsPerLocation = (
+    doctors: any[],
+    treatmentLocations: string[],
+    targetDateStr: string,
+  ): Record<string, number> => {
+    const maxSlots: Record<string, number> = {};
 
-  // Initialize capacities
-  const locationsCapacity: Record<string, { slotsLeft: number }> = {};
-  allLocations.forEach((loc) => (locationsCapacity[loc] = { slotsLeft: 999 }));
+    allLocations.forEach((loc) => {
+      if (!treatmentLocations.includes(loc)) {
+        maxSlots[loc] = 0;
+        return;
+      }
 
+      // Sum available timeSlots for this date's weekday across doctors at this loc
+      const weekday = new Date(targetDateStr).toLocaleDateString("en-US", {
+        weekday: "short",
+      });
+      let totalSlots = 0;
+
+      doctors.forEach((doc) => {
+        // Schedules of doctors don't intersect. Each doctor has unique working days in each location!
+        const scheduleEntry = doc.schedule.find((s: any) => s.location === loc);
+        if (scheduleEntry?.availability) {
+          const dayAvail = scheduleEntry.availability.find(
+            (a: any) => a.day === weekday,
+          );
+          if (dayAvail?.timeSlots) {
+            totalSlots += dayAvail.timeSlots.length;
+          }
+        }
+      });
+
+      maxSlots[loc] = totalSlots;
+    });
+
+    return maxSlots;
+  };
+
+  // Initialize with computed max (per-date for accuracy)
   const dateDetails: AvailabilityResponse["dateDetails"] = {};
   availableDates.forEach((dateStr) => {
-    dateDetails[dateStr] = { locationsCapacity: {} };
+    const maxSlotsPerLoc = computeMaxSlotsPerLocation(
+      doctors,
+      selectedTreatmentLocations,
+      dateStr,
+    );
+
+    dateDetails[dateStr] = {
+      locationsCapacity: {},
+    };
+
     allLocations.forEach((loc) => {
       dateDetails[dateStr].locationsCapacity![loc] = {
-        slotsLeft: 999,
-        doctors: [],
+        slotsLeft: maxSlotsPerLoc[loc] || 0, 
+        doctors: [], // Just in case, but not really needed.
       };
     });
   });
+
+  // Overall capacity = average across dates (for LocationPicker badges)
+  const locationsCapacity: Record<string, { slotsLeft: number }> = {};
+  allLocations.forEach((loc) => {
+    const avgSlots = Math.round(
+      availableDates.reduce(
+        (sum, dateStr) =>
+          sum + (dateDetails[dateStr].locationsCapacity![loc]?.slotsLeft || 0),
+        0,
+      ) / availableDates.length,
+    );
+    locationsCapacity[loc] = { slotsLeft: avgSlots };
+  });
+
+  // ========================== ADD BOOKING SUBTRACTION =============
 
   // 👈 Subtract each booking from capacities
   bookings.forEach((booking: any) => {
     const loc = booking.location;
     const dateStr = booking.dateObject.date;
 
-    // Overall capacity
+    // Overall (updates avg display)
     if (locationsCapacity[loc]) {
       locationsCapacity[loc].slotsLeft = Math.max(
         0,
@@ -117,21 +175,21 @@ export async function getAvailability(
       );
     }
 
-    // Per-date capacity
-    if (dateDetails[dateStr]?.locationsCapacity[loc]) {
-      dateDetails[dateStr].locationsCapacity[loc].slotsLeft = Math.max(
-        0,
-        dateDetails[dateStr].locationsCapacity[loc].slotsLeft - 1,
-      );
-    }
-  });
+    // Per-date (critical for trulyAvailableDates)
+  if (dateDetails[dateStr]?.locationsCapacity[loc]) {
+    dateDetails[dateStr].locationsCapacity[loc].slotsLeft = Math.max(
+      0,
+      dateDetails[dateStr].locationsCapacity[loc].slotsLeft - 1
+    );
+  }
+});
 
-  // 👈 Filter availableDates to only dates with remaining capacity
+  // Filter availableDates to only dates with remaining capacity
   const trulyAvailableDates = availableDates.filter((dateStr) =>
-    Object.values(dateDetails[dateStr].locationsCapacity!).some(
-      (locCap: any) => locCap.slotsLeft > 0,
-    ),
-  );
+  Object.values(dateDetails[dateStr].locationsCapacity!).some(
+    (locCap: any) => locCap.slotsLeft > 0  // Real remaining slots
+  )
+);
 
   // ================================================================
 
