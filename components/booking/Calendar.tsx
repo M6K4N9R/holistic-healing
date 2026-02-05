@@ -6,16 +6,22 @@ import { useState, useCallback } from "react";
 import { ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 import { DateObject } from "@/types/booking";
-import { getLocationDays } from "@/app/actions/new-booking-flow";
-import { useEffect } from "react";
+import { useMemo } from "react";
 
 interface CustomCalendarProps {
-  availableDates?: string[];
+  availableDates?: string[]; // Fallback: all locations
+  dateDetails?: Record<
+    string,
+    { locationsCapacity: Record<string, { slotsLeft: number }> }
+  >; // Per-date per-loc
+  allLocations?: string[]; // For status
   className?: string;
 }
 
 export default function CustomCalendar({
   availableDates,
+  dateDetails,
+  allLocations,
   className,
 }: CustomCalendarProps) {
   const form = useFormContext();
@@ -23,33 +29,22 @@ export default function CustomCalendar({
   const location = form.watch("location");
 
   const [weekOffset, setWeekOffset] = useState(0); // 0=first 2 weeks, 1=next 2 weeks
-  const [effectiveAvailableDays, setEffectiveAvailableDays] = useState<
-    string[]
-  >(availableDates || []);
 
-  useEffect(() => {
-    setEffectiveAvailableDays(availableDates || []);
-  }, [availableDates]);
+  const effectiveAvailableDays = useMemo(() => {
+    if (!location || !dateDetails) return availableDates || [];
 
-  useEffect(() => {
-    let cancelled = false;
+    return (
+      availableDates?.filter(
+        (dateStr) =>
+          dateDetails[dateStr]?.locationsCapacity[location]?.slotsLeft > 0,
+      ) || []
+    );
+  }, [location, availableDates, dateDetails]);
 
-    async function loadDays() {
-      if (location && treatmentId) {
-        const days = await getLocationDays(treatmentId, location);
-        if (!cancelled) setEffectiveAvailableDays(days);
-      } else {
-        setEffectiveAvailableDays(availableDates);
-      }
-    }
-
-    loadDays();
-    return () => {
-      cancelled = true;
-    };
-  }, [location, treatmentId, availableDates]);
-
-  const availableDaysSet = new Set(effectiveAvailableDays || []);
+  const availableDaysSet = useMemo(
+    () => new Set(effectiveAvailableDays || []),
+    [effectiveAvailableDays],
+  );
 
   // Generate 14 days starting from today + offset*14
   const today = new Date();
@@ -82,7 +77,7 @@ export default function CustomCalendar({
   };
 
   const selectedDate = form.watch("dateObject.date");
-  const maxOffset = Math.floor((60 - 1) / 14);
+  const maxOffset = Math.ceil(60 / 14) - 1;
   const isMaxOffset = weekOffset >= maxOffset;
 
   console.log("NEW AvailableDates in Calendar: ", availableDates);

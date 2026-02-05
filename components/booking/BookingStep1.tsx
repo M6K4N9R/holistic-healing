@@ -98,7 +98,9 @@ export default function BookingStep1({ step }: { step: number }) {
         <div className="space-y-12">
           {/* Custom Calendar */}
           <CustomCalendar
-            availableDates={availabilityData?.availableDates || []}
+            availableDates={availabilityData?.availableDates}
+            dateDetails={availabilityData?.dateDetails}
+            allLocations={availabilityData?.allLocations}
             className="max-w-4xl mx-auto"
           />
           <button
