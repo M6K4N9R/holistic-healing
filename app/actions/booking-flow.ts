@@ -40,15 +40,6 @@ export async function getAvailability(
       schedule: doc.schedule || [],
     }),
   );
-  // Compute locations where this treatment is actually possible
-
-  const locationsOfSelectedTreatment = Array.from(
-    new Set(
-      doctorsRaw.flatMap((doc) =>
-        (doc.schedule || []).map((s) => s.location).filter(Boolean),
-      ),
-    ),
-  );
 
   const treatment: AvailabilityResponse["treatment"] = {
     _id: treatmentDoc._id.toString(),
@@ -75,7 +66,7 @@ export async function getAvailability(
 
   const availableDates = generateDatesWithSchedule(
     doctors,
-    locationsOfSelectedTreatment,
+    selectedTreatmentLocations,
     today,
     next60Days,
   );
