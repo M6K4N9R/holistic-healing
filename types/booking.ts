@@ -14,7 +14,7 @@ export interface LeanTreatment {
   name: string;
   price: number;
   duration: number;
-  location: mongoose.Types.ObjectId[]; // or string[]
+  location: string[];
 }
 
 export interface Doctor {
