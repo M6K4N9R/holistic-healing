@@ -4,11 +4,11 @@ import { useFormContext } from "react-hook-form";
 import { useEffect, useTransition } from "react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
-import { checkLocationDayAvailability } from "@/app/actions/new-booking-flow";
+import { string } from "zod";
 
 interface LocationPickerProps {
   locations: string[];
-  treatmentName?: string;
+  treatmentName: string;
   treatmentLocations: string[];
   locationsCapacity: Record<string, { slotsLeft: number }>;
   className?: string;
@@ -16,6 +16,7 @@ interface LocationPickerProps {
 }
 
 export default function LocationPicker({
+  treatmentName,
   locations,
   treatmentLocations,
   locationsCapacity,
@@ -37,7 +38,7 @@ export default function LocationPicker({
   return (
     <div className={cn("space-y-4 max-w-4xl mx-auto", className)}>
       <label className="text-xl font-semibold text-primary block mb-2 text-center">
-        {label}
+        {label || `Select location for ${treatmentName}`}
       </label>
       {selectedDateObj?.date && (
         <p className="text-sm text-on-surface-variant text-center mb-2">
@@ -49,8 +50,8 @@ export default function LocationPicker({
         {locations.map((loc) => {
           const isTreatmentOfferedHere = treatmentLocations.includes(loc); // DOUBLE CHECK!!!
           const isSelected = selectedLocation === loc;
-          const locCapacity = locationsCapacity[loc];
-          const hasCapacity = locCapacity ? locCapacity.slotsLeft > 0 : true;
+          const locCapacity = locationsCapacity[loc] || { slotsLeft: 0 }; // Fallback just in case of new locations
+          const hasCapacity = locCapacity.slotsLeft > 0;
           const isAvailable = isTreatmentOfferedHere && hasCapacity;
 
           return (
@@ -78,7 +79,7 @@ export default function LocationPicker({
                   ? hasCapacity
                     ? `Available (${locCapacity?.slotsLeft || 0} slots)`
                     : "Fully booked"
-                  : "Treatment not offered here"}
+                  : `${treatmentName} not offered here`}
               </span>
             </button>
           );

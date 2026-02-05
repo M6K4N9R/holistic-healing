@@ -108,10 +108,10 @@ export default function BookingStep1({ step }: { step: number }) {
             Test: Select Feb 5
           </button>
           <LocationPicker
+            treatmentName={availabilityData?.treatment.name || "this treatment"}
             locations={availabilityData?.allLocations || []}
             treatmentLocations={availabilityData?.treatment.locations || []}
             locationsCapacity={availabilityData?.locationsCapacity || {}}
-            treatmentName={availabilityData?.treatment.name || "this treatment"}
             className="mt-4"
           />
         </div>

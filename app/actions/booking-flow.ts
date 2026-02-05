@@ -82,7 +82,7 @@ export async function getAvailability(
       $in: availableDates, // Only computed dates
     },
   })
-    .select("doctor dateObject.date timeSlot location")
+    .select("_id doctor dateObject.date timeSlot location") // ===== USE ID FOR LATER CHANGE / DELETE IMPLEMENTATION
     .lean()) as any[];
 
   console.log("Step 3 - Bookings found:", bookings.length);
@@ -102,9 +102,9 @@ export async function getAvailability(
       }
 
       // Sum available timeSlots for this date's weekday across doctors at this loc
-      const weekday = new Date(targetDateStr).toLocaleDateString("en-US", {
-        weekday: "short",
-      });
+      const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
+        new Date(targetDateStr).getDay()
+      ];
       let totalSlots = 0;
 
       doctors.forEach((doc) => {
@@ -141,7 +141,7 @@ export async function getAvailability(
 
     allLocations.forEach((loc) => {
       dateDetails[dateStr].locationsCapacity![loc] = {
-        slotsLeft: maxSlotsPerLoc[loc] || 0, 
+        slotsLeft: maxSlotsPerLoc[loc] || 0,
         doctors: [], // Just in case, but not really needed.
       };
     });
@@ -176,20 +176,20 @@ export async function getAvailability(
     }
 
     // Per-date (critical for trulyAvailableDates)
-  if (dateDetails[dateStr]?.locationsCapacity[loc]) {
-    dateDetails[dateStr].locationsCapacity[loc].slotsLeft = Math.max(
-      0,
-      dateDetails[dateStr].locationsCapacity[loc].slotsLeft - 1
-    );
-  }
-});
+    if (dateDetails[dateStr]?.locationsCapacity[loc]) {
+      dateDetails[dateStr].locationsCapacity[loc].slotsLeft = Math.max(
+        0,
+        dateDetails[dateStr].locationsCapacity[loc].slotsLeft - 1,
+      );
+    }
+  });
 
   // Filter availableDates to only dates with remaining capacity
   const trulyAvailableDates = availableDates.filter((dateStr) =>
-  Object.values(dateDetails[dateStr].locationsCapacity!).some(
-    (locCap: any) => locCap.slotsLeft > 0  // Real remaining slots
-  )
-);
+    Object.values(dateDetails[dateStr].locationsCapacity!).some(
+      (locCap: any) => locCap.slotsLeft > 0, // Real remaining slots
+    ),
+  );
 
   // ================================================================
 
