@@ -103,12 +103,7 @@ export default function BookingStep1({ step }: { step: number }) {
             allLocations={availabilityData?.allLocations}
             className="max-w-4xl mx-auto"
           />
-          <button
-            onClick={() => setSelectedDate("2026-02-05")}
-            className="p-2 bg-blue-500 text-white rounded"
-          >
-            Test: Select Feb 5
-          </button>
+
           <LocationPicker
             treatmentName={availabilityData?.treatment.name || "this treatment"}
             locations={availabilityData?.allLocations || []}
