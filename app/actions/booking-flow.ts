@@ -147,6 +147,8 @@ export async function getAvailability(
     });
   });
 
+// ============================ DEBUG LOCATIONS CAPACITY ===============
+
   // Overall capacity = average across dates (for LocationPicker badges)
   const locationsCapacity: Record<string, { slotsLeft: number }> = {};
   allLocations.forEach((loc) => {
@@ -218,7 +220,7 @@ function generateDatesWithSchedule(
     const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
       current.getDay()
     ];
-
+//===================================== DEBUG HASCAPACITY
     // Check if ANY doctor has schedule for this weekday at treatment location
     const hasCapacity = doctors.some((doc) =>
       doc.schedule.some(
