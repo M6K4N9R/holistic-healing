@@ -11,6 +11,7 @@ interface LocationPickerProps {
   treatmentName: string;
   treatmentLocations: string[];
   locationsCapacity: Record<string, { slotsLeft: number }>;
+  dateDetails?: Record<string, { locationsCapacity: Record<string, { slotsLeft: number }> }>;
   className?: string;
   label?: string;
 }
@@ -20,6 +21,7 @@ export default function LocationPicker({
   locations,
   treatmentLocations,
   locationsCapacity,
+  dateDetails,
   className,
   label = "Select Location",
 }: LocationPickerProps) {
@@ -48,9 +50,11 @@ export default function LocationPicker({
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {locations.map((loc) => {
+          const locCapacity = selectedDateObj?.date && dateDetails?.[selectedDateObj.date]?.locationsCapacity[loc]
+            ? dateDetails[selectedDateObj.date].locationsCapacity[loc]
+            : locationsCapacity[loc] || { slotsLeft: 0 };  // Fallback
           const isTreatmentOfferedHere = treatmentLocations.includes(loc); // DOUBLE CHECK!!!
           const isSelected = selectedLocation === loc;
-          const locCapacity = locationsCapacity[loc] || { slotsLeft: 0 }; // Fallback just in case of new locations
           const hasCapacity = locCapacity.slotsLeft > 0;
           const isAvailable = isTreatmentOfferedHere && hasCapacity;
 

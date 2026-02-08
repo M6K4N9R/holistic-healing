@@ -67,7 +67,7 @@ export default function BookingStep1({ step }: { step: number }) {
 
   console.log(
     "Selected date capacity:",
-    availabilityData?.dateDetails?.["2026-02-05"],
+    availabilityData?.dateDetails
   );
 
   return (
@@ -109,6 +109,7 @@ export default function BookingStep1({ step }: { step: number }) {
             locations={availabilityData?.allLocations || []}
             treatmentLocations={availabilityData?.treatment.locations || []}
             locationsCapacity={availabilityData?.locationsCapacity || {}}
+            dateDetails={availabilityData?.dateDetails}
             className="mt-4"
           />
         </div>

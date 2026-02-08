@@ -71,6 +71,8 @@ export async function getAvailability(
     next60Days,
   );
 
+  console.log("availableDates: ", availableDates)
+
   // Fetch bookings for these doctors on available dates
   const doctorsIds = doctorsRaw.map((doc: any) => doc._id); // ObjectIds
   const todayStr = new Date().toISOString().split("T")[0];
@@ -82,10 +84,11 @@ export async function getAvailability(
       $in: availableDates, // Only computed dates
     },
   })
-    .select("_id doctor dateObject.date timeSlot location") // ===== USE ID FOR LATER CHANGE / DELETE IMPLEMENTATION
+    .select("_id doctor dateObject.date timeSlot location") // ===== USE ID FOR LATER EDIT/DELETE IMPLEMENTATION
     .lean()) as any[];
 
   console.log("Step 3 - Bookings found:", bookings.length);
+  console.log("Bookings found DETAILS:", bookings);
 
   // Compute MAX slots per location (from doctor schedules)
   const computeMaxSlotsPerLocation = (
@@ -134,6 +137,7 @@ export async function getAvailability(
       selectedTreatmentLocations,
       dateStr,
     );
+    console.log("maxSlotsPerLoc: ", maxSlotsPerLoc);
 
     dateDetails[dateStr] = {
       locationsCapacity: {},
@@ -147,7 +151,7 @@ export async function getAvailability(
     });
   });
 
-// ============================ DEBUG LOCATIONS CAPACITY ===============
+  // ============================ DEBUG: Works correctly
 
   // Overall capacity = average across dates (for LocationPicker badges)
   const locationsCapacity: Record<string, { slotsLeft: number }> = {};
@@ -162,6 +166,9 @@ export async function getAvailability(
     locationsCapacity[loc] = { slotsLeft: avgSlots };
   });
 
+  console.log("dateDetails DETAILS: ", dateDetails);
+  console.log("locationsCapacity: ", locationsCapacity);
+
   // ========================== ADD BOOKING SUBTRACTION =============
 
   // 👈 Subtract each booking from capacities
@@ -169,12 +176,13 @@ export async function getAvailability(
     const loc = booking.location;
     const dateStr = booking.dateObject.date;
 
-    // Overall (updates avg display)
+    // Overall (updates avg display) DEBUG: doesn't update the display based on existing bookings
     if (locationsCapacity[loc]) {
       locationsCapacity[loc].slotsLeft = Math.max(
         0,
         locationsCapacity[loc].slotsLeft - 1,
       );
+      console.log("locationsCapacity: ", locationsCapacity[loc])
     }
 
     // Per-date (critical for trulyAvailableDates)
@@ -220,7 +228,7 @@ function generateDatesWithSchedule(
     const weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][
       current.getDay()
     ];
-//===================================== DEBUG HASCAPACITY
+    //===================================== DEBUG HASCAPACITY
     // Check if ANY doctor has schedule for this weekday at treatment location
     const hasCapacity = doctors.some((doc) =>
       doc.schedule.some(
