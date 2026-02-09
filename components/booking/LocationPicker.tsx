@@ -11,7 +11,10 @@ interface LocationPickerProps {
   treatmentName: string;
   treatmentLocations: string[];
   locationsCapacity: Record<string, { slotsLeft: number }>;
-  dateDetails?: Record<string, { locationsCapacity: Record<string, { slotsLeft: number }> }>;
+  dateDetails?: Record<
+    string,
+    { locationsCapacity: Record<string, { slotsLeft: number }> }
+  >;
   className?: string;
   label?: string;
 }
@@ -50,10 +53,13 @@ export default function LocationPicker({
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {locations.map((loc) => {
-          const locCapacity = selectedDateObj?.date && dateDetails?.[selectedDateObj.date]?.locationsCapacity[loc]
-            ? dateDetails[selectedDateObj.date].locationsCapacity[loc]
-            : locationsCapacity[loc] || { slotsLeft: 0 };  // Fallback
-          const isTreatmentOfferedHere = treatmentLocations.includes(loc); // DOUBLE CHECK!!!
+          const isTreatmentOfferedHere = treatmentLocations.includes(loc); 
+          const locCapacity = isTreatmentOfferedHere 
+    ? (selectedDateObj?.date && dateDetails?.[selectedDateObj.date]?.locationsCapacity[loc]
+        ? dateDetails[selectedDateObj.date].locationsCapacity[loc]
+        : locationsCapacity[loc] || { slotsLeft: 0 })
+    : { slotsLeft: 0 };
+
           const isSelected = selectedLocation === loc;
           const hasCapacity = locCapacity.slotsLeft > 0;
           const isAvailable = isTreatmentOfferedHere && hasCapacity;
@@ -66,15 +72,15 @@ export default function LocationPicker({
               disabled={!isAvailable}
               className={cn(
                 "group h-28 rounded-3xl p-5 font-semibold shadow-lg transition-all border-2 text-left flex flex-col justify-between",
-                isSelected && isTreatmentOfferedHere
+                isSelected && isAvailable
                   ? "bg-primary text-on-primary border-primary shadow-2xl scale-[1.02]"
                   : "bg-surface-bright border-outline-variant hover:border-primary hover:bg-primary-container hover:shadow-2xl hover:-translate-y-1",
-                hasCapacity
+                hasCapacity && isTreatmentOfferedHere
                   ? "hover:bg-primary-container"
                   : "bg-warning-container text-warning opacity-80 cursor-not-allowed hover:translate-y-0",
 
                 !isTreatmentOfferedHere &&
-                  "bg-outline-variant opacity-60 cursor-not-allowed",
+                  "bg-outline-variant opacity-60 cursor-not-allowed border-outline-variant",
               )}
             >
               <span className="text-lg">{loc}</span>
